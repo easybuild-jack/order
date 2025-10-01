@@ -1,7 +1,7 @@
 package com.mcst.order.server.persistence.mapper;
 
-import com.mcst.order.server.persistence.model.OrderDeliver;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mcst.order.server.persistence.model.OrderDeliver;
 
 /**
  * <p>

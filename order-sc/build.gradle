@@ -1,7 +1,7 @@
-subprojects{
+subprojects {
     dependencies {
-        api ('com.mcst:rpc-cloud')
-        api ('com.mcst:remote-cloud')
+        api('com.mcst:rpc-cloud')
+        api('com.mcst:remote-cloud')
         api project(':order-api')
     }
 }
