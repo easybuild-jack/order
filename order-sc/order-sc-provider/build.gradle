@@ -1,0 +1,5 @@
+dependencies {
+    api ('com.mcst:web-micro')
+    api project(':order-sc:order-sc-api')
+    api project(':order-server')
+}

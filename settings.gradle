@@ -1,0 +1,25 @@
+rootProject.name = 'order'
+
+dependencyResolutionManagement.versionCatalogs{
+    libs {
+        library("dependencies", "com.mcst:easyfk-dependencies:3.2.12")
+        library('lombok', 'org.projectlombok:lombok:1.18.38')
+        library('processor', 'org.springframework.boot:spring-boot-configuration-processor:3.2.12')
+    }
+}
+
+
+include 'order-server'
+include 'order-api'
+
+include 'order-sc'
+include 'order-sc:order-sc-api'
+findProject(':order-sc:order-sc-api')?.name = 'order-sc-api'
+include 'order-sc:order-sc-provider'
+findProject(':order-sc:order-sc-provider')?.name = 'order-sc-provider'
+
+include 'order-prd'
+include 'order-prd:order-prd-client'
+findProject(':order-prd:order-prd-client')?.name = 'order-prd-client'
+include 'order-prd:order-prd-bms'
+findProject(':order-prd:order-prd-bms')?.name = 'order-prd-bms'

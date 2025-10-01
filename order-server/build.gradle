@@ -1,0 +1,5 @@
+dependencies {
+    api project(':order-api')
+    implementation ('com.mcst:orm-mybatis')
+}
+
