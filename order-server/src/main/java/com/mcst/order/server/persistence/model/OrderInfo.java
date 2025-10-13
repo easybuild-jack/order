@@ -17,8 +17,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * @author: liu yijun
- * @date: 2025-01-20
+ * 作者 liu yijun
+ * 日期 2025-01-20
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -101,7 +101,7 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
     /**
      * 配送方式：0 自提 1 快递 2 虚拟商品
      */
-    @Column(comment = "配送方式 0 自提 1 快递 2 虚拟商品", length = 2, defaultValue = "0")
+    @Column(comment = "配送方式 0 自提 1 快递 2 虚拟商品", length = 2, defaultValue = "1")
     private Integer dispatchType;
 
     /**

@@ -16,7 +16,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 作者: liu yijun 日期: 2025-01-20
+ * 作者: liu yijun
+ * 日期: 2025-01-20
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
