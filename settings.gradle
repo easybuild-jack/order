@@ -12,11 +12,17 @@ dependencyResolutionManagement.versionCatalogs {
 include 'order-server'
 include 'order-api'
 
-include 'order-sc'
-include 'order-sc:order-sc-api'
-findProject(':order-sc:order-sc-api')?.name = 'order-sc-api'
-include 'order-sc:order-sc-provider'
-findProject(':order-sc:order-sc-provider')?.name = 'order-sc-provider'
+include 'order-remote'
+include 'order-remote:order-cloud-api'
+findProject(':order-remote:order-cloud-api')?.name = 'order-cloud-api'
+include 'order-remote:order-cloud-provider'
+findProject(':order-remote:order-cloud-provider')?.name = 'order-cloud-provider'
+
+include 'order-remote:order-dubbo-api'
+findProject(':order-remote:order-dubbo-api')?.name = 'order-dubbo-api'
+include 'order-remote:order-dubbo-provider'
+findProject(':order-remote:order-dubbo-provider')?.name = 'order-dubbo-provider'
+
 
 include 'order-prd'
 include 'order-prd:order-prd-client'
