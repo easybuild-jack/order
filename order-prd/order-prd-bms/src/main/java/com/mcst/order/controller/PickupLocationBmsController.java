@@ -35,7 +35,7 @@ import com.mcst.easyfk.core.dto.request.DisableActionParam;
 @Tag(name = "提货点信息相关接口", description = "提货点信息相关接口")
 @RestController
 @RequestMapping("/api/bms/order/location")
-@ResourceController(group = "orderManager", id = "orderManager", name = "订单管理", sort = 71000, path = "/order")
+@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class PickupLocationBmsController {
     @Resource
     private IPickupLocationApi pickupLocationApi;
@@ -48,7 +48,7 @@ public class PickupLocationBmsController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/queryPage")
-    @AuthResource(id = "pickupLocationManage", name = "提货点管理", pId = "orderManager", pName = "订单管理", sort = 10200, path = "/order/location",
+    @AuthResource(id = "pickupLocationManage", name = "提货点管理", pId = "orderManage", pName = "订单管理", sort = 10200, path = "/order/location",
         category = ResourceCategory.menu)
     public ResponseResult<List<PickupLocationResp>> queryPage(@Validated PickupLocationReq pickupLocationReq) {
         SRPBuilder<PickupLocationReq> builder = SRPBuilder.<PickupLocationReq>builder().example(pickupLocationReq);

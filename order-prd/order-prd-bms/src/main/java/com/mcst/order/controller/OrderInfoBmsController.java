@@ -32,7 +32,7 @@ import java.util.List;
 @Tag(name = "订单信息相关接口", description = "订单信息相关接口")
 @RestController
 @RequestMapping("/api/bms/order/info")
-@ResourceController(group = "orderManager", id = "orderManager", name = "订单管理", sort = 71000, path = "/order")
+@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class OrderInfoBmsController {
     @Resource
     private IOrderInfoApi orderInfoApi;
@@ -45,7 +45,7 @@ public class OrderInfoBmsController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/queryPage")
-    @AuthResource(id = "orderInfoManage", name = "订单管理", pId = "orderManager", pName = "订单管理", sort = 10100, path = "/order/order",
+    @AuthResource(id = "orderInfoManage", name = "订单管理", pId = "orderManage", pName = "订单管理", sort = 10100, path = "/order/order",
             category = ResourceCategory.menu)
     public ResponseResult<List<OrderInfoResp>> queryPage(@Validated OrderInfoReq orderInfoReq) {
         SRPBuilder<OrderInfoReq> builder = SRPBuilder.<OrderInfoReq>builder().example(orderInfoReq);

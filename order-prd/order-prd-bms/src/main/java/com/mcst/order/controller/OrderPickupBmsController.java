@@ -31,7 +31,7 @@ import com.mcst.easyfk.authority.enums.ResourceCategory;
 @Tag(name = "订单提货相关接口", description = "订单提货相关接口")
 @RestController
 @RequestMapping("/api/bms/order/pickup")
-@ResourceController(group = "orderManager", id = "orderManager", name = "订单管理", sort = 71000, path = "/order")
+@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class OrderPickupBmsController {
     @Resource
     private IOrderPickupApi orderPickupApi;
@@ -44,7 +44,7 @@ public class OrderPickupBmsController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/queryPage")
-    @AuthResource(id = "orderPickupManage", name = "提货管理", pId = "orderManager", pName = "订单管理", sort = 10100, path = "/order/pickup",
+    @AuthResource(id = "orderPickupManage", name = "提货管理", pId = "orderManage", pName = "订单管理", sort = 10100, path = "/order/pickup",
         category = ResourceCategory.menu)
     public ResponseResult<List<OrderPickupResp>> queryPage(@Validated OrderPickupReq orderPickupReq) {
         SRPBuilder<OrderPickupReq> builder = SRPBuilder.<OrderPickupReq>builder().example(orderPickupReq);

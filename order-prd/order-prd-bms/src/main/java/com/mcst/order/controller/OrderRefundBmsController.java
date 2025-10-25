@@ -31,7 +31,7 @@ import com.mcst.easyfk.authority.enums.ResourceCategory;
 @Tag(name = "订单退款相关接口", description = "订单退款相关接口")
 @RestController
 @RequestMapping("/api/bms/order/refund")
-@ResourceController(group = "orderManager", id = "orderManager", name = "订单管理", sort = 71000, path = "/order")
+@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class OrderRefundBmsController {
     @Resource
     private IOrderRefundApi orderRefundApi;
@@ -44,7 +44,7 @@ public class OrderRefundBmsController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/queryPage")
-    @AuthResource(id = "orderRefundManage", name = "退款管理", pId = "orderManager", pName = "订单管理", sort = 10700, path = "/order/refund",
+    @AuthResource(id = "orderRefundManage", name = "退款管理", pId = "orderManage", pName = "订单管理", sort = 10700, path = "/order/refund",
         category = ResourceCategory.menu)
     public ResponseResult<List<OrderRefundResp>> queryPage(@Validated OrderRefundReq orderRefundReq) {
         SRPBuilder<OrderRefundReq> builder = SRPBuilder.<OrderRefundReq>builder().example(orderRefundReq);
