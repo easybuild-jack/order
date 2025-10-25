@@ -30,8 +30,8 @@ import com.mcst.easyfk.authority.enums.ResourceCategory;
 */
 @Tag(name = "订单提货相关接口", description = "订单提货相关接口")
 @RestController
-@RequestMapping("/api/bms/order/orderPickup")
-@ResourceController(group = "operationSetting", id = "operationSetting", name = "运营管理", sort = 71000, path = "/operation")
+@RequestMapping("/api/bms/order/pickup")
+@ResourceController(group = "orderManager", id = "orderManager", name = "订单管理", sort = 71000, path = "/order")
 public class OrderPickupBmsController {
     @Resource
     private IOrderPickupApi orderPickupApi;
@@ -44,7 +44,7 @@ public class OrderPickupBmsController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/queryPage")
-    @AuthResource(id = "orderPickupManage", name = "订单提货管理", pId = "operationSetting", pName = "运营管理", sort = 10100, path = "/operation/orderPickup",
+    @AuthResource(id = "orderPickupManage", name = "提货管理", pId = "orderManager", pName = "订单管理", sort = 10100, path = "/order/pickup",
         category = ResourceCategory.menu)
     public ResponseResult<List<OrderPickupResp>> queryPage(@Validated OrderPickupReq orderPickupReq) {
         SRPBuilder<OrderPickupReq> builder = SRPBuilder.<OrderPickupReq>builder().example(orderPickupReq);
@@ -53,7 +53,7 @@ public class OrderPickupBmsController {
 
     @Operation(summary = "新增/编辑", description = "新增/编辑")
     @PostMapping("/addOrEdit")
-    @AuthResource(id = "orderPickupAddOrEdit", name = "新增/编辑", title = "新增/编辑", pId = "orderPickupManage", pName = "订单提货管理", sort = 10101, category = ResourceCategory.action,
+    @AuthResource(id = "orderPickupAddOrEdit", name = "新增/编辑", title = "新增/编辑", pId = "orderPickupManage", pName = "提货管理", sort = 10101, category = ResourceCategory.action,
         actionCode = "addOrEdit")
     public ResponseResult<?> addOrEdit(@RequestBody OrderPickupEditReq orderPickupEditReq) {
         ModifyRequest<OrderPickupReq> requestParam = MRPBuilder.buildRequest(orderPickupEditReq, OrderPickupReq.class);
@@ -62,7 +62,7 @@ public class OrderPickupBmsController {
 
     @Operation(summary = "批量删除", description = "批量删除")
     @PostMapping("/delete")
-    @AuthResource(id = "orderPickupDelete", name = "删除", title = "删除", pId = "orderPickupManage", pName = "订单提货管理", sort = 10102, category = ResourceCategory.action,
+    @AuthResource(id = "orderPickupDelete", name = "删除", title = "删除", pId = "orderPickupManage", pName = "提货管理", sort = 10102, category = ResourceCategory.action,
         actionCode = "delete")
     public ResponseResult<?> delete(@Validated @RequestBody BatchBasicReq<String> batchBase) {
         List<String> idArray = SplitUtil.split(batchBase.getIds());

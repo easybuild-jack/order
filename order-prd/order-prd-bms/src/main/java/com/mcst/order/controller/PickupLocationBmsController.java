@@ -34,8 +34,8 @@ import com.mcst.easyfk.core.dto.request.DisableActionParam;
 */
 @Tag(name = "提货点信息相关接口", description = "提货点信息相关接口")
 @RestController
-@RequestMapping("/api/bms/order/pickupLocation")
-@ResourceController(group = "operationSetting", id = "operationSetting", name = "运营管理", sort = 71000, path = "/operation")
+@RequestMapping("/api/bms/order/location")
+@ResourceController(group = "orderManager", id = "orderManager", name = "订单管理", sort = 71000, path = "/order")
 public class PickupLocationBmsController {
     @Resource
     private IPickupLocationApi pickupLocationApi;
@@ -48,7 +48,7 @@ public class PickupLocationBmsController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/queryPage")
-    @AuthResource(id = "pickupLocationManage", name = "提货点信息管理", pId = "operationSetting", pName = "运营管理", sort = 10200, path = "/operation/pickupLocation",
+    @AuthResource(id = "pickupLocationManage", name = "提货点管理", pId = "orderManager", pName = "订单管理", sort = 10200, path = "/order/location",
         category = ResourceCategory.menu)
     public ResponseResult<List<PickupLocationResp>> queryPage(@Validated PickupLocationReq pickupLocationReq) {
         SRPBuilder<PickupLocationReq> builder = SRPBuilder.<PickupLocationReq>builder().example(pickupLocationReq);
@@ -57,7 +57,7 @@ public class PickupLocationBmsController {
 
     @Operation(summary = "新增/编辑", description = "新增/编辑")
     @PostMapping("/addOrEdit")
-    @AuthResource(id = "pickupLocationAddOrEdit", name = "新增/编辑", title = "新增/编辑", pId = "pickupLocationManage", pName = "提货点信息管理", sort = 10201, category = ResourceCategory.action,
+    @AuthResource(id = "pickupLocationAddOrEdit", name = "新增/编辑", title = "新增/编辑", pId = "pickupLocationManage", pName = "提货点管理", sort = 10201, category = ResourceCategory.action,
         actionCode = "addOrEdit")
     public ResponseResult<?> addOrEdit(@RequestBody PickupLocationEditReq pickupLocationEditReq) {
         ModifyRequest<PickupLocationReq> requestParam = MRPBuilder.buildRequest(pickupLocationEditReq, PickupLocationReq.class);
@@ -66,7 +66,7 @@ public class PickupLocationBmsController {
 
     @Operation(summary = "批量删除", description = "批量删除")
     @PostMapping("/delete")
-    @AuthResource(id = "pickupLocationDelete", name = "删除", title = "删除", pId = "pickupLocationManage", pName = "提货点信息管理", sort = 10202, category = ResourceCategory.action,
+    @AuthResource(id = "pickupLocationDelete", name = "删除", title = "删除", pId = "pickupLocationManage", pName = "提货点管理", sort = 10202, category = ResourceCategory.action,
         actionCode = "delete")
     public ResponseResult<?> delete(@Validated @RequestBody BatchBasicReq<String> batchBase) {
         List<String> idArray = SplitUtil.split(batchBase.getIds());
@@ -76,7 +76,7 @@ public class PickupLocationBmsController {
 
     @Operation(summary = "启用/禁用")
     @PostMapping("/disable")
-    @AuthResource(id = "pickupLocationDisable", name = "启用/禁用", title = "启用/禁用", pId = "pickupLocationManage", pName = "提货点信息管理", sort = 10203, category = ResourceCategory.action,
+    @AuthResource(id = "pickupLocationDisable", name = "启用/禁用", title = "启用/禁用", pId = "pickupLocationManage", pName = "提货点管理", sort = 10203, category = ResourceCategory.action,
        actionCode = "disable")
     public ResponseResult<?> disable(@RequestBody @Validated DisableFieldReq disableFieldVO) {
        DisableActionParam<PickupLocationReq> disableActionParam =

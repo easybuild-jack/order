@@ -30,8 +30,8 @@ import com.mcst.easyfk.authority.enums.ResourceCategory;
 */
 @Tag(name = "订单退款相关接口", description = "订单退款相关接口")
 @RestController
-@RequestMapping("/api/bms/order/orderRefund")
-@ResourceController(group = "operationSetting", id = "operationSetting", name = "运营管理", sort = 71000, path = "/operation")
+@RequestMapping("/api/bms/order/refund")
+@ResourceController(group = "orderManager", id = "orderManager", name = "订单管理", sort = 71000, path = "/order")
 public class OrderRefundBmsController {
     @Resource
     private IOrderRefundApi orderRefundApi;
@@ -44,7 +44,7 @@ public class OrderRefundBmsController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/queryPage")
-    @AuthResource(id = "orderRefundManage", name = "订单退款管理", pId = "operationSetting", pName = "运营管理", sort = 10700, path = "/operation/orderRefund",
+    @AuthResource(id = "orderRefundManage", name = "退款管理", pId = "orderManager", pName = "订单管理", sort = 10700, path = "/order/refund",
         category = ResourceCategory.menu)
     public ResponseResult<List<OrderRefundResp>> queryPage(@Validated OrderRefundReq orderRefundReq) {
         SRPBuilder<OrderRefundReq> builder = SRPBuilder.<OrderRefundReq>builder().example(orderRefundReq);
@@ -53,7 +53,7 @@ public class OrderRefundBmsController {
 
     @Operation(summary = "新增/编辑", description = "新增/编辑")
     @PostMapping("/addOrEdit")
-    @AuthResource(id = "orderRefundAddOrEdit", name = "新增/编辑", title = "新增/编辑", pId = "orderRefundManage", pName = "订单退款管理", sort = 10701, category = ResourceCategory.action,
+    @AuthResource(id = "orderRefundAddOrEdit", name = "新增/编辑", title = "新增/编辑", pId = "orderRefundManage", pName = "退款管理", sort = 10701, category = ResourceCategory.action,
         actionCode = "addOrEdit")
     public ResponseResult<?> addOrEdit(@RequestBody OrderRefundEditReq orderRefundEditReq) {
         ModifyRequest<OrderRefundReq> requestParam = MRPBuilder.buildRequest(orderRefundEditReq, OrderRefundReq.class);
@@ -62,7 +62,7 @@ public class OrderRefundBmsController {
 
     @Operation(summary = "批量删除", description = "批量删除")
     @PostMapping("/delete")
-    @AuthResource(id = "orderRefundDelete", name = "删除", title = "删除", pId = "orderRefundManage", pName = "订单退款管理", sort = 10702, category = ResourceCategory.action,
+    @AuthResource(id = "orderRefundDelete", name = "删除", title = "删除", pId = "orderRefundManage", pName = "退款管理", sort = 10702, category = ResourceCategory.action,
         actionCode = "delete")
     public ResponseResult<?> delete(@Validated @RequestBody BatchBasicReq<String> batchBase) {
         List<String> idArray = SplitUtil.split(batchBase.getIds());
