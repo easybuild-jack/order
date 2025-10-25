@@ -26,7 +26,7 @@ import java.util.List;
 */
 @Tag(name = "提货点信息相关接口", description = "提货点信息相关接口")
 @RestController
-@RequestMapping("/api/order/pickupLocation")
+@RequestMapping("/api/order/location")
 public class PickupLocationController {
     @Resource
     private IPickupLocationApi pickupLocationApi;

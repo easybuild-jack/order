@@ -26,7 +26,7 @@ import java.util.List;
 */
 @Tag(name = "订单退款相关接口", description = "订单退款相关接口")
 @RestController
-@RequestMapping("/api/order/orderRefund")
+@RequestMapping("/api/order/refund")
 public class OrderRefundController {
     @Resource
     private IOrderRefundApi orderRefundApi;

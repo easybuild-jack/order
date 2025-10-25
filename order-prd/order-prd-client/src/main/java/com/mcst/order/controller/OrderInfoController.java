@@ -26,7 +26,7 @@ import java.util.List;
 */
 @Tag(name = "订单信息相关接口", description = "订单信息相关接口")
 @RestController
-@RequestMapping("/api/order/orderInfo")
+@RequestMapping("/api/order/info")
 public class OrderInfoController {
     @Resource
     private IOrderInfoApi orderInfoApi;
