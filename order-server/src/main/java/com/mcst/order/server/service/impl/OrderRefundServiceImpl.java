@@ -39,7 +39,7 @@ public class OrderRefundServiceImpl  implements IOrderRefundService {
 
     @Override
     public List<OrderRefundResp> queryList(SearchRequest<OrderRefundReq> param) {
-        return TransformUtil.transformListByStream(this.orderRefundRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderRefundResp.class);
+        return TransformUtil.transformList(this.orderRefundRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderRefundResp.class);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class OrderPickupServiceImpl  implements IOrderPickupService {
 
     @Override
     public List<OrderPickupResp> queryList(SearchRequest<OrderPickupReq> param) {
-        return TransformUtil.transformListByStream(this.orderPickupRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderPickupResp.class);
+        return TransformUtil.transformList(this.orderPickupRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderPickupResp.class);
     }
 
     @Override

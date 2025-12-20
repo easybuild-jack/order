@@ -39,7 +39,7 @@ public class PickupLocationServiceImpl  implements IPickupLocationService {
 
     @Override
     public List<PickupLocationResp> queryList(SearchRequest<PickupLocationReq> param) {
-        return TransformUtil.transformListByStream(this.pickupLocationRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), PickupLocationResp.class);
+        return TransformUtil.transformList(this.pickupLocationRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), PickupLocationResp.class);
     }
 
     @Override

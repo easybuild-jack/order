@@ -39,7 +39,7 @@ public class OrderInfoServiceImpl  implements IOrderInfoService {
 
     @Override
     public List<OrderInfoResp> queryList(SearchRequest<OrderInfoReq> param) {
-        return TransformUtil.transformListByStream(this.orderInfoRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
+        return TransformUtil.transformList(this.orderInfoRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
     }
 
     @Override
