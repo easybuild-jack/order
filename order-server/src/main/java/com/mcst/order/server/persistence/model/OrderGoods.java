@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mcst.easyfk.core.annotation.PrimaryKey;
 import com.mcst.easyfk.service.mybatisplus.persistence.BaseMyBatisPlusEntity;
+import com.mcst.order.api.dto.OrderGoodsDto;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,6 +21,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("order_goods")
+@AutoMapper(target = OrderGoodsDto.class)
 public class OrderGoods extends BaseMyBatisPlusEntity<OrderGoods> {
 
     @PrimaryKey

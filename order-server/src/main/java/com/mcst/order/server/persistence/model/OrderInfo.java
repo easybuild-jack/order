@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mcst.easyfk.core.annotation.PrimaryKey;
 import com.mcst.easyfk.service.mybatisplus.persistence.BaseMyBatisPlusEntity;
+import com.mcst.order.api.dto.OrderInfoDto;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("order_info")
+@AutoMapper(target = OrderInfoDto.class)
 public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
 
     @PrimaryKey

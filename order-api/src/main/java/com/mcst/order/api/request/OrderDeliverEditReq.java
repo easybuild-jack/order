@@ -1,6 +1,7 @@
 package com.mcst.order.api.request;
 
 import com.mcst.order.api.dto.OrderDeliverDto;
+import io.github.linpeilie.annotations.AutoMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,6 +19,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @Schema(description="订单发货数据编辑对象")
+@AutoMapper(target = OrderDeliverReq.class)
 public class OrderDeliverEditReq extends OrderDeliverDto {
 
 

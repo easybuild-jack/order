@@ -1,5 +1,7 @@
 package com.mcst.order.api.request;
 
+import com.mcst.order.api.dto.OrderRefundDto;
+import io.github.linpeilie.annotations.AutoMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,6 +20,7 @@ import com.mcst.order.api.param.OrderRefundParam;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @Schema(description="订单退款数据请求对象")
+@AutoMapper(target = OrderRefundDto.class)
 public class OrderRefundReq extends OrderRefundParam {
 
 

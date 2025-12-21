@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.mcst.easyfk.core.annotation.ForbiddenField;
 import com.mcst.easyfk.core.annotation.PrimaryKey;
 import com.mcst.easyfk.service.mybatisplus.persistence.BaseMyBatisPlusEntity;
+import com.mcst.order.api.dto.PickupLocationDto;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,6 +19,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("pickup_location")
+@AutoMapper(target = PickupLocationDto.class)
 public class PickupLocation extends BaseMyBatisPlusEntity<PickupLocation> {
 
     @PrimaryKey
