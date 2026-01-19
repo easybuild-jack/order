@@ -472,6 +472,7 @@ DROP TABLE IF EXISTS pickup_location CASCADE;
 CREATE TABLE pickup_location (
     pickup_location_id VARCHAR(50) NOT NULL,
     location_name VARCHAR(100) DEFAULT NULL,
+    location_code VARCHAR(100) DEFAULT NULL,
     province VARCHAR(100) DEFAULT NULL,
     city VARCHAR(100) DEFAULT NULL,
     area VARCHAR(100) DEFAULT NULL,
@@ -495,6 +496,7 @@ CREATE TABLE pickup_location (
 COMMENT ON TABLE pickup_location IS '提货点信息';
 COMMENT ON COLUMN pickup_location.pickup_location_id IS 'PickupLocationId';
 COMMENT ON COLUMN pickup_location.location_name IS '提货点名称';
+COMMENT ON COLUMN pickup_location.location_code IS '提货点编号';
 COMMENT ON COLUMN pickup_location.province IS '省';
 COMMENT ON COLUMN pickup_location.city IS '市';
 COMMENT ON COLUMN pickup_location.area IS '区';

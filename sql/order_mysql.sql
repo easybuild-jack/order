@@ -243,6 +243,7 @@ DROP TABLE IF EXISTS `pickup_location`;
 CREATE TABLE `pickup_location` (
     `pickup_location_id` VARCHAR(50) NOT NULL COMMENT 'PickupLocationId',
     `location_name` VARCHAR(100) DEFAULT NULL COMMENT '提货点名称',
+    `location_code` VARCHAR(100) DEFAULT NULL COMMENT '提货点编号',
     `province` VARCHAR(100) DEFAULT NULL COMMENT '省',
     `city` VARCHAR(100) DEFAULT NULL COMMENT '市',
     `area` VARCHAR(100) DEFAULT NULL COMMENT '区',

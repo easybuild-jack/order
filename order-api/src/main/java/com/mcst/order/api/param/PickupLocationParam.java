@@ -33,6 +33,12 @@ public class PickupLocationParam extends BasicParam {
     private String locationName;
 
     /**
+     * 提货点编号
+     */
+    @Schema(description = "提货点编号")
+    private String locationCode;
+
+    /**
      * 省
      */
     @Schema(description = "省")

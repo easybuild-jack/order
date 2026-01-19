@@ -28,6 +28,8 @@ public class PickupLocation extends BaseMyBatisPlusEntity<PickupLocation> {
 
     private String locationName;
 
+    private String locationCode;
+
     private String province;
 
     private String city;
