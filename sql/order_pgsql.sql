@@ -37,6 +37,8 @@ CREATE TABLE order_info (
     merchant_remark VARCHAR(200) DEFAULT NULL,
     order_date DATE DEFAULT NULL,
     order_time TIMESTAMP DEFAULT NULL,
+    agent_id VARCHAR(50) DEFAULT NULL,
+    agent_name VARCHAR(100) DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
@@ -74,6 +76,8 @@ COMMENT ON COLUMN order_info.merchant_name IS '商家名称';
 COMMENT ON COLUMN order_info.merchant_remark IS '商家备注';
 COMMENT ON COLUMN order_info.order_date IS '订单日期';
 COMMENT ON COLUMN order_info.order_time IS '订单时间';
+COMMENT ON COLUMN order_info.agent_id IS '代理商ID';
+COMMENT ON COLUMN order_info.agent_name IS '供应商名称';
 COMMENT ON COLUMN order_info.insert_time IS '插入时间';
 COMMENT ON COLUMN order_info.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_info.deleted IS '删除标记，0否 1是';
@@ -479,6 +483,10 @@ CREATE TABLE pickup_location (
     longitude VARCHAR(100) DEFAULT NULL,
     latitude VARCHAR(100) DEFAULT NULL,
     forbidden_flag SMALLINT DEFAULT 0,
+    merchant_id VARCHAR(50) DEFAULT NULL,
+    merchant_name VARCHAR(100) DEFAULT NULL,
+    agent_id VARCHAR(50) DEFAULT NULL,
+    agent_name VARCHAR(100) DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
@@ -498,6 +506,10 @@ COMMENT ON COLUMN pickup_location.business_hours IS '营业时间';
 COMMENT ON COLUMN pickup_location.longitude IS '经度';
 COMMENT ON COLUMN pickup_location.latitude IS '纬度';
 COMMENT ON COLUMN pickup_location.forbidden_flag IS '禁用状态 0可用，1禁用';
+COMMENT ON COLUMN pickup_location.merchant_id IS '门店ID';
+COMMENT ON COLUMN pickup_location.merchant_name IS '门店名称';
+COMMENT ON COLUMN pickup_location.agent_id IS '代理商ID';
+COMMENT ON COLUMN pickup_location.agent_name IS '代理商名称';
 COMMENT ON COLUMN pickup_location.insert_time IS '插入时间';
 COMMENT ON COLUMN pickup_location.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN pickup_location.deleted IS '删除标记，0否 1是';

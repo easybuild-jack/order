@@ -180,4 +180,14 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
      */
     private LocalDateTime orderTime;
 
+    /**
+     * 代理商ID
+     */
+    private String agentId;
+
+    /**
+     * 供应商名称
+     */
+    private String agentName;
+
 }

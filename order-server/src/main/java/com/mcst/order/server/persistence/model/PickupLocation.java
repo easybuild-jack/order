@@ -53,4 +53,24 @@ public class PickupLocation extends BaseMyBatisPlusEntity<PickupLocation> {
      */
     @ForbiddenField(value = "forbiddenFlag")
     private Integer forbiddenFlag;
+
+    /**
+     * 门店ID
+     */
+    private String merchantId;
+
+    /**
+     * 门店名称
+     */
+    private String merchantName;
+
+    /**
+     * 代理商ID
+     */
+    private String agentId;
+
+    /**
+     * 代理商名称
+     */
+    private String agentName;
 }

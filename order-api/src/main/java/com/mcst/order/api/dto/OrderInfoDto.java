@@ -214,4 +214,16 @@ public class OrderInfoDto extends BaseDto {
     @Schema(description = "订单时间")
     private LocalDateTime orderTime;
 
+    /**
+     * 代理商ID
+     */
+    @Schema(description = "代理商ID")
+    private String agentId;
+
+    /**
+     * 供应商名称
+     */
+    @Schema(description = "供应商名称")
+    private String agentName;
+
 }

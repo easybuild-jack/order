@@ -44,3 +44,127 @@ local.properties
 gradle
 gradlew.bat
 gradlew
+
+# Maven wrapper (如果有)
+mvnw
+mvnw.cmd
+
+# 构建报告
+*/build/reports/
+build/reports/
+*build/reports/
+**/build/reports/
+
+# 测试结果
+*/build/test-results/
+build/test-results/
+*build/test-results/
+**/build/test-results/
+
+# 代码覆盖率报告
+*/build/jacoco/
+build/jacoco/
+*build/jacoco/
+**/build/jacoco/
+*.exec
+*.html
+coverage/
+
+# Checkstyle 报告
+*/build/checkstyle/
+build/checkstyle/
+*build/checkstyle/
+**/build/checkstyle/
+
+# SpotBugs 报告
+*/build/spotbugs/
+build/spotbugs/
+*build/spotbugs/
+**/build/spotbugs/
+
+# Lombok 生成的代码
+.lombok/
+
+# 项目本地配置
+*.properties
+!gradle.properties
+application-local.*
+config-local.*
+
+# 敏感文件
+*.keystore
+*.jks
+*.pem
+*.key
+secret.*
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.tar
+*.rar
+
+# 文档生成
+apidoc/
+javadoc/
+
+# Gradle 守护进程日志
+.gradle daemon/
+
+# 性能分析
+*.hprof
+*.prof
+
+# 缓存目录
+.cache/
+.caches/
+*cache*
+**/*cache*
+
+# Steam 文件
+*.lnk
+desktop.ini
+
+# 临时构建目录
+.tmp/
+temp/
+*.temp
+
+# IDE 辅助文件
+.idea_modules/
+*.idea_other/
+.atlassian/
+*.swp
+*.swo
+.*.swp
+.*.swo
+
+# 语言特定忽略
+.python-version
+.venv/
+venv/
+env/
+.env/
+node_modules/
+*.pyc
+__pycache__/
+*.classpath
+*.project
+
+# Helm charts
+*.tgz
+charts/*.tgz
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Git 对比合并工具
+*.orig
+*.rej
+*.patch
+
+# 其他
+.dump
+.dmp
+heapdump.hprof

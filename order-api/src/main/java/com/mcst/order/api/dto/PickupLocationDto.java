@@ -103,4 +103,28 @@ public class PickupLocationDto extends BaseDto {
     @Schema(description = "禁用状态 0可用，1禁用")
     private Integer forbiddenFlag;
 
+    /**
+     * 门店ID
+     */
+    @Schema(description = "门店ID")
+    private String merchantId;
+
+    /**
+     * 门店名称
+     */
+    @Schema(description = "门店名称")
+    private String merchantName;
+
+    /**
+     * 代理商ID
+     */
+    @Schema(description = "代理商ID")
+    private String agentId;
+
+    /**
+     * 代理商名称
+     */
+    @Schema(description = "代理商名称")
+    private String agentName;
+
 }
