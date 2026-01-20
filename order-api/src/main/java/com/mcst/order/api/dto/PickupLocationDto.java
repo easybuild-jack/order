@@ -1,13 +1,15 @@
 package com.mcst.order.api.dto;
 
 import com.mcst.easyfk.core.annotation.PrimaryKey;
+import com.mcst.easyfk.core.dto.BaseDto;
 import com.mcst.order.api.response.PickupLocationResp;
 import io.github.linpeilie.annotations.AutoMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import com.mcst.easyfk.core.dto.BaseDto;
+import lombok.experimental.SuperBuilder;
 
 /**
  * <p>
@@ -22,6 +24,8 @@ import com.mcst.easyfk.core.dto.BaseDto;
 @Accessors(chain = true)
 @Schema(description = "提货点信息数据对象")
 @AutoMapper(target = PickupLocationResp.class)
+@SuperBuilder
+@NoArgsConstructor
 public class PickupLocationDto extends BaseDto {
 
     /**

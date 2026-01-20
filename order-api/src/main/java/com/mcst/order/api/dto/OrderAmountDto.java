@@ -3,8 +3,11 @@ import com.mcst.easyfk.core.annotation.PrimaryKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import com.mcst.easyfk.core.dto.BaseDto;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 
 /**
@@ -19,6 +22,8 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @Schema(description="订单金额数据对象")
+@SuperBuilder
+@NoArgsConstructor
 public class OrderAmountDto extends BaseDto {
 
 

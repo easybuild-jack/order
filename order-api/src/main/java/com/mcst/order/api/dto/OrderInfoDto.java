@@ -6,8 +6,11 @@ import io.github.linpeilie.annotations.AutoMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import com.mcst.easyfk.core.dto.BaseDto;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,6 +28,8 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @Schema(description = "订单信息数据对象")
 @AutoMapper(target = OrderInfoResp.class)
+@SuperBuilder
+@NoArgsConstructor
 public class OrderInfoDto extends BaseDto {
 
     /**

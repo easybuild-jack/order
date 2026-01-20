@@ -3,8 +3,11 @@ import com.mcst.easyfk.core.annotation.PrimaryKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import com.mcst.easyfk.core.dto.BaseDto;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -20,6 +23,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @Schema(description="订单退款商品数据对象")
+@SuperBuilder
+@NoArgsConstructor
 public class OrderRefundGoodsDto extends BaseDto {
 
 
