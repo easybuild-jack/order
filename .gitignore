@@ -168,3 +168,4 @@ docker-compose.override.yml
 .dump
 .dmp
 heapdump.hprof
+.claude
