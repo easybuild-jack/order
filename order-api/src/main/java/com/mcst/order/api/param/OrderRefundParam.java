@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import com.mcst.easyfk.core.dto.request.BasicParam;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -23,9 +24,9 @@ import java.time.LocalDateTime;
 public class OrderRefundParam extends BasicParam {
 
     /**
-     * OrderRefundId
+     * 订单退款ID
      */
-    @Schema(description = "OrderRefundId")
+    @Schema(description = "订单退款ID")
     private String orderRefundId;
 
     /**

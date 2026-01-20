@@ -29,10 +29,10 @@ import lombok.experimental.SuperBuilder;
 public class PickupLocationDto extends BaseDto {
 
     /**
-     * PickupLocationId
+     * 提货点ID
      */
     @PrimaryKey
-    @Schema(description = "PickupLocationId")
+    @Schema(description = "提货点ID")
     private String pickupLocationId;
 
     /**

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import com.mcst.easyfk.core.dto.request.BasicParam;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,9 +25,9 @@ import java.time.LocalDateTime;
 public class OrderInfoParam extends BasicParam {
 
     /**
-     * OrderInfoId
+     * 订单信息ID
      */
-    @Schema(description = "OrderInfoId")
+    @Schema(description = "订单信息ID")
     private String orderInfoId;
 
     /**
@@ -78,27 +79,27 @@ public class OrderInfoParam extends BasicParam {
     private Integer goodsCount;
 
     /**
-     * 订单总金额
+     * 总金额
      */
-    @Schema(description = "订单总金额")
+    @Schema(description = "总金额")
     private BigDecimal totalAmount;
 
     /**
-     * 实际金额，实际需要支付的金额
+     * 实际支付金额，实际需要支付的金额
      */
-    @Schema(description = "实际金额，实际需要支付的金额")
-    private BigDecimal actualAmount;
+    @Schema(description = "实际支付金额，实际需要支付的金额")
+    private BigDecimal actualPayAmount;
 
     /**
-     * 订单类型 0：线上，1：线下
+     * 订单类型，0：线上，1：线下
      */
-    @Schema(description = "订单类型 0：线上，1：线下")
+    @Schema(description = "订单类型，0：线上，1：线下")
     private Integer orderType;
 
     /**
-     * 配送方式 0 自提 1 快递 2 虚拟商品
+     * 配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门
      */
-    @Schema(description = "配送方式 0 自提 1 快递 2 虚拟商品")
+    @Schema(description = "配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门")
     private Integer dispatchType;
 
     /**
@@ -108,15 +109,15 @@ public class OrderInfoParam extends BasicParam {
     private Integer invoiceFlag;
 
     /**
-     * 售后状态 0：未申请，1：已申请
+     * 售后状态（0：未申请，1：已申请）
      */
-    @Schema(description = "售后状态 0：未申请，1：已申请")
+    @Schema(description = "售后状态（0：未申请，1：已申请）")
     private Integer refundFlag;
 
     /**
-     * 退款状态 0：未退款，1：全部退款，2：部分退款
+     * 退款状态（0：未退款，1：全部退款，2：部分退款）
      */
-    @Schema(description = "退款状态 0：未退款，1：全部退款，2：部分退款")
+    @Schema(description = "退款状态（0：未退款，1：全部退款，2：部分退款）")
     private Integer refundStatus;
 
     /**
@@ -144,9 +145,9 @@ public class OrderInfoParam extends BasicParam {
     private String tagRemark;
 
     /**
-     * 订单状态 0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款
+     * 订单状态（0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款）
      */
-    @Schema(description = "订单状态 0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款")
+    @Schema(description = "订单状态（0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款）")
     private Integer orderStatus;
 
     /**
@@ -162,9 +163,9 @@ public class OrderInfoParam extends BasicParam {
     private Integer clientType;
 
     /**
-     * 订单推送状态 0：未推送，1：已推送
+     * 订单推送状态（0：未推送，1：已推送）
      */
-    @Schema(description = "订单推送状态 0：未推送，1：已推送")
+    @Schema(description = "订单推送状态（0：未推送，1：已推送）")
     private Integer pushFlag;
 
     /**
@@ -216,9 +217,9 @@ public class OrderInfoParam extends BasicParam {
     private String agentId;
 
     /**
-     * 供应商名称
+     * 代理商名称
      */
-    @Schema(description = "供应商名称")
+    @Schema(description = "代理商名称")
     private String agentName;
 
 }

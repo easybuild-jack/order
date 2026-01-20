@@ -1,4 +1,5 @@
 package com.mcst.order.api.dto;
+
 import com.mcst.easyfk.core.annotation.PrimaryKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -11,70 +12,68 @@ import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
 
 /**
-* <p>
-* 订单优惠
-* </p>
-*
-* @author liu yijun
-* @since 2025-10-17
-*/
+ * <p>
+ * 订单优惠详情
+ * </p>
+ *
+ * @author liu yijun
+ * @since 2025-10-17
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@Schema(description="订单优惠数据对象")
+@Schema(description = "订单优惠详情数据对象")
 @SuperBuilder
 @NoArgsConstructor
 public class OrderDiscountDto extends BaseDto {
 
-
     /**
-    * OrderDiscountId
-    */
+     * 订单优惠ID
+     */
     @PrimaryKey
-    @Schema(description= "OrderDiscountId")
+    @Schema(description = "订单优惠ID")
     private String orderDiscountId;
 
     /**
-    * 订单信息ID
-    */
-    @Schema(description= "订单信息ID")
+     * 订单信息ID
+     */
+    @Schema(description = "订单信息ID")
     private String orderInfoId;
 
     /**
-    * 订单编号
-    */
-    @Schema(description= "订单编号")
+     * 订单编号
+     */
+    @Schema(description = "订单编号")
     private String orderNo;
 
     /**
-    * 商品总金额
-    */
-    @Schema(description= "商品总金额")
+     * 商品金额
+     */
+    @Schema(description = "商品金额")
     private BigDecimal goodsAmount;
 
     /**
-    * 优惠金额
-    */
-    @Schema(description= "优惠金额")
+     * 优惠金额
+     */
+    @Schema(description = "优惠金额")
     private BigDecimal discountAmount;
 
     /**
-    * 优惠后的金额
-    */
-    @Schema(description= "优惠后的金额")
+     * 优惠后金额
+     */
+    @Schema(description = "优惠后金额")
     private BigDecimal discountAfterAmount;
 
     /**
-    * 用户优惠券ID
-    */
-    @Schema(description= "用户优惠券ID")
+     * 用户优惠券ID
+     */
+    @Schema(description = "用户优惠券ID")
     private String userCouponIds;
 
     /**
-    * 优惠备注 例如：满300减50 *1 现金抵扣券50 *1 限时折扣85折 *1
-    */
-    @Schema(description= "优惠备注 例如：满300减50 *1 现金抵扣券50 *1 限时折扣85折 *1")
+     * 优惠备注
+     */
+    @Schema(description = "优惠备注")
     private String discountRemark;
-
 
 }

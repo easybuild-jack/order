@@ -32,16 +32,16 @@ import java.time.LocalDateTime;
 public class OrderPickupDto extends BaseDto {
 
     /**
-     * OrderPickupId
+     * 订单提货ID
      */
     @PrimaryKey
-    @Schema(description = "OrderPickupId")
+    @Schema(description = "订单提货ID")
     private String orderPickupId;
 
     /**
-     * 订单Id
+     * 订单ID
      */
-    @Schema(description = "订单Id")
+    @Schema(description = "订单ID")
     private String orderInfoId;
 
     /**
@@ -51,9 +51,9 @@ public class OrderPickupDto extends BaseDto {
     private String orderNo;
 
     /**
-     * 提货点Id
+     * 提货点ID
      */
-    @Schema(description = "提货点Id")
+    @Schema(description = "提货点ID")
     private String pickupLocationId;
 
     /**

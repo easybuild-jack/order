@@ -33,10 +33,10 @@ import java.time.LocalDateTime;
 public class OrderDeliverDto extends BaseDto {
 
     /**
-     * OrderDeliverId
+     * 订单发货ID
      */
     @PrimaryKey
-    @Schema(description = "OrderDeliverId")
+    @Schema(description = "订单发货ID")
     private String orderDeliverId;
 
     /**
@@ -70,16 +70,16 @@ public class OrderDeliverDto extends BaseDto {
     private String expressCompany;
 
     /**
-     * 发货门店ID
+     * 发货商户ID
      */
-    @Schema(description = "发货门店ID")
-    private String shopId;
+    @Schema(description = "发货商户ID")
+    private String merchantId;
 
     /**
-     * 发货门店名称
+     * 发货商户名称
      */
-    @Schema(description = "发货门店名称")
-    private String shopName;
+    @Schema(description = "发货商户名称")
+    private String merchantName;
 
     /**
      * 发货人ID
@@ -116,6 +116,18 @@ public class OrderDeliverDto extends BaseDto {
      */
     @Schema(description = "收货人手机号")
     private String recipientsPhone;
+
+    /**
+     * 提货点ID
+     */
+    @Schema(description = "提货点ID")
+    private String pickupLocationId;
+
+    /**
+     * 提货点名称
+     */
+    @Schema(description = "提货点名称")
+    private String pickupLocationName;
 
     /**
      * 收货地址的ID

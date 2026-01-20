@@ -26,10 +26,10 @@ import lombok.experimental.SuperBuilder;
 public class OrderDeliverGoodsDto extends BaseDto {
 
     /**
-     * OrderDeliverGoodsId
+     * 订单发货商品ID
      */
     @PrimaryKey
-    @Schema(description = "OrderDeliverGoodsId")
+    @Schema(description = "订单发货商品ID")
     private String orderDeliverGoodsId;
 
     /**

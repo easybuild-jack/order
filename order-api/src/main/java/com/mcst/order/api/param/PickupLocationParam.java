@@ -21,9 +21,9 @@ import com.mcst.easyfk.core.dto.request.BasicParam;
 public class PickupLocationParam extends BasicParam {
 
     /**
-     * PickupLocationId
+     * 提货点ID
      */
-    @Schema(description = "PickupLocationId")
+    @Schema(description = "提货点ID")
     private String pickupLocationId;
 
     /**
@@ -103,5 +103,29 @@ public class PickupLocationParam extends BasicParam {
      */
     @Schema(description = "禁用状态 0可用，1禁用")
     private Integer forbiddenFlag;
+
+    /**
+     * 门店ID
+     */
+    @Schema(description = "门店ID")
+    private String merchantId;
+
+    /**
+     * 门店名称
+     */
+    @Schema(description = "门店名称")
+    private String merchantName;
+
+    /**
+     * 代理商ID
+     */
+    @Schema(description = "代理商ID")
+    private String agentId;
+
+    /**
+     * 代理商名称
+     */
+    @Schema(description = "代理商名称")
+    private String agentName;
 
 }

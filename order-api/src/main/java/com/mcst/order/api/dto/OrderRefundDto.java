@@ -32,10 +32,10 @@ import java.time.LocalDateTime;
 public class OrderRefundDto extends BaseDto {
 
     /**
-     * OrderRefundId
+     * 订单退款ID
      */
     @PrimaryKey
-    @Schema(description = "OrderRefundId")
+    @Schema(description = "订单退款ID")
     private String orderRefundId;
 
     /**

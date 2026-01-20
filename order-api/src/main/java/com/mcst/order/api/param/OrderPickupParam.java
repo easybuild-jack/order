@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import com.mcst.easyfk.core.dto.request.BasicParam;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -23,15 +24,15 @@ import java.time.LocalDateTime;
 public class OrderPickupParam extends BasicParam {
 
     /**
-     * OrderPickupId
+     * 订单提货ID
      */
-    @Schema(description = "OrderPickupId")
+    @Schema(description = "订单提货ID")
     private String orderPickupId;
 
     /**
-     * 订单Id
+     * 订单ID
      */
-    @Schema(description = "订单Id")
+    @Schema(description = "订单ID")
     private String orderInfoId;
 
     /**
@@ -41,9 +42,9 @@ public class OrderPickupParam extends BasicParam {
     private String orderNo;
 
     /**
-     * 提货点Id
+     * 提货点ID
      */
-    @Schema(description = "提货点Id")
+    @Schema(description = "提货点ID")
     private String pickupLocationId;
 
     /**
