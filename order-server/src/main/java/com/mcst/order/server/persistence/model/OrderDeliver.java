@@ -118,18 +118,6 @@ public class OrderDeliver extends BaseMyBatisPlusEntity<OrderDeliver> {
     private String recipientsPhone;
 
     /**
-     * 提货点ID
-     */
-    @Column(comment = "提货点ID")
-    private String pickupLocationId;
-
-    /**
-     * 提货点名称
-     */
-    @Column(comment = "提货点名称")
-    private String pickupLocationName;
-
-    /**
      * 收货地址的ID
      */
     @Column(comment = "收货地址的ID")

@@ -238,35 +238,7 @@ CREATE TABLE `order_pickup` (
     KEY `idx_pickup_code` (`pickup_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单提货';
 
--- 9. 提货点信息表
-DROP TABLE IF EXISTS `pickup_location`;
-CREATE TABLE `pickup_location` (
-    `pickup_location_id` VARCHAR(50) NOT NULL COMMENT 'PickupLocationId',
-    `location_name` VARCHAR(100) DEFAULT NULL COMMENT '提货点名称',
-    `location_code` VARCHAR(100) DEFAULT NULL COMMENT '提货点编号',
-    `province` VARCHAR(100) DEFAULT NULL COMMENT '省',
-    `city` VARCHAR(100) DEFAULT NULL COMMENT '市',
-    `area` VARCHAR(100) DEFAULT NULL COMMENT '区',
-    `address` VARCHAR(100) DEFAULT NULL COMMENT '详细地址',
-    `address_info` VARCHAR(100) DEFAULT NULL COMMENT '提货点完整地址',
-    `link_man` VARCHAR(100) DEFAULT NULL COMMENT '联系人',
-    `link_phone` VARCHAR(100) DEFAULT NULL COMMENT '联系电话',
-    `business_hours` VARCHAR(100) DEFAULT NULL COMMENT '营业时间',
-    `longitude` VARCHAR(100) DEFAULT NULL COMMENT '经度',
-    `latitude` VARCHAR(100) DEFAULT NULL COMMENT '纬度',
-    `forbidden_flag` INT(2) DEFAULT 0 COMMENT '禁用状态 0可用，1禁用',
-    `merchant_id` VARCHAR(50) DEFAULT NULL COMMENT '门店ID',
-    `merchant_name` VARCHAR(100) DEFAULT NULL COMMENT '门店名称',
-    `agent_id` VARCHAR(50) DEFAULT NULL COMMENT '代理商ID',
-    `agent_name` VARCHAR(100) DEFAULT NULL COMMENT '代理商名称',
-    `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
-    `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
-    `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
-    PRIMARY KEY (`pickup_location_id`),
-    KEY `idx_location_name` (`location_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='提货点信息';
-
--- 10. 订单退款表
+-- 9. 订单退款表
 DROP TABLE IF EXISTS `order_refund`;
 CREATE TABLE `order_refund` (
     `order_refund_id` VARCHAR(50) NOT NULL COMMENT 'OrderRefundId',
@@ -313,7 +285,7 @@ CREATE TABLE `order_refund` (
     KEY `idx_refund_status` (`refund_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单退款';
 
--- 11. 订单退款商品表
+-- 10. 订单退款商品表
 DROP TABLE IF EXISTS `order_refund_goods`;
 CREATE TABLE `order_refund_goods` (
     `order_refund_goods_id` VARCHAR(50) NOT NULL COMMENT 'OrderRefundGoodsId',

@@ -57,6 +57,12 @@ public class OrderPickup extends BaseMyBatisPlusEntity<OrderPickup> {
     private String pickupLocationId;
 
     /**
+     * 提货点名称
+     */
+    @Column(comment = "提货点名称")
+    private String pickupLocationName;
+
+    /**
      * 提货码
      */
     @Column(comment = "提货码")

@@ -15,12 +15,6 @@ import org.springframework.context.annotation.Configuration;
 public class OrderApiConfig {
     @Bean
     @ConditionalOnMissingBean
-    public IPickupLocationApi pickupLocationApi() {
-         return new PickupLocationApiDubboImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public IOrderDeliverApi orderDeliverApi() {
          return new OrderDeliverApiDubboImpl();
     }

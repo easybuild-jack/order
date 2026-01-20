@@ -467,63 +467,7 @@ CREATE TRIGGER trg_order_pickup_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 9. 提货点信息表
-DROP TABLE IF EXISTS pickup_location CASCADE;
-CREATE TABLE pickup_location (
-    pickup_location_id VARCHAR(50) NOT NULL,
-    location_name VARCHAR(100) DEFAULT NULL,
-    location_code VARCHAR(100) DEFAULT NULL,
-    province VARCHAR(100) DEFAULT NULL,
-    city VARCHAR(100) DEFAULT NULL,
-    area VARCHAR(100) DEFAULT NULL,
-    address VARCHAR(100) DEFAULT NULL,
-    address_info VARCHAR(100) DEFAULT NULL,
-    link_man VARCHAR(100) DEFAULT NULL,
-    link_phone VARCHAR(100) DEFAULT NULL,
-    business_hours VARCHAR(100) DEFAULT NULL,
-    longitude VARCHAR(100) DEFAULT NULL,
-    latitude VARCHAR(100) DEFAULT NULL,
-    forbidden_flag SMALLINT DEFAULT 0,
-    merchant_id VARCHAR(50) DEFAULT NULL,
-    merchant_name VARCHAR(100) DEFAULT NULL,
-    agent_id VARCHAR(50) DEFAULT NULL,
-    agent_name VARCHAR(100) DEFAULT NULL,
-    insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted SMALLINT NOT NULL DEFAULT 0,
-    PRIMARY KEY (pickup_location_id)
-);
-COMMENT ON TABLE pickup_location IS '提货点信息';
-COMMENT ON COLUMN pickup_location.pickup_location_id IS 'PickupLocationId';
-COMMENT ON COLUMN pickup_location.location_name IS '提货点名称';
-COMMENT ON COLUMN pickup_location.location_code IS '提货点编号';
-COMMENT ON COLUMN pickup_location.province IS '省';
-COMMENT ON COLUMN pickup_location.city IS '市';
-COMMENT ON COLUMN pickup_location.area IS '区';
-COMMENT ON COLUMN pickup_location.address IS '详细地址';
-COMMENT ON COLUMN pickup_location.address_info IS '提货点完整地址';
-COMMENT ON COLUMN pickup_location.link_man IS '联系人';
-COMMENT ON COLUMN pickup_location.link_phone IS '联系电话';
-COMMENT ON COLUMN pickup_location.business_hours IS '营业时间';
-COMMENT ON COLUMN pickup_location.longitude IS '经度';
-COMMENT ON COLUMN pickup_location.latitude IS '纬度';
-COMMENT ON COLUMN pickup_location.forbidden_flag IS '禁用状态 0可用，1禁用';
-COMMENT ON COLUMN pickup_location.merchant_id IS '门店ID';
-COMMENT ON COLUMN pickup_location.merchant_name IS '门店名称';
-COMMENT ON COLUMN pickup_location.agent_id IS '代理商ID';
-COMMENT ON COLUMN pickup_location.agent_name IS '代理商名称';
-COMMENT ON COLUMN pickup_location.insert_time IS '插入时间';
-COMMENT ON COLUMN pickup_location.last_update_time IS '最后更新时间';
-COMMENT ON COLUMN pickup_location.deleted IS '删除标记，0否 1是';
-
-CREATE INDEX idx_pickup_location_location_name ON pickup_location(location_name);
-
-CREATE TRIGGER trg_pickup_location_update_time
-    BEFORE UPDATE ON pickup_location
-    FOR EACH ROW
-    EXECUTE FUNCTION update_last_update_time();
-
--- 10. 订单退款表
+-- 9. 订单退款表
 DROP TABLE IF EXISTS order_refund CASCADE;
 CREATE TABLE order_refund (
     order_refund_id VARCHAR(50) NOT NULL,
@@ -614,7 +558,7 @@ CREATE TRIGGER trg_order_refund_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 11. 订单退款商品表
+-- 10. 订单退款商品表
 DROP TABLE IF EXISTS order_refund_goods CASCADE;
 CREATE TABLE order_refund_goods (
     order_refund_goods_id VARCHAR(50) NOT NULL,

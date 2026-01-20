@@ -15,12 +15,6 @@ public class OrderProviderConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public IPickupLocationRemote pickupLocationRemote() {
-         return new PickupLocationRemoteImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public IOrderDeliverRemote orderDeliverRemote() {
          return new OrderDeliverRemoteImpl();
     }

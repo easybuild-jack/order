@@ -21,11 +21,6 @@ public class OrderServerConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public IPickupLocationApi pickupLocationApi() {
-        return new PickupLocationApiServerImpl();
-    }
-    @Bean
-    @ConditionalOnMissingBean
     public IOrderDeliverApi orderDeliverApi() {
         return new OrderDeliverApiServerImpl();
     }
@@ -45,12 +40,6 @@ public class OrderServerConfig {
         return new OrderRefundApiServerImpl();
     }
 
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IPickupLocationService pickupLocationService() {
-        return new PickupLocationServiceImpl();
-    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -80,12 +69,6 @@ public class OrderServerConfig {
     @ConditionalOnMissingBean
     public IOrderRefundGoodsRepository orderRefundGoodsRepository() {
         return new OrderRefundGoodsRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IPickupLocationRepository pickupLocationRepository() {
-        return new PickupLocationRepositoryImpl();
     }
 
     @Bean
