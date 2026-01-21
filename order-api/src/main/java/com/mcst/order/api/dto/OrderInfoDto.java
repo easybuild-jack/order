@@ -231,4 +231,22 @@ public class OrderInfoDto extends BaseDto {
     @Schema(description = "代理商名称")
     private String agentName;
 
+    /**
+     * 取消原因类型
+     */
+    @Schema(description = "取消原因类型")
+    private Integer cancelReasonType;
+
+    /**
+     * 取消原因备注
+     */
+    @Schema(description = "取消原因备注")
+    private String cancelRemark;
+
+    /**
+     * 取消时间
+     */
+    @Schema(description = "取消时间")
+    private LocalDateTime cancelTime;
+
 }

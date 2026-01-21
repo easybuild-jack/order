@@ -231,4 +231,22 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
     @Column(comment = "代理商名称")
     private String agentName;
 
+    /**
+     * 取消原因类型
+     */
+    @Column(comment = "取消原因类型")
+    private Integer cancelReasonType;
+
+    /**
+     * 取消原因备注
+     */
+    @Column(comment = "取消原因备注")
+    private String cancelRemark;
+
+    /**
+     * 取消时间
+     */
+    @Column(comment = "取消时间")
+    private LocalDateTime cancelTime;
+
 }
