@@ -5,9 +5,11 @@ import com.mcst.easyfk.remote.sc.IBaseRemote;
 import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
+import com.mcst.order.api.request.PayCallbackReq;
 import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
+import com.mcst.order.api.response.PayCallbackResp;
 import org.springframework.cloud.openfeign.FeignClient;
 
 /**
@@ -40,5 +42,15 @@ public interface IOrderInfoRemote extends IBaseRemote<OrderInfoResp, String, Ord
      * @return 取消结果
      */
     BaseResult<CancelOrderResp> cancelOrder(CancelOrderReq req);
+
+    /**
+     * <p>
+     * 支付成功回调（供交易系统/支付网关调用）
+     * </p>
+     *
+     * @param req 支付回调请求
+     * @return 支付回调结果
+     */
+    BaseResult<PayCallbackResp> payCallback(PayCallbackReq req);
 
 }

@@ -6,9 +6,11 @@ import com.mcst.order.api.IOrderInfoApi;
 import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
+import com.mcst.order.api.request.PayCallbackReq;
 import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
+import com.mcst.order.api.response.PayCallbackResp;
 import com.mcst.order.remote.IOrderInfoRemote;
 import org.apache.dubbo.config.annotation.DubboReference;
 
@@ -33,6 +35,11 @@ public class OrderInfoApiDubboImpl extends DubboBaseApiRemoteImpl<IOrderInfoRemo
     @Override
     public BaseResult<CancelOrderResp> cancelOrder(CancelOrderReq req) {
         return this.orderInfoRemote.cancelOrder(req);
+    }
+
+    @Override
+    public BaseResult<PayCallbackResp> payCallback(PayCallbackReq req) {
+        return this.orderInfoRemote.payCallback(req);
     }
 
 }

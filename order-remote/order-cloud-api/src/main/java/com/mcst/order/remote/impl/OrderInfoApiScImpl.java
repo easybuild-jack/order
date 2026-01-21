@@ -6,9 +6,11 @@ import com.mcst.order.api.IOrderInfoApi;
 import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
+import com.mcst.order.api.request.PayCallbackReq;
 import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
+import com.mcst.order.api.response.PayCallbackResp;
 import com.mcst.order.remote.IOrderInfoRemote;
 import jakarta.annotation.Resource;
 
@@ -33,6 +35,11 @@ public class OrderInfoApiScImpl extends BaseApiRemoteImpl<IOrderInfoRemote, Orde
     @Override
     public BaseResult<CancelOrderResp> cancelOrder(CancelOrderReq req) {
         return orderInfoRemote.cancelOrder(req);
+    }
+
+    @Override
+    public BaseResult<PayCallbackResp> payCallback(PayCallbackReq req) {
+        return orderInfoRemote.payCallback(req);
     }
 
 }

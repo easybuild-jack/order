@@ -19,9 +19,11 @@ import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderGoodsItem;
 import com.mcst.order.api.request.OrderInfoReq;
+import com.mcst.order.api.request.PayCallbackReq;
 import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
+import com.mcst.order.api.response.PayCallbackResp;
 import com.mcst.order.server.repository.*;
 import com.mcst.order.server.service.IOrderInfoService;
 import jakarta.annotation.Resource;
@@ -137,6 +139,79 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         return BRBuilder.successResult(resp);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public BaseResult<PayCallbackResp> payCallback(PayCallbackReq req) {
+        if (!StringUtils.hasText(req.getOrderNo())) {
+            throw new BusinessException("订单编号不能为空");
+        }
+        if (!StringUtils.hasText(req.getThirdTradeNo())) {
+            throw new BusinessException("第三方交易编号不能为空");
+        }
+
+        OrderInfoDto orderInfoDto = orderInfoRepository.queryOneByField("orderNo", req.getOrderNo());
+        if (orderInfoDto == null) {
+            throw new BusinessException("订单不存在: " + req.getOrderNo());
+        }
+
+        OrderPayDto orderPayDto = orderPayRepository.queryOneByField("orderNo", req.getOrderNo());
+        Integer oldPayStatus = orderPayDto != null ? orderPayDto.getPayStatus() : 0;
+        Integer oldOrderStatus = orderInfoDto.getOrderStatus();
+
+        // 幂等性处理：订单已支付，直接返回成功
+        if (orderPayDto != null && PayStatusEnum.PAID.getValue() == oldPayStatus) {
+            PayCallbackResp resp = new PayCallbackResp();
+            resp.setOrderInfoId(orderInfoDto.getOrderInfoId());
+            resp.setOrderNo(req.getOrderNo());
+            resp.setThirdTradeNo(orderPayDto.getThirdTradeNo());
+            resp.setOldOrderStatus(oldOrderStatus);
+            resp.setNewOrderStatus(oldOrderStatus);
+            resp.setOldPayStatus(oldPayStatus);
+            resp.setNewPayStatus(oldPayStatus);
+            resp.setPayTime(orderPayDto.getPayTime());
+            resp.setRepeated(true);
+            return BRBuilder.successResult(resp);
+        }
+
+        // 校验订单状态：只有待支付状态才能进行支付回调
+        if (OrderStatusEnum.PENDING_PAYMENT.getValue() != oldOrderStatus) {
+            return BRBuilder.<PayCallbackResp>failResult().setMsg("当前订单状态不允许支付回调");
+        }
+
+        LocalDateTime payTime = req.getPayTime() != null ? req.getPayTime() : LocalDateTime.now();
+        LocalDate payDate = payTime.toLocalDate();
+
+        // 更新订单信息状态
+        orderInfoDto.setOrderStatus(OrderStatusEnum.WAITING_DELIVER.getValue());
+        orderInfoRepository.updateBySelective(orderInfoDto);
+
+        // 更新订单支付信息
+        if (orderPayDto != null) {
+            orderPayDto.setPayStatus(PayStatusEnum.PAID.getValue());
+            orderPayDto.setThirdTradeNo(req.getThirdTradeNo());
+            orderPayDto.setPayTime(payTime);
+            orderPayDto.setPayDate(payDate);
+            if (StringUtils.hasText(req.getPayType())) {
+                orderPayDto.setPayType(req.getPayType());
+            }
+            if (req.getActualPayAmount() != null) {
+                orderPayDto.setActualPayAmount(req.getActualPayAmount());
+            }
+            orderPayRepository.updateBySelective(orderPayDto);
+        }
+
+        PayCallbackResp resp = new PayCallbackResp();
+        resp.setOrderInfoId(orderInfoDto.getOrderInfoId());
+        resp.setOrderNo(req.getOrderNo());
+        resp.setThirdTradeNo(req.getThirdTradeNo());
+        resp.setOldOrderStatus(oldOrderStatus);
+        resp.setNewOrderStatus(OrderStatusEnum.WAITING_DELIVER.getValue());
+        resp.setOldPayStatus(oldPayStatus);
+        resp.setNewPayStatus(PayStatusEnum.PAID.getValue());
+        resp.setPayTime(payTime);
+        resp.setRepeated(false);
+        return BRBuilder.successResult(resp);
+    }
 
     @Override
     public OrderInfoResp queryById(String id, String... selectColumns) {
