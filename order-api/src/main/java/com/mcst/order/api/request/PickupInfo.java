@@ -3,6 +3,8 @@ package com.mcst.order.api.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import java.io.Serializable;
+import lombok.Builder;
 
 /**
  * <p>
@@ -14,18 +16,30 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@Schema(description = "自提信息")
-public class PickupInfo {
+@Builder
+public class PickupInfo implements Serializable {
 
+    /**
+     * 提货点ID
+     */
     @Schema(description = "提货点ID")
     private String pickupLocationId;
 
+    /**
+     * 提货点名称
+     */
     @Schema(description = "提货点名称")
     private String pickupLocationName;
 
+    /**
+     * 提货人
+     */
     @Schema(description = "提货人")
     private String pickupUser;
 
+    /**
+     * 提货人电话
+     */
     @Schema(description = "提货人电话")
     private String pickupPhone;
 }

@@ -1,13 +1,13 @@
 package com.mcst.order.server.service;
 
+import com.mcst.easyfk.core.dto.response.BaseResult;
+import com.mcst.easyfk.service.api.IBaseService;
 import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
+import com.mcst.order.api.request.OrderInfoReq;
 import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
-import com.mcst.order.api.request.OrderInfoReq;
-import com.mcst.easyfk.service.api.IBaseService;
-import com.mcst.easyfk.service.api.response.BaseResult;
 
 /**
  * <p>
@@ -17,7 +17,7 @@ import com.mcst.easyfk.service.api.response.BaseResult;
  * @author liu yijun
  * @since 2025-10-17
  */
-public interface IOrderInfoService extends IBaseService<OrderInfoResp,String,OrderInfoReq> {
+public interface IOrderInfoService extends IBaseService<OrderInfoResp, String, OrderInfoReq> {
 
     /**
      * <p>

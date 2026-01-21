@@ -1,3 +1,4 @@
 dependencies {
     api ('com.mcst:remote-dubbo')
+    compileOnly("org.apache.dubbo:dubbo:3.3.5")
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * 订单状态（0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款）
+ *
  * @author liuyijun
  * @date 2025-10-13
  */
@@ -43,28 +44,28 @@ public enum OrderStatusEnum {
      */
     REFUNDED(7, "已退款");
 
-    private final int code;
+    private final int value;
     private final String description;
 
-    OrderStatusEnum(int code, String description) {
-        this.code = code;
+    OrderStatusEnum(int value, String description) {
+        this.value = value;
         this.description = description;
     }
 
-    public static OrderStatusEnum fromCode(Integer code) {
-        if (code == null) {
+    public static OrderStatusEnum fromCode(Integer value) {
+        if (value == null) {
             return null;
         }
-        for (OrderStatusEnum value : values()) {
-            if (value.code == code) {
-                return value;
+        for (OrderStatusEnum statusEnum : values()) {
+            if (statusEnum.value == value) {
+                return statusEnum;
             }
         }
         return null;
     }
 
-    public static boolean isValid(Integer code) {
-        return fromCode(code) != null;
+    public static boolean isValid(Integer value) {
+        return fromCode(value) != null;
     }
 }
 

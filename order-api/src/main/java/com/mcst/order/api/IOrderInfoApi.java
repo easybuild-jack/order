@@ -1,7 +1,7 @@
 package com.mcst.order.api;
 
+import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.service.api.IBaseApi;
-import com.mcst.easyfk.service.api.response.BaseResult;
 import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
@@ -10,14 +10,14 @@ import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
 
 /**
-* <p>
-* 订单信息 服务接口类
-* </p>
-*
-* @author liu yijun
-* @since 2025-10-17
-*/
-public interface IOrderInfoApi extends IBaseApi<OrderInfoResp,String,OrderInfoReq> {
+ * <p>
+ * 订单信息 服务接口类
+ * </p>
+ *
+ * @author liu yijun
+ * @since 2025-10-17
+ */
+public interface IOrderInfoApi extends IBaseApi<OrderInfoResp, String, OrderInfoReq> {
 
     /**
      * <p>
