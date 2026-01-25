@@ -43,4 +43,8 @@ public class OrderInfoRemoteImpl extends DubboBaseRemoteImpl<IOrderInfoService, 
         return this.orderInfoService.payCallback(req);
     }
 
+    @Override
+    public BaseResult<?> rollbackOrder(String orderNo) {
+        return this.orderInfoService.rollbackOrder(orderNo);
+    }
 }

@@ -58,9 +58,9 @@ public class OrderPay extends BaseMyBatisPlusEntity<OrderPay> {
     private BigDecimal actualPayAmount;
 
     /**
-     * 支付状态 0：待支付，1：支付中，2：已支付，3：已取消
+     * 支付状态 0：未支付，1：支付中，2：已支付，3：已取消，4：支付失败
      */
-    @Column(comment = "支付状态 0：待支付，1：支付中，2：已支付，3：已取消")
+    @Column(comment = "支付状态 0：未支付，1：支付中，2：已支付，3：已取消，4：支付失败")
     private Integer payStatus;
 
     /**
@@ -70,9 +70,9 @@ public class OrderPay extends BaseMyBatisPlusEntity<OrderPay> {
     private String thirdTradeNo;
 
     /**
-     * 支付类型，支付宝、微信、积分等
+     * 支付类型，wechat,alipay,douyin,union,credit,balance
      */
-    @Column(comment = "支付类型，支付宝、微信、积分等")
+    @Column(comment = "支付类型，wechat,alipay,douyin,union,credit,balance")
     private String payType;
 
     /**
@@ -86,5 +86,12 @@ public class OrderPay extends BaseMyBatisPlusEntity<OrderPay> {
      */
     @Column(comment = "支付时间")
     private LocalDateTime payTime;
+
+
+    /**
+     * 备注
+     */
+    @Column(comment = "备注")
+    private String remark;
 
 }

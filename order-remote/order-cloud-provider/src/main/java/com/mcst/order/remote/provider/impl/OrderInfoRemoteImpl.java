@@ -46,4 +46,8 @@ public class OrderInfoRemoteImpl extends BaseRemoteImpl<IOrderInfoService, Order
         return this.orderInfoService.payCallback(req);
     }
 
+    @Override
+    public BaseResult<?> rollbackOrder(String orderNo) {
+        return this.orderInfoService.rollbackOrder(orderNo);
+    }
 }

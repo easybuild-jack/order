@@ -14,6 +14,7 @@ public enum PaymentTypeEnum {
     ALIPAY("alipay", "支付宝支付"),
     CREDIT("credit", "积分支付"),
     BALANCE("balance", "余额支付"),
+    DOUYIN("douyin", "抖音支付"),
     UNION("union", "银联支付");
 
     private final String code;

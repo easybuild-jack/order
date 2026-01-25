@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 * @author liu yijun
 * @since 2025-10-17
 */
-@FeignClient(value = "${easyfk.config.remote.order.service-id:order-server}", path = "${easyfk.config.remote.order.base-path:/remote}/order/orderPickup")
+@FeignClient(value = "${easyfk.config.remote.order.service-id:server}", path = "${easyfk.config.remote.order.base-path:/remote}/order/orderPickup")
 public interface IOrderPickupRemote extends IBaseRemote<OrderPickupResp,String,OrderPickupReq>{
 
 

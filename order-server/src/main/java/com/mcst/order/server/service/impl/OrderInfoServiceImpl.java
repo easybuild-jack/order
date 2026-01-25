@@ -9,17 +9,15 @@ import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.core.exception.BusinessException;
 import com.mcst.easyfk.core.utils.common.TransformUtil;
+import com.mcst.easyfk.repository.search.SCBuilder;
+import com.mcst.easyfk.repository.search.SearchCondition;
 import com.mcst.easyfk.repository.util.ConditionUtil;
 import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.easyfk.service.util.UserDataFiltrationUtil;
 import com.mcst.order.api.dto.*;
 import com.mcst.order.api.enums.OrderStatusEnum;
 import com.mcst.order.api.enums.PayStatusEnum;
-import com.mcst.order.api.request.CancelOrderReq;
-import com.mcst.order.api.request.CreateOrderReq;
-import com.mcst.order.api.request.OrderGoodsItem;
-import com.mcst.order.api.request.OrderInfoReq;
-import com.mcst.order.api.request.PayCallbackReq;
+import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
@@ -269,6 +267,12 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         return ServiceUtil.insertAndReturnId(param, orderInfoRepository, OrderInfoDto.class);
     }
 
+    @Override
+    public BaseResult<?> rollbackOrder(String orderNo) {
+        SearchCondition condition = SCBuilder.<OrderInfoDto>builder()
+                .equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
+        return this.orderInfoRepository.deleteByCondition(condition);
+    }
 
     private OrderInfoDto buildOrderInfo(CreateOrderReq req, String orderInfoId) {
         OrderInfoDto dto = new OrderInfoDto();

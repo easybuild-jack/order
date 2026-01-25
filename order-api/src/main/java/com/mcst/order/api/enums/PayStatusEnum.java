@@ -26,7 +26,11 @@ public enum PayStatusEnum {
     /**
      * 已取消
      */
-    CANCELLED(3, "已取消");;
+    CANCELLED(3, "已取消"),
+    /**
+     * 支付失败
+     */
+    FAILED(4, "支付失败");
 
     private final int value;
     private final String description;

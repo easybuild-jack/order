@@ -5,6 +5,8 @@ import com.mcst.easyfk.remote.sc.IBaseRemote;
 import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.*;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -14,7 +16,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @author liu yijun
  * @since 2025-10-17
  */
-@FeignClient(value = "${easyfk.config.remote.order.service-id:order-server}", path = "${easyfk.config.remote.order.base-path:/remote}/order/orderRefund")
+@FeignClient(value = "${easyfk.config.remote.order.service-id:server}", path = "${easyfk.config.remote.order.base-path:/remote}/order/orderRefund")
 public interface IOrderRefundRemote extends IBaseRemote<OrderRefundResp, String, OrderRefundReq> {
 
     /**
@@ -25,7 +27,8 @@ public interface IOrderRefundRemote extends IBaseRemote<OrderRefundResp, String,
      * @param req 申请退款请求
      * @return 申请结果
      */
-    BaseResult<ApplyRefundResp> applyRefund(ApplyRefundReq req);
+    @PostMapping("/applyRefund")
+    BaseResult<ApplyRefundResp> applyRefund(@RequestBody ApplyRefundReq req);
 
     /**
      * <p>
@@ -35,7 +38,8 @@ public interface IOrderRefundRemote extends IBaseRemote<OrderRefundResp, String,
      * @param req 审核退款请求
      * @return 审核结果
      */
-    BaseResult<AuditRefundResp> auditRefund(AuditRefundReq req);
+    @PostMapping("/auditRefund")
+    BaseResult<AuditRefundResp> auditRefund(@RequestBody AuditRefundReq req);
 
     /**
      * <p>
@@ -45,7 +49,8 @@ public interface IOrderRefundRemote extends IBaseRemote<OrderRefundResp, String,
      * @param req 填写退货物流请求
      * @return 提交结果
      */
-    BaseResult<SubmitReturnExpressResp> submitReturnExpress(SubmitReturnExpressReq req);
+    @PostMapping("/submitReturnExpress")
+    BaseResult<SubmitReturnExpressResp> submitReturnExpress(@RequestBody SubmitReturnExpressReq req);
 
     /**
      * <p>
@@ -55,7 +60,8 @@ public interface IOrderRefundRemote extends IBaseRemote<OrderRefundResp, String,
      * @param req 确认收货请求
      * @return 确认结果
      */
-    BaseResult<ConfirmReceiveResp> confirmReceiveAndRefund(ConfirmReceiveReq req);
+    @PostMapping("/confirmReceiveAndRefund")
+    BaseResult<ConfirmReceiveResp> confirmReceiveAndRefund(@RequestBody ConfirmReceiveReq req);
 
     /**
      * <p>
@@ -65,7 +71,8 @@ public interface IOrderRefundRemote extends IBaseRemote<OrderRefundResp, String,
      * @param req 取消退款请求
      * @return 取消结果
      */
-    BaseResult<CancelRefundResp> cancelRefund(CancelRefundReq req);
+    @PostMapping("/cancelRefund")
+    BaseResult<CancelRefundResp> cancelRefund(@RequestBody CancelRefundReq req);
 
     /**
      * <p>
@@ -75,6 +82,7 @@ public interface IOrderRefundRemote extends IBaseRemote<OrderRefundResp, String,
      * @param req 退款回调请求
      * @return 回调结果
      */
-    BaseResult<RefundCallbackResp> refundCallback(RefundCallbackReq req);
+    @PostMapping("/refundCallback")
+    BaseResult<RefundCallbackResp> refundCallback(@RequestBody RefundCallbackReq req);
 
 }

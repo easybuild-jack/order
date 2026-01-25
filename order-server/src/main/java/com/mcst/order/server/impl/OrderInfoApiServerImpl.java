@@ -40,4 +40,9 @@ public class OrderInfoApiServerImpl extends BaseApiServiceImpl<IOrderInfoService
     public BaseResult<PayCallbackResp> payCallback(PayCallbackReq req) {
         return this.orderInfoService.payCallback(req);
     }
+
+    @Override
+    public BaseResult<?> rollbackOrder(String orderNo) {
+        return this.orderInfoService.rollbackOrder(orderNo);
+    }
 }

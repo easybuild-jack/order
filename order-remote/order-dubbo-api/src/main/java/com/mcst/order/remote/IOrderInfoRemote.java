@@ -51,4 +51,13 @@ public interface IOrderInfoRemote extends IDubboBaseRemote<OrderInfoResp, String
      */
     BaseResult<PayCallbackResp> payCallback(PayCallbackReq req);
 
+
+    /**
+     * 下单失败后的回滚
+     *
+     * @param orderNo 订单号
+     * @return 操作结果
+     */
+    BaseResult<?> rollbackOrder(String orderNo);
+
 }

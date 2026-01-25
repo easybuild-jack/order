@@ -42,4 +42,8 @@ public class OrderInfoApiScImpl extends BaseApiRemoteImpl<IOrderInfoRemote, Orde
         return orderInfoRemote.payCallback(req);
     }
 
+    @Override
+    public BaseResult<?> rollbackOrder(String orderNo) {
+        return orderInfoRemote.rollbackOrder(orderNo);
+    }
 }

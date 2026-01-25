@@ -1,12 +1,12 @@
 package com.mcst.order.api.dto;
 
 import com.mcst.easyfk.core.annotation.PrimaryKey;
+import com.mcst.easyfk.core.dto.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import com.mcst.easyfk.core.dto.BaseDto;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -55,9 +55,9 @@ public class OrderPayDto extends BaseDto {
     private BigDecimal actualPayAmount;
 
     /**
-     * 支付状态 0：未支付，1：支付中，2：已支付
+     * 支付状态 0：未支付，1：支付中，2：已支付，3：已取消，4：支付失败
      */
-    @Schema(description = "支付状态 0：未支付，1：支付中，2：已支付")
+    @Schema(description = "支付状态 0：未支付，1：支付中，2：已支付，3：已取消，4：支付失败")
     private Integer payStatus;
 
     /**
@@ -67,9 +67,9 @@ public class OrderPayDto extends BaseDto {
     private String thirdTradeNo;
 
     /**
-     * 支付类型，支付宝、微信、积分等
+     * 支付类型，wechat,alipay,douyin,union,credit,balance
      */
-    @Schema(description = "支付类型，支付宝、微信、积分等")
+    @Schema(description = "支付类型，wechat,alipay,douyin,union,credit,balance等")
     private String payType;
 
     /**
@@ -83,5 +83,12 @@ public class OrderPayDto extends BaseDto {
      */
     @Schema(description = "支付时间")
     private LocalDateTime payTime;
+
+
+    /**
+     * 备注
+     */
+    @Schema(description = "备注")
+    private String remark;
 
 }
