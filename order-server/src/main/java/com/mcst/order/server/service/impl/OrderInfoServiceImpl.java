@@ -1,6 +1,8 @@
 package com.mcst.order.server.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.mcst.common.enums.order.OrderStatusEnum;
+import com.mcst.common.enums.pay.PayStatusEnum;
 import com.mcst.easyfk.core.builders.BRBuilder;
 import com.mcst.easyfk.core.dto.login.UserData;
 import com.mcst.easyfk.core.dto.page.PageResult;
@@ -8,6 +10,7 @@ import com.mcst.easyfk.core.dto.request.ModifyRequest;
 import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.core.exception.BusinessException;
+import com.mcst.easyfk.core.utils.common.EmptyUtil;
 import com.mcst.easyfk.core.utils.common.TransformUtil;
 import com.mcst.easyfk.repository.search.SCBuilder;
 import com.mcst.easyfk.repository.search.SearchCondition;
@@ -15,8 +18,6 @@ import com.mcst.easyfk.repository.util.ConditionUtil;
 import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.easyfk.service.util.UserDataFiltrationUtil;
 import com.mcst.order.api.dto.*;
-import com.mcst.order.api.enums.OrderStatusEnum;
-import com.mcst.order.api.enums.PayStatusEnum;
 import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
@@ -109,10 +110,14 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         if (!StringUtils.hasText(req.getOrderNo())) {
             throw new BusinessException("订单编号不能为空");
         }
-
         OrderInfoDto orderInfoDto = orderInfoRepository.queryOneByField("orderNo", req.getOrderNo());
         if (orderInfoDto == null) {
             throw new BusinessException("订单不存在: " + req.getOrderNo());
+        }
+        if (EmptyUtil.isNotEmpty(req.getUserId())) {
+            if (!orderInfoDto.getUserId().equals(req.getUserId())) {
+                throw new BusinessException("数据错误，订单不属于当前用户");
+            }
         }
         Integer oldStatus = orderInfoDto.getOrderStatus();
         if (oldStatus == null) {
@@ -123,18 +128,13 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         }
 
         orderInfoDto.setOrderStatus(OrderStatusEnum.CANCELED.getValue());
-        orderInfoDto.setCancelReasonType(req.getCancelReasonType());
         orderInfoDto.setCancelRemark(req.getCancelRemark());
         orderInfoDto.setCancelTime(LocalDateTime.now());
         orderInfoRepository.updateBySelective(orderInfoDto);
-
-        CancelOrderResp resp = new CancelOrderResp();
-        resp.setOrderInfoId(orderInfoDto.getOrderInfoId());
-        resp.setOrderNo(req.getOrderNo());
-        resp.setOldOrderStatus(oldStatus);
-        resp.setNewOrderStatus(OrderStatusEnum.CANCELED.getValue());
-        resp.setCancelTime(orderInfoDto.getCancelTime());
-        return BRBuilder.successResult(resp);
+        CancelOrderResp resp = new CancelOrderResp().setOrderNo(req.getOrderNo());
+        SearchCondition condition = SCBuilder.<OrderGoodsDto>builder().equalsConditions(OrderGoodsDto::getOrderNo, orderInfoDto.getOrderNo()).selectFields(OrderGoodsDto::getGoodsId, OrderGoodsDto::getGoodsCount, OrderGoodsDto::getGoodsSkuId).build();
+        List<OrderGoodsDto> orderGoodsList = this.orderGoodsRepository.queryByCondition(condition);
+        return BRBuilder.successResult(resp.setOrderGoodsList(orderGoodsList));
     }
 
     @Override
@@ -158,17 +158,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
 
         // 幂等性处理：订单已支付，直接返回成功
         if (orderPayDto != null && PayStatusEnum.PAID.getValue() == oldPayStatus) {
-            PayCallbackResp resp = new PayCallbackResp();
-            resp.setOrderInfoId(orderInfoDto.getOrderInfoId());
-            resp.setOrderNo(req.getOrderNo());
-            resp.setThirdTradeNo(orderPayDto.getThirdTradeNo());
-            resp.setOldOrderStatus(oldOrderStatus);
-            resp.setNewOrderStatus(oldOrderStatus);
-            resp.setOldPayStatus(oldPayStatus);
-            resp.setNewPayStatus(oldPayStatus);
-            resp.setPayTime(orderPayDto.getPayTime());
-            resp.setRepeated(true);
-            return BRBuilder.successResult(resp);
+            return BRBuilder.successResult();
         }
 
         // 校验订单状态：只有待支付状态才能进行支付回调
@@ -199,15 +189,10 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         }
 
         PayCallbackResp resp = new PayCallbackResp();
-        resp.setOrderInfoId(orderInfoDto.getOrderInfoId());
         resp.setOrderNo(req.getOrderNo());
-        resp.setThirdTradeNo(req.getThirdTradeNo());
-        resp.setOldOrderStatus(oldOrderStatus);
-        resp.setNewOrderStatus(OrderStatusEnum.WAITING_DELIVER.getValue());
-        resp.setOldPayStatus(oldPayStatus);
-        resp.setNewPayStatus(PayStatusEnum.PAID.getValue());
-        resp.setPayTime(payTime);
-        resp.setRepeated(false);
+        SearchCondition condition = SCBuilder.<OrderGoodsDto>builder().equalsConditions(OrderGoodsDto::getOrderNo, orderInfoDto.getOrderNo()).selectFields(OrderGoodsDto::getGoodsId, OrderGoodsDto::getGoodsCount, OrderGoodsDto::getGoodsSkuId).build();
+        List<OrderGoodsDto> orderGoodsList = this.orderGoodsRepository.queryByCondition(condition);
+        resp.setOrderGoodsList(orderGoodsList);
         return BRBuilder.successResult(resp);
     }
 
@@ -269,8 +254,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
 
     @Override
     public BaseResult<?> rollbackOrder(String orderNo) {
-        SearchCondition condition = SCBuilder.<OrderInfoDto>builder()
-                .equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
+        SearchCondition condition = SCBuilder.<OrderInfoDto>builder().equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
         return this.orderInfoRepository.deleteByCondition(condition);
     }
 
@@ -281,10 +265,9 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setUserId(req.getUserId());
         dto.setUserThirdAccount(req.getUserThirdAccount());
         dto.setUserPhone(req.getUserPhone());
-        dto.setOrderType(Optional.ofNullable(req.getOrderType()).orElse(0));
         dto.setDispatchType(Optional.ofNullable(req.getDispatchType()).orElse(1));
         dto.setOrderSource(Optional.ofNullable(req.getOrderSource()).orElse(0));
-        dto.setClientType(Optional.ofNullable(req.getClientType()).orElse(0));
+        dto.setClientType(req.getClientType());
         dto.setMerchantId(req.getMerchantId());
         dto.setMerchantName(req.getMerchantName());
         dto.setAgentId(req.getAgentId());

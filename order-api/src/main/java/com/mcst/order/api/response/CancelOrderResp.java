@@ -1,10 +1,11 @@
 package com.mcst.order.api.response;
 
+import com.mcst.order.api.dto.OrderGoodsDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -19,18 +20,15 @@ import java.time.LocalDateTime;
 @Schema(description = "取消订单响应")
 public class CancelOrderResp {
 
-    @Schema(description = "订单信息ID")
-    private String orderInfoId;
-
+    /**
+     * 订单编号
+     */
     @Schema(description = "订单编号")
     private String orderNo;
 
-    @Schema(description = "原订单状态")
-    private Integer oldOrderStatus;
-
-    @Schema(description = "新订单状态（1已取消）")
-    private Integer newOrderStatus;
-
-    @Schema(description = "取消时间")
-    private LocalDateTime cancelTime;
+    /**
+     * 订单商品列表
+     */
+    @Schema(description = "订单商品列表")
+    private List<OrderGoodsDto> orderGoodsList;
 }

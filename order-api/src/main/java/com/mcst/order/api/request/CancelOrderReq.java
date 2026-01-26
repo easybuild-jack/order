@@ -24,6 +24,12 @@ import java.io.Serializable;
 public class CancelOrderReq implements Serializable {
 
     /**
+     * 用户ID，当用户自己取消时必填
+     */
+    @Schema(description = "用户ID，当用户自己取消时必填")
+    private String userId;
+
+    /**
      * 订单编号
      */
     @Schema(description = "订单编号", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -31,15 +37,9 @@ public class CancelOrderReq implements Serializable {
     private String orderNo;
 
     /**
-     * 取消原因类型（1用户主动取消 2支付超时 3库存不足 4价格变动 5系统取消 6商家取消 99其他）
-     */
-    @Schema(description = "取消原因类型（1用户主动取消 2支付超时 3库存不足 4价格变动 5系统取消 6商家取消 99其他）")
-    private Integer cancelReasonType;
-
-    /**
      * 取消原因备注
      */
     @Schema(description = "取消原因备注")
-    @Size(max = 500)
+    @Size(max = 100)
     private String cancelRemark;
 }

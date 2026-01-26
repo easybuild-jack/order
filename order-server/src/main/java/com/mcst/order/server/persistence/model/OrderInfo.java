@@ -100,15 +100,9 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
     private BigDecimal actualPayAmount;
 
     /**
-     * 订单类型，0：线上，1：线下
+     * 配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门 99 送到货柜
      */
-    @Column(comment = "订单类型，0：线上，1：线下")
-    private Integer orderType;
-
-    /**
-     * 配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门
-     */
-    @Column(comment = "配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门")
+    @Column(comment = "配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门 99 送到货柜")
     private Integer dispatchType;
 
     /**
@@ -163,13 +157,13 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
      * 订单渠道
      */
     @Column(comment = "订单渠道")
-    private Integer orderChannel;
+    private String orderChannel;
 
     /**
-     * 客户端类型 0 小程序 1 APP 2 PC
+     * 客户端类型
      */
-    @Column(comment = "客户端类型 0 小程序 1 APP 2 PC")
-    private Integer clientType;
+    @Column(comment = "客户端类型")
+    private String clientType;
 
     /**
      * 订单推送状态（0：未推送，1：已推送）
@@ -230,12 +224,6 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
      */
     @Column(comment = "代理商名称")
     private String agentName;
-
-    /**
-     * 取消原因类型
-     */
-    @Column(comment = "取消原因类型")
-    private Integer cancelReasonType;
 
     /**
      * 取消原因备注

@@ -104,10 +104,10 @@ public class CreateOrderReq implements Serializable {
     private Integer orderType;
 
     /**
-     * 客户端类型（0小程序 1APP 2PC）
+     * 客户端类型
      */
-    @Schema(description = "客户端类型（0小程序 1APP 2PC）")
-    private Integer clientType;
+    @Schema(description = "客户端类型")
+    private String clientType;
 
     /**
      * 商家ID

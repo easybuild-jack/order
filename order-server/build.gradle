@@ -1,5 +1,6 @@
 dependencies {
     api project(':order-api')
+    api('com.mcst:common-pojo')
     implementation('com.mcst:orm-mybatis')
 }
 
