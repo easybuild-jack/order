@@ -15,8 +15,8 @@ CREATE TABLE `order_info` (
     `goods_sku_name` VARCHAR(150) DEFAULT NULL COMMENT '商品SKU 名称',
     `goods_pic` VARCHAR(200) DEFAULT NULL COMMENT '商品图片',
     `goods_count` INT(10) DEFAULT NULL COMMENT '商品总数量',
-    `total_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '订单总金额',
-    `actual_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际金额，实际需要支付的金额',
+    `total_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '总金额',
+    `actual_pay_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际支付金额，实际需要支付的金额',
     `order_type` INT(5) DEFAULT 0 COMMENT '订单类型 0：线上，1：线下',
     `dispatch_type` INT(2) DEFAULT 1 COMMENT '配送方式 0 自提 1 快递 2 虚拟商品',
     `invoice_flag` INT(2) DEFAULT 0 COMMENT '是否要发票 0未开发票，1已开票',
@@ -39,11 +39,14 @@ CREATE TABLE `order_info` (
     `order_time` TIMESTAMP NULL DEFAULT NULL COMMENT '订单时间',
     `agent_id` VARCHAR(50) DEFAULT NULL COMMENT '代理商ID',
     `agent_name` VARCHAR(100) DEFAULT NULL COMMENT '供应商名称',
+    `cancel_reason_type` INT(5) DEFAULT NULL COMMENT '取消原因类型',
+    `cancel_remark` VARCHAR(200) DEFAULT NULL COMMENT '取消原因备注',
+    `cancel_time` DATETIME DEFAULT NULL COMMENT '取消时间',
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_info_id`),
-    KEY `idx_order_no` (`order_no`),
+    UNIQUE KEY `idx_order_no` (`order_no`),
     KEY `idx_user_id` (`user_id`),
     KEY `idx_order_status` (`order_status`),
     KEY `idx_order_date` (`order_date`)
@@ -91,7 +94,7 @@ CREATE TABLE `order_amount` (
     `discount_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠金额',
     `discount_after_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠后的金额',
     `postage_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '邮费金额',
-    `actual_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际金额 优惠后的金额+邮费 最终需要支付的金额',
+    `actual_pay_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际支付金额（优惠后金额+邮费金额），需要支付的金额',
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
@@ -125,13 +128,10 @@ CREATE TABLE `order_pay` (
     `order_pay_id` VARCHAR(50) NOT NULL COMMENT 'OrderPayId',
     `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单信息ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
-    `actual_amount` DECIMAL(2,0) DEFAULT 0 COMMENT '实际金额，实际需要支付的金额',
-    `pay_amount` DECIMAL(10,2) DEFAULT 0 COMMENT '支付金额',
-    `credit_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '支付积分',
-    `balance_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '支付余额',
+    `actual_pay_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际支付金额',
     `pay_status` INT(2) DEFAULT 0 COMMENT '支付状态 0：未支付，1：支付中，2：已支付',
-    `third_trade_no` VARCHAR(50) DEFAULT NULL COMMENT '第三方交易号',
-    `third_trade_channel` INT(2) DEFAULT NULL COMMENT '第三方支付渠道 0 微信 1支付宝 2抖音 3银联',
+    `third_trade_no` VARCHAR(50) DEFAULT NULL COMMENT '第三方交易编号',
+    `pay_type` VARCHAR(50) DEFAULT NULL COMMENT '支付类型，支付宝、微信、积分等',
     `pay_date` DATE DEFAULT NULL COMMENT '支付日期',
     `pay_time` TIMESTAMP NULL DEFAULT NULL COMMENT '支付时间',
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
@@ -153,8 +153,8 @@ CREATE TABLE `order_deliver` (
     `express_no` VARCHAR(50) DEFAULT NULL COMMENT '快递单号',
     `express_company_code` VARCHAR(50) DEFAULT NULL COMMENT '快递公司编码',
     `express_company` VARCHAR(50) DEFAULT NULL COMMENT '快递公司',
-    `shop_id` VARCHAR(50) DEFAULT NULL COMMENT '发货门店ID',
-    `shop_name` VARCHAR(50) DEFAULT NULL COMMENT '发货门店名称',
+    `merchant_id` VARCHAR(50) DEFAULT NULL COMMENT '发货商户ID',
+    `merchant_name` VARCHAR(50) DEFAULT NULL COMMENT '发货商户名称',
     `emp_id` VARCHAR(50) DEFAULT NULL COMMENT '发货人ID',
     `emp_name` VARCHAR(50) DEFAULT NULL COMMENT '发货人名称',
     `delivered_date` DATE DEFAULT NULL COMMENT '发货日期',
@@ -204,6 +204,28 @@ CREATE TABLE `order_deliver_goods` (
     KEY `idx_goods_id` (`goods_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单发货商品';
 
+-- 订单货柜信息表
+DROP TABLE IF EXISTS `order_container`;
+CREATE TABLE `order_container` (
+    `order_container_id` VARCHAR(50) NOT NULL COMMENT '订单货柜信息ID',
+    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
+    `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
+    `container_info_id` VARCHAR(50) DEFAULT NULL COMMENT '货柜信息ID',
+    `container_name` VARCHAR(50) DEFAULT NULL COMMENT '货柜名称',
+    `container_code` VARCHAR(50) DEFAULT NULL COMMENT '货柜编号',
+    `grid_nos` VARCHAR(200) DEFAULT NULL COMMENT '具体货柜格子编号，多个格子用逗号分隔',
+    `status` INT(2) DEFAULT NULL COMMENT '状态 0待送货 1待取货 2已取货',
+    `delivery_time` TIMESTAMP NULL DEFAULT NULL COMMENT '送货时间',
+    `pickup_time` TIMESTAMP NULL DEFAULT NULL COMMENT '取货时间',
+    `remark` VARCHAR(200) DEFAULT NULL COMMENT '备注',
+    `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+    `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+    `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
+    PRIMARY KEY (`order_container_id`),
+    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_no` (`order_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单货柜信息';
+
 -- 8. 订单提货表
 DROP TABLE IF EXISTS `order_pickup`;
 CREATE TABLE `order_pickup` (
@@ -211,6 +233,7 @@ CREATE TABLE `order_pickup` (
     `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单Id',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `pickup_location_id` VARCHAR(50) DEFAULT NULL COMMENT '提货点Id',
+    `pickup_location_name` VARCHAR(100) DEFAULT NULL COMMENT '提货点名称',
     `pickup_code` VARCHAR(50) DEFAULT NULL COMMENT '提货码',
     `pickup_user` VARCHAR(50) DEFAULT NULL COMMENT '提货人',
     `pickup_phone` VARCHAR(50) DEFAULT NULL COMMENT '提货人电话',

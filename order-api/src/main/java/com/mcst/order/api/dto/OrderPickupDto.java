@@ -57,6 +57,12 @@ public class OrderPickupDto extends BaseDto {
     private String pickupLocationId;
 
     /**
+     * 提货点名称
+     */
+    @Schema(description = "提货点名称")
+    private String pickupLocationName;
+
+    /**
      * 提货码
      */
     @Schema(description = "提货码")

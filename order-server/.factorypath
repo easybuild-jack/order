@@ -1,0 +1,12 @@
+<factorypath>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\io\github\linpeilie\mapstruct-plus-object-convert\1.5.0\mapstruct-plus-object-convert-1.5.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\cn\easii\tutelary-repackage-javapoet\1.0.5\tutelary-repackage-javapoet-1.0.5.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\org\mapstruct\mapstruct-processor\1.6.3\mapstruct-processor-1.6.3.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\io\github\linpeilie\mapstruct-plus\1.5.0\mapstruct-plus-1.5.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\org\mapstruct\tools\gem\gem-api\1.0.0.Alpha3\gem-api-1.0.0.Alpha3.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\org\projectlombok\lombok-mapstruct-binding\0.2.0\lombok-mapstruct-binding-0.2.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\io\github\linpeilie\mapstruct-plus-processor\1.5.0\mapstruct-plus-processor-1.5.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\org\mapstruct\mapstruct\1.6.3\mapstruct-1.6.3.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\gradle\caches\modules-2\files-2.1\org.springframework.boot\spring-boot-configuration-processor\3.2.12\c129b36cdb95ee2a048742889aca2d12017d96be\spring-boot-configuration-processor-3.2.12.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\repository\maven\org\projectlombok\lombok\1.18.38\lombok-1.18.38.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>

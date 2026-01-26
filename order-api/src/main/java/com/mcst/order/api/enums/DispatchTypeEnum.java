@@ -23,10 +23,13 @@ public enum DispatchTypeEnum {
      */
     AUTO_DELIVERY(2, "自动发货"),
     /**
+     * 送货上门
+     */
+    DELIVERY(3, "送货上门"),
+    /**
      * 货柜配送
      */
-    CONTAINER(99, "货柜配送"),
-    ;
+    CONTAINER(99, "货柜配送");
 
     private final int code;
     private final String description;

@@ -118,18 +118,6 @@ public class OrderDeliverDto extends BaseDto {
     private String recipientsPhone;
 
     /**
-     * 提货点ID
-     */
-    @Schema(description = "提货点ID")
-    private String pickupLocationId;
-
-    /**
-     * 提货点名称
-     */
-    @Schema(description = "提货点名称")
-    private String pickupLocationName;
-
-    /**
      * 收货地址的ID
      */
     @Schema(description = "收货地址的ID")

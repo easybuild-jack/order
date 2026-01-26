@@ -16,7 +16,7 @@ CREATE TABLE order_info (
     goods_pic VARCHAR(200) DEFAULT NULL,
     goods_count INTEGER DEFAULT NULL,
     total_amount NUMERIC(10,2) DEFAULT NULL,
-    actual_amount NUMERIC(10,2) DEFAULT NULL,
+    actual_pay_amount NUMERIC(10,2) DEFAULT NULL,
     order_type INTEGER DEFAULT 0,
     dispatch_type SMALLINT DEFAULT 1,
     invoice_flag SMALLINT DEFAULT 0,
@@ -39,6 +39,9 @@ CREATE TABLE order_info (
     order_time TIMESTAMP DEFAULT NULL,
     agent_id VARCHAR(50) DEFAULT NULL,
     agent_name VARCHAR(100) DEFAULT NULL,
+    cancel_reason_type INTEGER DEFAULT NULL,
+    cancel_remark VARCHAR(200) DEFAULT NULL,
+    cancel_time TIMESTAMP DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
@@ -54,8 +57,8 @@ COMMENT ON COLUMN order_info.goods_name IS '商品名称';
 COMMENT ON COLUMN order_info.goods_sku_name IS '商品SKU 名称';
 COMMENT ON COLUMN order_info.goods_pic IS '商品图片';
 COMMENT ON COLUMN order_info.goods_count IS '商品总数量';
-COMMENT ON COLUMN order_info.total_amount IS '订单总金额';
-COMMENT ON COLUMN order_info.actual_amount IS '实际金额，实际需要支付的金额';
+COMMENT ON COLUMN order_info.total_amount IS '总金额';
+COMMENT ON COLUMN order_info.actual_pay_amount IS '实际支付金额，实际需要支付的金额';
 COMMENT ON COLUMN order_info.order_type IS '订单类型 0：线上，1：线下';
 COMMENT ON COLUMN order_info.dispatch_type IS '配送方式 0 自提 1 快递 2 虚拟商品';
 COMMENT ON COLUMN order_info.invoice_flag IS '是否要发票 0未开发票，1已开票';
@@ -78,11 +81,14 @@ COMMENT ON COLUMN order_info.order_date IS '订单日期';
 COMMENT ON COLUMN order_info.order_time IS '订单时间';
 COMMENT ON COLUMN order_info.agent_id IS '代理商ID';
 COMMENT ON COLUMN order_info.agent_name IS '供应商名称';
+COMMENT ON COLUMN order_info.cancel_reason_type IS '取消原因类型';
+COMMENT ON COLUMN order_info.cancel_remark IS '取消原因备注';
+COMMENT ON COLUMN order_info.cancel_time IS '取消时间';
 COMMENT ON COLUMN order_info.insert_time IS '插入时间';
 COMMENT ON COLUMN order_info.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_info.deleted IS '删除标记，0否 1是';
 
-CREATE INDEX idx_order_info_order_no ON order_info(order_no);
+CREATE UNIQUE INDEX idx_order_info_order_no ON order_info(order_no);
 CREATE INDEX idx_order_info_user_id ON order_info(user_id);
 CREATE INDEX idx_order_info_order_status ON order_info(order_status);
 CREATE INDEX idx_order_info_order_date ON order_info(order_date);
@@ -172,7 +178,7 @@ CREATE TABLE order_amount (
     discount_amount NUMERIC(10,2) DEFAULT NULL,
     discount_after_amount NUMERIC(10,2) DEFAULT NULL,
     postage_amount NUMERIC(10,2) DEFAULT NULL,
-    actual_amount NUMERIC(10,2) DEFAULT NULL,
+    actual_pay_amount NUMERIC(10,2) DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
@@ -187,7 +193,7 @@ COMMENT ON COLUMN order_amount.goods_amount IS '商品总金额，未打折金�
 COMMENT ON COLUMN order_amount.discount_amount IS '优惠金额';
 COMMENT ON COLUMN order_amount.discount_after_amount IS '优惠后的金额';
 COMMENT ON COLUMN order_amount.postage_amount IS '邮费金额';
-COMMENT ON COLUMN order_amount.actual_amount IS '实际金额 优惠后的金额+邮费 最终需要支付的金额';
+COMMENT ON COLUMN order_amount.actual_pay_amount IS '实际支付金额（优惠后金额+邮费金额），需要支付的金额';
 COMMENT ON COLUMN order_amount.insert_time IS '插入时间';
 COMMENT ON COLUMN order_amount.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_amount.deleted IS '删除标记，0否 1是';
@@ -243,13 +249,10 @@ CREATE TABLE order_pay (
     order_pay_id VARCHAR(50) NOT NULL,
     order_info_id VARCHAR(50) DEFAULT NULL,
     order_no VARCHAR(50) DEFAULT NULL,
-    actual_amount NUMERIC(10,2) DEFAULT 0,
-    pay_amount NUMERIC(10,2) DEFAULT 0,
-    credit_amount NUMERIC(10,2) DEFAULT NULL,
-    balance_amount NUMERIC(10,2) DEFAULT NULL,
+    actual_pay_amount NUMERIC(10,2) DEFAULT NULL,
     pay_status SMALLINT DEFAULT 0,
     third_trade_no VARCHAR(50) DEFAULT NULL,
-    third_trade_channel SMALLINT DEFAULT NULL,
+    pay_type VARCHAR(50) DEFAULT NULL,
     pay_date DATE DEFAULT NULL,
     pay_time TIMESTAMP DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -261,13 +264,10 @@ COMMENT ON TABLE order_pay IS '订单支付';
 COMMENT ON COLUMN order_pay.order_pay_id IS 'OrderPayId';
 COMMENT ON COLUMN order_pay.order_info_id IS '订单信息ID';
 COMMENT ON COLUMN order_pay.order_no IS '订单编号';
-COMMENT ON COLUMN order_pay.actual_amount IS '实际金额，实际需要支付的金额';
-COMMENT ON COLUMN order_pay.pay_amount IS '支付金额';
-COMMENT ON COLUMN order_pay.credit_amount IS '支付积分';
-COMMENT ON COLUMN order_pay.balance_amount IS '支付余额';
+COMMENT ON COLUMN order_pay.actual_pay_amount IS '实际支付金额';
 COMMENT ON COLUMN order_pay.pay_status IS '支付状态 0：未支付，1：支付中，2：已支付';
-COMMENT ON COLUMN order_pay.third_trade_no IS '第三方交易号';
-COMMENT ON COLUMN order_pay.third_trade_channel IS '第三方支付渠道 0 微信 1支付宝 2抖音 3银联';
+COMMENT ON COLUMN order_pay.third_trade_no IS '第三方交易编号';
+COMMENT ON COLUMN order_pay.pay_type IS '支付类型，支付宝、微信、积分等';
 COMMENT ON COLUMN order_pay.pay_date IS '支付日期';
 COMMENT ON COLUMN order_pay.pay_time IS '支付时间';
 COMMENT ON COLUMN order_pay.insert_time IS '插入时间';
@@ -293,8 +293,8 @@ CREATE TABLE order_deliver (
     express_no VARCHAR(50) DEFAULT NULL,
     express_company_code VARCHAR(50) DEFAULT NULL,
     express_company VARCHAR(50) DEFAULT NULL,
-    shop_id VARCHAR(50) DEFAULT NULL,
-    shop_name VARCHAR(50) DEFAULT NULL,
+    merchant_id VARCHAR(50) DEFAULT NULL,
+    merchant_name VARCHAR(50) DEFAULT NULL,
     emp_id VARCHAR(50) DEFAULT NULL,
     emp_name VARCHAR(50) DEFAULT NULL,
     delivered_date DATE DEFAULT NULL,
@@ -326,8 +326,8 @@ COMMENT ON COLUMN order_deliver.order_no IS '订单编号';
 COMMENT ON COLUMN order_deliver.express_no IS '快递单号';
 COMMENT ON COLUMN order_deliver.express_company_code IS '快递公司编码';
 COMMENT ON COLUMN order_deliver.express_company IS '快递公司';
-COMMENT ON COLUMN order_deliver.shop_id IS '发货门店ID';
-COMMENT ON COLUMN order_deliver.shop_name IS '发货门店名称';
+COMMENT ON COLUMN order_deliver.merchant_id IS '发货商户ID';
+COMMENT ON COLUMN order_deliver.merchant_name IS '发货商户名称';
 COMMENT ON COLUMN order_deliver.emp_id IS '发货人ID';
 COMMENT ON COLUMN order_deliver.emp_name IS '发货人名称';
 COMMENT ON COLUMN order_deliver.delivered_date IS '发货日期';
@@ -401,6 +401,49 @@ CREATE TRIGGER trg_order_deliver_goods_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
+-- 订单货柜信息表
+DROP TABLE IF EXISTS order_container CASCADE;
+CREATE TABLE order_container (
+    order_container_id VARCHAR(50) NOT NULL,
+    order_info_id VARCHAR(50) DEFAULT NULL,
+    order_no VARCHAR(50) DEFAULT NULL,
+    container_info_id VARCHAR(50) DEFAULT NULL,
+    container_name VARCHAR(50) DEFAULT NULL,
+    container_code VARCHAR(50) DEFAULT NULL,
+    grid_nos VARCHAR(200) DEFAULT NULL,
+    status SMALLINT DEFAULT NULL,
+    delivery_time TIMESTAMP DEFAULT NULL,
+    pickup_time TIMESTAMP DEFAULT NULL,
+    remark VARCHAR(200) DEFAULT NULL,
+    insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted SMALLINT NOT NULL DEFAULT 0,
+    PRIMARY KEY (order_container_id)
+);
+COMMENT ON TABLE order_container IS '订单货柜信息';
+COMMENT ON COLUMN order_container.order_container_id IS '订单货柜信息ID';
+COMMENT ON COLUMN order_container.order_info_id IS '订单ID';
+COMMENT ON COLUMN order_container.order_no IS '订单编号';
+COMMENT ON COLUMN order_container.container_info_id IS '货柜信息ID';
+COMMENT ON COLUMN order_container.container_name IS '货柜名称';
+COMMENT ON COLUMN order_container.container_code IS '货柜编号';
+COMMENT ON COLUMN order_container.grid_nos IS '具体货柜格子编号，多个格子用逗号分隔';
+COMMENT ON COLUMN order_container.status IS '状态 0待送货 1待取货 2已取货';
+COMMENT ON COLUMN order_container.delivery_time IS '送货时间';
+COMMENT ON COLUMN order_container.pickup_time IS '取货时间';
+COMMENT ON COLUMN order_container.remark IS '备注';
+COMMENT ON COLUMN order_container.insert_time IS '插入时间';
+COMMENT ON COLUMN order_container.last_update_time IS '最后更新时间';
+COMMENT ON COLUMN order_container.deleted IS '删除标记，0否 1是';
+
+CREATE INDEX idx_order_container_order_info_id ON order_container(order_info_id);
+CREATE INDEX idx_order_container_order_no ON order_container(order_no);
+
+CREATE TRIGGER trg_order_container_update_time
+    BEFORE UPDATE ON order_container
+    FOR EACH ROW
+    EXECUTE FUNCTION update_last_update_time();
+
 -- 8. 订单提货表
 DROP TABLE IF EXISTS order_pickup CASCADE;
 CREATE TABLE order_pickup (
@@ -408,6 +451,7 @@ CREATE TABLE order_pickup (
     order_info_id VARCHAR(50) DEFAULT NULL,
     order_no VARCHAR(50) DEFAULT NULL,
     pickup_location_id VARCHAR(50) DEFAULT NULL,
+    pickup_location_name VARCHAR(100) DEFAULT NULL,
     pickup_code VARCHAR(50) DEFAULT NULL,
     pickup_user VARCHAR(50) DEFAULT NULL,
     pickup_phone VARCHAR(50) DEFAULT NULL,
@@ -436,6 +480,7 @@ COMMENT ON COLUMN order_pickup.order_pickup_id IS 'OrderPickupId';
 COMMENT ON COLUMN order_pickup.order_info_id IS '订单Id';
 COMMENT ON COLUMN order_pickup.order_no IS '订单编号';
 COMMENT ON COLUMN order_pickup.pickup_location_id IS '提货点Id';
+COMMENT ON COLUMN order_pickup.pickup_location_name IS '提货点名称';
 COMMENT ON COLUMN order_pickup.pickup_code IS '提货码';
 COMMENT ON COLUMN order_pickup.pickup_user IS '提货人';
 COMMENT ON COLUMN order_pickup.pickup_phone IS '提货人电话';
