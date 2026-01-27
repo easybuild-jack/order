@@ -24,7 +24,7 @@ import com.mcst.order.api.response.OrderInfoResp;
 import com.mcst.order.server.repository.*;
 import com.mcst.order.server.service.IOrderInfoService;
 import jakarta.annotation.Resource;
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -43,7 +43,7 @@ import java.util.Optional;
  * @author liu yijun
  * @since 2025-10-17
  */
-@Service
+@Slf4j
 public class OrderInfoServiceImpl implements IOrderInfoService {
 
     @Resource
@@ -67,11 +67,9 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         if (!StringUtils.hasText(req.getOrderNo())) {
             throw new BusinessException("订单编号不能为空");
         }
-
         if (CollectionUtils.isEmpty(req.getGoodsList())) {
             throw new BusinessException("商品列表不能为空");
         }
-
         String orderInfoId = IdUtil.fastSimpleUUID();
         OrderInfoDto orderInfoDto = buildOrderInfo(req, orderInfoId);
         orderInfoRepository.insert(orderInfoDto);
@@ -120,6 +118,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         }
         int oldStatus = Optional.ofNullable(orderInfoDto.getOrderStatus()).orElse(OrderStatusEnum.PENDING_PAYMENT.getValue());
         if (OrderStatusEnum.CANCELED.getValue() == oldStatus) {
+            log.warn("订单取消幂等操作，直接返回成功，订单编号：{}", req.getOrderNo());
             return BRBuilder.successResult();
         }
         if (OrderStatusEnum.PENDING_PAYMENT.getValue() != oldStatus) {
@@ -155,10 +154,12 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         Integer oldOrderStatus = orderInfoDto.getOrderStatus();
         // 幂等性处理：订单已支付，直接返回成功
         if (orderPayDto != null && PayStatusEnum.PAID.getValue() == oldPayStatus) {
+            log.warn("订单支付回调幂等操作，直接返回成功，订单编号：{}", req.getOrderNo());
             return BRBuilder.successResult();
         }
         // 校验订单状态：只有待支付状态才能进行支付回调
         if (OrderStatusEnum.PENDING_PAYMENT.getValue() != oldOrderStatus) {
+            log.warn("订单支付回调，当前订单状态不允许支付回调，订单编号：{}, 当前状态：{}", req.getOrderNo(), oldOrderStatus);
             return BRBuilder.failResult().setMsg("当前订单状态不允许支付回调");
         }
         LocalDateTime payTime = req.getPayTime() != null ? req.getPayTime() : LocalDateTime.now();
