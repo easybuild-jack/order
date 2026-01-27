@@ -6,10 +6,8 @@ import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
 import com.mcst.order.api.request.PayCallbackReq;
-import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
-import com.mcst.order.api.response.PayCallbackResp;
 
 /**
  * <p>
@@ -39,7 +37,7 @@ public interface IOrderInfoService extends IBaseService<OrderInfoResp, String, O
      * @param req 取消订单请求
      * @return 取消结果
      */
-    BaseResult<CancelOrderResp> cancelOrder(CancelOrderReq req);
+    BaseResult<?> cancelOrder(CancelOrderReq req);
 
     /**
      * <p>
@@ -49,7 +47,7 @@ public interface IOrderInfoService extends IBaseService<OrderInfoResp, String, O
      * @param req 支付回调请求
      * @return 支付回调结果
      */
-    BaseResult<PayCallbackResp> payCallback(PayCallbackReq req);
+    BaseResult<?> payCallback(PayCallbackReq req);
 
 
     /**

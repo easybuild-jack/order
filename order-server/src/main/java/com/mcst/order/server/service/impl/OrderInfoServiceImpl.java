@@ -19,10 +19,8 @@ import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.easyfk.service.util.UserDataFiltrationUtil;
 import com.mcst.order.api.dto.*;
 import com.mcst.order.api.request.*;
-import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
-import com.mcst.order.api.response.PayCallbackResp;
 import com.mcst.order.server.repository.*;
 import com.mcst.order.server.service.IOrderInfoService;
 import jakarta.annotation.Resource;
@@ -106,7 +104,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     }
 
     @Override
-    public BaseResult<CancelOrderResp> cancelOrder(CancelOrderReq req) {
+    public BaseResult<?> cancelOrder(CancelOrderReq req) {
         if (!StringUtils.hasText(req.getOrderNo())) {
             throw new BusinessException("订单编号不能为空");
         }
@@ -124,55 +122,45 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
             oldStatus = 0;
         }
         if (OrderStatusEnum.PENDING_PAYMENT.getValue() != oldStatus) {
-            return BRBuilder.<CancelOrderResp>failResult().setMsg("当前订单状态不允许取消");
+            return BRBuilder.failResult().setMsg("当前订单状态不允许取消");
         }
 
         orderInfoDto.setOrderStatus(OrderStatusEnum.CANCELED.getValue());
         orderInfoDto.setCancelRemark(req.getCancelRemark());
         orderInfoDto.setCancelTime(LocalDateTime.now());
         orderInfoRepository.updateBySelective(orderInfoDto);
-        CancelOrderResp resp = new CancelOrderResp().setOrderNo(req.getOrderNo());
-        SearchCondition condition = SCBuilder.<OrderGoodsDto>builder().equalsConditions(OrderGoodsDto::getOrderNo, orderInfoDto.getOrderNo()).selectFields(OrderGoodsDto::getGoodsId, OrderGoodsDto::getGoodsCount, OrderGoodsDto::getGoodsSkuId).build();
-        List<OrderGoodsDto> orderGoodsList = this.orderGoodsRepository.queryByCondition(condition);
-        return BRBuilder.successResult(resp.setOrderGoodsList(orderGoodsList));
+        return BRBuilder.successResult();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResult<PayCallbackResp> payCallback(PayCallbackReq req) {
+    public BaseResult<?> payCallback(PayCallbackReq req) {
         if (!StringUtils.hasText(req.getOrderNo())) {
             throw new BusinessException("订单编号不能为空");
         }
         if (!StringUtils.hasText(req.getThirdTradeNo())) {
             throw new BusinessException("第三方交易编号不能为空");
         }
-
         OrderInfoDto orderInfoDto = orderInfoRepository.queryOneByField("orderNo", req.getOrderNo());
         if (orderInfoDto == null) {
             throw new BusinessException("订单不存在: " + req.getOrderNo());
         }
-
         OrderPayDto orderPayDto = orderPayRepository.queryOneByField("orderNo", req.getOrderNo());
-        Integer oldPayStatus = orderPayDto != null ? orderPayDto.getPayStatus() : 0;
+        int oldPayStatus = orderPayDto != null ? orderPayDto.getPayStatus() : 0;
         Integer oldOrderStatus = orderInfoDto.getOrderStatus();
-
         // 幂等性处理：订单已支付，直接返回成功
         if (orderPayDto != null && PayStatusEnum.PAID.getValue() == oldPayStatus) {
             return BRBuilder.successResult();
         }
-
         // 校验订单状态：只有待支付状态才能进行支付回调
         if (OrderStatusEnum.PENDING_PAYMENT.getValue() != oldOrderStatus) {
-            return BRBuilder.<PayCallbackResp>failResult().setMsg("当前订单状态不允许支付回调");
+            return BRBuilder.failResult().setMsg("当前订单状态不允许支付回调");
         }
-
         LocalDateTime payTime = req.getPayTime() != null ? req.getPayTime() : LocalDateTime.now();
         LocalDate payDate = payTime.toLocalDate();
-
         // 更新订单信息状态
         orderInfoDto.setOrderStatus(OrderStatusEnum.WAITING_DELIVER.getValue());
         orderInfoRepository.updateBySelective(orderInfoDto);
-
         // 更新订单支付信息
         if (orderPayDto != null) {
             orderPayDto.setPayStatus(PayStatusEnum.PAID.getValue());
@@ -187,13 +175,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
             }
             orderPayRepository.updateBySelective(orderPayDto);
         }
-
-        PayCallbackResp resp = new PayCallbackResp();
-        resp.setOrderNo(req.getOrderNo());
-        SearchCondition condition = SCBuilder.<OrderGoodsDto>builder().equalsConditions(OrderGoodsDto::getOrderNo, orderInfoDto.getOrderNo()).selectFields(OrderGoodsDto::getGoodsId, OrderGoodsDto::getGoodsCount, OrderGoodsDto::getGoodsSkuId).build();
-        List<OrderGoodsDto> orderGoodsList = this.orderGoodsRepository.queryByCondition(condition);
-        resp.setOrderGoodsList(orderGoodsList);
-        return BRBuilder.successResult(resp);
+        return BRBuilder.successResult();
     }
 
     @Override

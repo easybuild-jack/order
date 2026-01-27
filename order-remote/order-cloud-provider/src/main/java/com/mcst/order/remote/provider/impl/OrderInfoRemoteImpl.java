@@ -6,10 +6,8 @@ import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
 import com.mcst.order.api.request.PayCallbackReq;
-import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
-import com.mcst.order.api.response.PayCallbackResp;
 import com.mcst.order.remote.IOrderInfoRemote;
 import com.mcst.order.server.service.IOrderInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +35,12 @@ public class OrderInfoRemoteImpl extends BaseRemoteImpl<IOrderInfoService, Order
     }
 
     @Override
-    public BaseResult<CancelOrderResp> cancelOrder(@RequestBody CancelOrderReq req) {
+    public BaseResult<?> cancelOrder(@RequestBody CancelOrderReq req) {
         return this.orderInfoService.cancelOrder(req);
     }
 
     @Override
-    public BaseResult<PayCallbackResp> payCallback(@RequestBody PayCallbackReq req) {
+    public BaseResult<?> payCallback(@RequestBody PayCallbackReq req) {
         return this.orderInfoService.payCallback(req);
     }
 

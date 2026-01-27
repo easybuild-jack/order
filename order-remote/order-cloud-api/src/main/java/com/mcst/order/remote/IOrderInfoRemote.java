@@ -6,10 +6,8 @@ import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
 import com.mcst.order.api.request.PayCallbackReq;
-import com.mcst.order.api.response.CancelOrderResp;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderInfoResp;
-import com.mcst.order.api.response.PayCallbackResp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +45,7 @@ public interface IOrderInfoRemote extends IBaseRemote<OrderInfoResp, String, Ord
      * @return 取消结果
      */
     @PostMapping("/cancelOrder")
-    BaseResult<CancelOrderResp> cancelOrder(@RequestBody CancelOrderReq req);
+    BaseResult<?> cancelOrder(@RequestBody CancelOrderReq req);
 
     /**
      * <p>
@@ -58,7 +56,7 @@ public interface IOrderInfoRemote extends IBaseRemote<OrderInfoResp, String, Ord
      * @return 支付回调结果
      */
     @PostMapping("/payCallback")
-    BaseResult<PayCallbackResp> payCallback(@RequestBody PayCallbackReq req);
+    BaseResult<?> payCallback(@RequestBody PayCallbackReq req);
 
 
     /**
