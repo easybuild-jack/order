@@ -104,6 +104,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public BaseResult<?> cancelOrder(CancelOrderReq req) {
         if (!StringUtils.hasText(req.getOrderNo())) {
             throw new BusinessException("订单编号不能为空");
@@ -117,18 +118,22 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
                 throw new BusinessException("数据错误，订单不属于当前用户");
             }
         }
-        Integer oldStatus = orderInfoDto.getOrderStatus();
-        if (oldStatus == null) {
-            oldStatus = 0;
+        int oldStatus = Optional.ofNullable(orderInfoDto.getOrderStatus()).orElse(OrderStatusEnum.PENDING_PAYMENT.getValue());
+        if (OrderStatusEnum.CANCELED.getValue() == oldStatus) {
+            return BRBuilder.successResult();
         }
         if (OrderStatusEnum.PENDING_PAYMENT.getValue() != oldStatus) {
             return BRBuilder.failResult().setMsg("当前订单状态不允许取消");
         }
-
         orderInfoDto.setOrderStatus(OrderStatusEnum.CANCELED.getValue());
         orderInfoDto.setCancelRemark(req.getCancelRemark());
         orderInfoDto.setCancelTime(LocalDateTime.now());
         orderInfoRepository.updateBySelective(orderInfoDto);
+        OrderPayDto orderPayDto = orderPayRepository.queryOneByField("orderNo", req.getOrderNo());
+        if (orderPayDto != null) {
+            orderPayDto.setPayStatus(PayStatusEnum.CANCELLED.getValue());
+            orderPayRepository.updateBySelective(orderPayDto);
+        }
         return BRBuilder.successResult();
     }
 
