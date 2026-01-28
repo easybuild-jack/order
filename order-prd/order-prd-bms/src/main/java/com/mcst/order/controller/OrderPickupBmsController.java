@@ -31,7 +31,7 @@ import com.mcst.easyfk.authority.enums.ResourceCategory;
 @Tag(name = "订单提货相关接口", description = "订单提货相关接口")
 @RestController
 @RequestMapping("/api/bms/order/pickup")
-@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
+//@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class OrderPickupBmsController {
     @Resource
     private IOrderPickupApi orderPickupApi;
