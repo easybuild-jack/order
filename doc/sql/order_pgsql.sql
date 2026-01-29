@@ -20,14 +20,11 @@ CREATE TABLE order_info (
     actual_pay_amount NUMERIC(10,2) DEFAULT NULL,
     dispatch_type SMALLINT DEFAULT 1,
     invoice_flag SMALLINT DEFAULT 0,
-    refund_flag SMALLINT DEFAULT 0,
     refund_status SMALLINT DEFAULT 0,
     refund_amount NUMERIC(10,2) DEFAULT NULL,
     user_remark VARCHAR(200) DEFAULT NULL,
-    order_source SMALLINT DEFAULT 0,
-    tag_remark VARCHAR(200) DEFAULT NULL,
     order_status SMALLINT DEFAULT 0,
-    order_channel VARCHAR(50) DEFAULT NULL,
+    order_channel VARCHAR(50) DEFAULT 'mall',
     client_type VARCHAR(50) DEFAULT NULL,
     push_flag SMALLINT DEFAULT 0,
     order_remark VARCHAR(200) DEFAULT NULL,
@@ -65,12 +62,9 @@ COMMENT ON COLUMN order_info.total_amount IS '总金额';
 COMMENT ON COLUMN order_info.actual_pay_amount IS '实际支付金额，实际需要支付的金额';
 COMMENT ON COLUMN order_info.dispatch_type IS '配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门 99 送到货柜';
 COMMENT ON COLUMN order_info.invoice_flag IS '是否要发票 0未开发票，1已开票';
-COMMENT ON COLUMN order_info.refund_flag IS '售后状态 0：未申请，1：已申请';
 COMMENT ON COLUMN order_info.refund_status IS '退款状态 0：未退款，1：全部退款，2：部分退款';
 COMMENT ON COLUMN order_info.refund_amount IS '退款金额';
 COMMENT ON COLUMN order_info.user_remark IS '买家备注';
-COMMENT ON COLUMN order_info.order_source IS '订单来源 0 线上商城 1 线下 2 淘宝 3 京东 4 拼多多 5 抖店';
-COMMENT ON COLUMN order_info.tag_remark IS '标记备注';
 COMMENT ON COLUMN order_info.order_status IS '订单状态（0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款）';
 COMMENT ON COLUMN order_info.order_channel IS '订单渠道';
 COMMENT ON COLUMN order_info.client_type IS '客户端类型';
