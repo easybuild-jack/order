@@ -3,6 +3,7 @@ package com.mcst.order.server.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.mcst.common.enums.order.OrderStatusEnum;
 import com.mcst.common.enums.pay.PayStatusEnum;
+import com.mcst.easyfk.core.builders.BEBuilder;
 import com.mcst.easyfk.core.builders.BRBuilder;
 import com.mcst.easyfk.core.dto.login.UserData;
 import com.mcst.easyfk.core.dto.page.PageResult;
@@ -20,6 +21,7 @@ import com.mcst.easyfk.service.util.UserDataFiltrationUtil;
 import com.mcst.order.api.dto.*;
 import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CreateOrderResp;
+import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
 import com.mcst.order.server.repository.*;
 import com.mcst.order.server.service.IOrderInfoService;
@@ -287,6 +289,25 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         SearchCondition condition = SCBuilder.<OrderInfoDto>builder()
                 .equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
         return this.orderInfoRepository.deleteByCondition(condition);
+    }
+
+    @Override
+    public List<OrderGoodsDto> getOrderGoodsByOrderNo(String orderNo) {
+        return this.orderGoodsRepository.queryByField("orderNo", orderNo);
+    }
+    
+    @Override
+    public OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo) {
+        OrderInfoDto orderInfo = this.orderInfoRepository.queryOneByField("orderNo", orderNo);
+        if (EmptyUtil.isEmpty(orderInfo)) {
+            throw BEBuilder.exception("订单不存在");
+        }
+        List<OrderGoodsDto> orderGoods = this.orderGoodsRepository.queryByField("orderNo", orderNo);
+        OrderAmountDto orderAmount = this.orderAmountRepository.queryOneByField("orderNo", orderNo);
+        OrderPayDto orderPay = this.orderPayRepository.queryOneByField("orderNo", orderNo);
+        OrderDeliverDto orderDeliver = this.orderDeliverRepository.queryOneByField("orderNo", orderNo);
+        return OrderFullDetailResp.builder().orderInfo(orderInfo).orderAmountDto(orderAmount)
+                .orderPayDto(orderPay).orderDeliverDto(orderDeliver).orderGoodsList(orderGoods).build();
     }
 
     private OrderInfoDto buildOrderInfo(CreateOrderReq req, String orderInfoId) {

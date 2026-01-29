@@ -2,12 +2,16 @@ package com.mcst.order.server.service;
 
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.service.api.IBaseService;
+import com.mcst.order.api.dto.OrderGoodsDto;
 import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
 import com.mcst.order.api.request.PayCallbackReq;
 import com.mcst.order.api.response.CreateOrderResp;
+import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
+
+import java.util.List;
 
 /**
  * <p>
@@ -57,4 +61,25 @@ public interface IOrderInfoService extends IBaseService<OrderInfoResp, String, O
      * @return 操作结果
      */
     BaseResult<?> rollbackOrder(String orderNo);
+
+    /**
+     * <p>
+     * 根据订单编号查询订单商品信息
+     * </p>
+     *
+     * @param orderNo 订单编号
+     * @return 订单商品列表
+     */
+    List<OrderGoodsDto> getOrderGoodsByOrderNo(String orderNo);
+
+
+    /**
+     * <p>
+     * 根据订单编号查询订单全量信息
+     * </p>
+     *
+     * @param orderNo 订单编号
+     * @return 订单全量信息
+     */
+    OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo);
 }

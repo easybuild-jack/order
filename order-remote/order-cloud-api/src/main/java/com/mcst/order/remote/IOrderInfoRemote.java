@@ -2,17 +2,21 @@ package com.mcst.order.remote;
 
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.remote.sc.IBaseRemote;
+import com.mcst.order.api.dto.OrderGoodsDto;
 import com.mcst.order.api.request.CancelOrderReq;
 import com.mcst.order.api.request.CreateOrderReq;
 import com.mcst.order.api.request.OrderInfoReq;
 import com.mcst.order.api.request.PayCallbackReq;
 import com.mcst.order.api.response.CreateOrderResp;
+import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * <p>
@@ -67,5 +71,28 @@ public interface IOrderInfoRemote extends IBaseRemote<OrderInfoResp, String, Ord
      */
     @GetMapping("/rollbackOrder")
     BaseResult<?> rollbackOrder(@RequestParam("orderNo") String orderNo);
+
+    /**
+     * <p>
+     * 根据订单编号查询订单商品信息
+     * </p>
+     *
+     * @param orderNo 订单编号
+     * @return 订单商品列表
+     */
+    @GetMapping("/getOrderGoodsByOrderNo")
+    List<OrderGoodsDto> getOrderGoodsByOrderNo(@RequestParam("orderNo") String orderNo);
+
+
+    /**
+     * <p>
+     * 根据订单编号查询订单全量信息
+     * </p>
+     *
+     * @param orderNo 订单编号
+     * @return 订单全量信息
+     */
+    @GetMapping("/getOrderFullDetailByOrderNo")
+    OrderFullDetailResp getOrderFullDetailByOrderNo(@RequestParam("orderNo") String orderNo);
 
 }
