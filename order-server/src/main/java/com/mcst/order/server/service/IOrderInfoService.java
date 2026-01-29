@@ -3,10 +3,7 @@ package com.mcst.order.server.service;
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.service.api.IBaseService;
 import com.mcst.order.api.dto.OrderGoodsDto;
-import com.mcst.order.api.request.CancelOrderReq;
-import com.mcst.order.api.request.CreateOrderReq;
-import com.mcst.order.api.request.OrderInfoReq;
-import com.mcst.order.api.request.PayCallbackReq;
+import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
@@ -82,4 +79,14 @@ public interface IOrderInfoService extends IBaseService<OrderInfoResp, String, O
      * @return 订单全量信息
      */
     OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo);
+
+
+    /**
+     * 批量发货
+     * 只适用于 自提，商家自送等无需物流的订单
+     *
+     * @param selfDeliveryReq
+     * @return
+     */
+    BaseResult<?> selfDelivery(SelfDeliveryReq selfDeliveryReq);
 }

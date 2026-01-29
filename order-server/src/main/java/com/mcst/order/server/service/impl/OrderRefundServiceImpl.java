@@ -71,7 +71,8 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
 
         // 校验订单状态：待发货、待收货、已收货可以申请退款
         Integer orderStatus = orderInfo.getOrderStatus();
-        if (orderStatus == null || orderStatus < OrderStatusEnum.WAITING_DELIVER.getValue() || orderStatus > OrderStatusEnum.RECEIVED.getValue()) {
+        if (orderStatus == null || orderStatus < OrderStatusEnum.WAITING_DELIVER.getValue()
+                || orderStatus > OrderStatusEnum.RECEIVED.getValue()) {
             return BRBuilder.<ApplyRefundResp>failResult().setMsg("当前订单状态不允许申请退款");
         }
 
@@ -79,7 +80,8 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
         OrderRefundDto existRefund = orderRefundRepository.queryOneByField("orderNo", req.getOrderNo());
         if (existRefund != null) {
             Integer refundStatus = existRefund.getRefundStatus();
-            if (refundStatus != null && refundStatus != RefundStatusEnum.AUDIT_REJECTED.getCode() && refundStatus != RefundStatusEnum.CLOSED.getCode()) {
+            if (refundStatus != null && refundStatus != RefundStatusEnum.AUDIT_REJECTED.getCode()
+                    && refundStatus != RefundStatusEnum.CLOSED.getCode()) {
                 return BRBuilder.<ApplyRefundResp>failResult().setMsg("该订单已存在进行中的退款申请");
             }
         }
@@ -126,6 +128,7 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
         refundDto.setOrderNo(req.getOrderNo());
         refundDto.setUserId(orderInfo.getUserId());
         refundDto.setUserPhone(orderInfo.getUserPhone());
+        refundDto.setUserName(orderInfo.getUserName());
         refundDto.setRefundType(req.getRefundType());
         refundDto.setRefundSource(0); // 用户申请
         refundDto.setRefundStatus(RefundStatusEnum.WAIT_AUDIT.getCode());
@@ -290,7 +293,8 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
 
         Integer oldStatus = refundDto.getRefundStatus();
         // 只有待审核、待退货状态可以取消
-        if (oldStatus == null || (oldStatus != RefundStatusEnum.WAIT_AUDIT.getCode() && oldStatus != RefundStatusEnum.WAIT_RETURN.getCode())) {
+        if (oldStatus == null || (oldStatus != RefundStatusEnum.WAIT_AUDIT.getCode()
+                && oldStatus != RefundStatusEnum.WAIT_RETURN.getCode())) {
             return BRBuilder.<CancelRefundResp>failResult().setMsg("当前退款状态不允许取消");
         }
 
@@ -350,7 +354,8 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
             return BRBuilder.<RefundCallbackResp>failResult().setMsg("当前退款状态不允许回调");
         }
 
-        LocalDateTime refundCompleteTime = req.getRefundCompleteTime() != null ? req.getRefundCompleteTime() : LocalDateTime.now();
+        LocalDateTime refundCompleteTime = req.getRefundCompleteTime() != null ? req.getRefundCompleteTime()
+                : LocalDateTime.now();
         Integer newStatus = RefundStatusEnum.REFUNDED.getCode();
 
         refundDto.setRefundStatus(newStatus);
@@ -381,22 +386,28 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
 
     @Override
     public OrderRefundResp queryById(String id, String... selectColumns) {
-        return TransformUtil.transformObj(this.orderRefundRepository.queryById(id, selectColumns), OrderRefundResp.class);
+        return TransformUtil.transformObj(this.orderRefundRepository.queryById(id, selectColumns),
+                OrderRefundResp.class);
     }
 
     @Override
     public OrderRefundResp queryOneByField(String field, Object value, String... selectColumns) {
-        return TransformUtil.transformObj(this.orderRefundRepository.queryOneByField(field, value, selectColumns), OrderRefundResp.class);
+        return TransformUtil.transformObj(this.orderRefundRepository.queryOneByField(field, value, selectColumns),
+                OrderRefundResp.class);
     }
 
     @Override
     public List<OrderRefundResp> queryList(SearchRequest<OrderRefundReq> param) {
-        return TransformUtil.transformList(this.orderRefundRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderRefundResp.class);
+        return TransformUtil.transformList(
+                this.orderRefundRepository.queryByCondition(ConditionUtil.conditionByRequest(param)),
+                OrderRefundResp.class);
     }
 
     @Override
     public OrderRefundResp queryOne(SearchRequest<OrderRefundReq> param) {
-        return TransformUtil.transformObj(this.orderRefundRepository.queryOneByCondition(ConditionUtil.conditionByRequest(param)), OrderRefundResp.class);
+        return TransformUtil.transformObj(
+                this.orderRefundRepository.queryOneByCondition(ConditionUtil.conditionByRequest(param)),
+                OrderRefundResp.class);
     }
 
     @Override
@@ -411,7 +422,8 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
 
     @Override
     public PageResult<OrderRefundResp> queryByPage(SearchRequest<OrderRefundReq> param) {
-        return TransformUtil.transformPageResult(this.orderRefundRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderRefundResp.class);
+        return TransformUtil.transformPageResult(
+                this.orderRefundRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderRefundResp.class);
     }
 
     @Override

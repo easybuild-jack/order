@@ -75,6 +75,12 @@ public class OrderRefundDto extends BaseDto {
     private String userPhone;
 
     /**
+     * 用户名称
+     */
+    @Schema(description = "用户名称")
+    private String userName;
+
+    /**
      * 退款类型 0 仅退款 1 退货退款
      */
     @Schema(description = "退款类型 0 仅退款 1 退货退款")

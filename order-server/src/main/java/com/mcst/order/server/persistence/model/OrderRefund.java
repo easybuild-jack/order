@@ -75,6 +75,12 @@ public class OrderRefund extends BaseMyBatisPlusEntity<OrderRefund> {
     private String userPhone;
 
     /**
+     * 用户名称
+     */
+    @Column(comment = "用户名称")
+    private String userName;
+
+    /**
      * 退款类型 0 仅退款 1 退货退款
      */
     @Column(comment = "退款类型 0 仅退款 1 退货退款")

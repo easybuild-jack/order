@@ -1,10 +1,11 @@
 package com.mcst.order.server.service;
 
-import com.mcst.easyfk.core.dto.request.ModifyRequest;
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.service.api.IBaseService;
 import com.mcst.order.api.request.OrderContainerReq;
 import com.mcst.order.api.response.OrderContainerResp;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,13 +17,12 @@ import com.mcst.order.api.response.OrderContainerResp;
  */
 public interface IOrderContainerService extends IBaseService<OrderContainerResp, String, OrderContainerReq> {
 
-
     /**
      * 批量发货
      *
-     * @param param
+     * @param orderIds
      * @return
      */
-    BaseResult<?> batchDelivery(ModifyRequest<OrderContainerReq> param);
+    BaseResult<?> batchDelivery(List<String> orderIds);
 
 }

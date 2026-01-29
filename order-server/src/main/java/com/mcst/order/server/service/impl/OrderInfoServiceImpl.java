@@ -295,7 +295,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     public List<OrderGoodsDto> getOrderGoodsByOrderNo(String orderNo) {
         return this.orderGoodsRepository.queryByField("orderNo", orderNo);
     }
-    
+
     @Override
     public OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo) {
         OrderInfoDto orderInfo = this.orderInfoRepository.queryOneByField("orderNo", orderNo);
@@ -308,6 +308,12 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         OrderDeliverDto orderDeliver = this.orderDeliverRepository.queryOneByField("orderNo", orderNo);
         return OrderFullDetailResp.builder().orderInfo(orderInfo).orderAmountDto(orderAmount)
                 .orderPayDto(orderPay).orderDeliverDto(orderDeliver).orderGoodsList(orderGoods).build();
+    }
+
+
+    @Override
+    public BaseResult<?> selfDelivery(SelfDeliveryReq selfDeliveryReq) {
+        return null;
     }
 
     private OrderInfoDto buildOrderInfo(CreateOrderReq req, String orderInfoId) {

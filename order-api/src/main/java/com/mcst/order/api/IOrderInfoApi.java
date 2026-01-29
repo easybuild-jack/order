@@ -82,4 +82,5 @@ public interface IOrderInfoApi extends IBaseApi<OrderInfoResp, String, OrderInfo
      * @return 订单全量信息
      */
     OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo);
+
 }

@@ -1,29 +1,31 @@
 package com.mcst.order.server.service.impl;
 
-import com.mcst.order.api.response.OrderContainerResp;
-import com.mcst.order.api.request.OrderContainerReq;
-import com.mcst.order.api.dto.OrderContainerDto;
-import com.mcst.order.server.service.IOrderContainerService;
-import com.mcst.order.server.repository.IOrderContainerRepository;
 import com.mcst.easyfk.core.dto.page.PageResult;
-import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.request.ModifyRequest;
+import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.response.BaseResult;
-import com.mcst.easyfk.repository.util.ConditionUtil;
-import java.util.List;
-import jakarta.annotation.Resource;
-import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.easyfk.core.utils.common.TransformUtil;
-/**
-* <p>
-* 订单信息 服务实现类
-* </p>
-*
-* @author liu yijun
-* @since 2026-01-29
-*/
+import com.mcst.easyfk.repository.util.ConditionUtil;
+import com.mcst.easyfk.service.util.ServiceUtil;
+import com.mcst.order.api.dto.OrderContainerDto;
+import com.mcst.order.api.request.OrderContainerReq;
+import com.mcst.order.api.response.OrderContainerResp;
+import com.mcst.order.server.repository.IOrderContainerRepository;
+import com.mcst.order.server.service.IOrderContainerService;
+import jakarta.annotation.Resource;
 
-public class OrderContainerServiceImpl  implements IOrderContainerService {
+import java.util.List;
+
+/**
+ * <p>
+ * 订单信息 服务实现类
+ * </p>
+ *
+ * @author liu yijun
+ * @since 2026-01-29
+ */
+
+public class OrderContainerServiceImpl implements IOrderContainerService {
     @Resource
     private IOrderContainerRepository orderContainerRepository;
 
@@ -59,7 +61,7 @@ public class OrderContainerServiceImpl  implements IOrderContainerService {
 
     @Override
     public PageResult<OrderContainerResp> queryByPage(SearchRequest<OrderContainerReq> param) {
-        return TransformUtil.transformPageResult(this.orderContainerRepository.queryByPage(ConditionUtil.conditionByRequest(param)),OrderContainerResp.class);
+        return TransformUtil.transformPageResult(this.orderContainerRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderContainerResp.class);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class OrderContainerServiceImpl  implements IOrderContainerService {
     }
 
     @Override
-    public BaseResult<?> batchDelivery(ModifyRequest<OrderContainerReq> param) {
+    public BaseResult<?> batchDelivery(List<String> orderIds) {
         return null;
     }
 }
