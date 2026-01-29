@@ -11,13 +11,13 @@ CREATE TABLE order_info (
     user_id VARCHAR(50) DEFAULT NULL,
     user_third_account VARCHAR(50) DEFAULT NULL,
     user_phone VARCHAR(50) DEFAULT NULL,
+    user_name VARCHAR(50) DEFAULT NULL,
     goods_name VARCHAR(50) DEFAULT NULL,
     goods_sku_name VARCHAR(150) DEFAULT NULL,
     goods_pic VARCHAR(200) DEFAULT NULL,
     goods_count INTEGER DEFAULT NULL,
     total_amount NUMERIC(10,2) DEFAULT NULL,
     actual_pay_amount NUMERIC(10,2) DEFAULT NULL,
-    order_type INTEGER DEFAULT 0,
     dispatch_type SMALLINT DEFAULT 1,
     invoice_flag SMALLINT DEFAULT 0,
     refund_flag SMALLINT DEFAULT 0,
@@ -27,8 +27,8 @@ CREATE TABLE order_info (
     order_source SMALLINT DEFAULT 0,
     tag_remark VARCHAR(200) DEFAULT NULL,
     order_status SMALLINT DEFAULT 0,
-    order_channel INTEGER DEFAULT NULL,
-    client_type SMALLINT DEFAULT 0,
+    order_channel VARCHAR(50) DEFAULT NULL,
+    client_type VARCHAR(50) DEFAULT NULL,
     push_flag SMALLINT DEFAULT 0,
     order_remark VARCHAR(200) DEFAULT NULL,
     statistics_flag SMALLINT DEFAULT 0,
@@ -39,9 +39,12 @@ CREATE TABLE order_info (
     order_time TIMESTAMP DEFAULT NULL,
     agent_id VARCHAR(50) DEFAULT NULL,
     agent_name VARCHAR(100) DEFAULT NULL,
-    cancel_reason_type INTEGER DEFAULT NULL,
     cancel_remark VARCHAR(200) DEFAULT NULL,
     cancel_time TIMESTAMP DEFAULT NULL,
+    pickup_location_id VARCHAR(50) DEFAULT NULL,
+    pickup_location_name VARCHAR(100) DEFAULT NULL,
+    container_id VARCHAR(50) DEFAULT NULL,
+    container_name VARCHAR(100) DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
@@ -53,14 +56,14 @@ COMMENT ON COLUMN order_info.order_no IS '订单编号';
 COMMENT ON COLUMN order_info.user_id IS '用户ID';
 COMMENT ON COLUMN order_info.user_third_account IS '用户第三方账号，如微信openid';
 COMMENT ON COLUMN order_info.user_phone IS '用户电话';
+COMMENT ON COLUMN order_info.user_name IS '用户名称';
 COMMENT ON COLUMN order_info.goods_name IS '商品名称';
 COMMENT ON COLUMN order_info.goods_sku_name IS '商品SKU 名称';
 COMMENT ON COLUMN order_info.goods_pic IS '商品图片';
 COMMENT ON COLUMN order_info.goods_count IS '商品总数量';
 COMMENT ON COLUMN order_info.total_amount IS '总金额';
 COMMENT ON COLUMN order_info.actual_pay_amount IS '实际支付金额，实际需要支付的金额';
-COMMENT ON COLUMN order_info.order_type IS '订单类型 0：线上，1：线下';
-COMMENT ON COLUMN order_info.dispatch_type IS '配送方式 0 自提 1 快递 2 虚拟商品';
+COMMENT ON COLUMN order_info.dispatch_type IS '配送方式：0 自提 1 快递 2 虚拟商品 3 送货上门 99 送到货柜';
 COMMENT ON COLUMN order_info.invoice_flag IS '是否要发票 0未开发票，1已开票';
 COMMENT ON COLUMN order_info.refund_flag IS '售后状态 0：未申请，1：已申请';
 COMMENT ON COLUMN order_info.refund_status IS '退款状态 0：未退款，1：全部退款，2：部分退款';
@@ -68,9 +71,9 @@ COMMENT ON COLUMN order_info.refund_amount IS '退款金额';
 COMMENT ON COLUMN order_info.user_remark IS '买家备注';
 COMMENT ON COLUMN order_info.order_source IS '订单来源 0 线上商城 1 线下 2 淘宝 3 京东 4 拼多多 5 抖店';
 COMMENT ON COLUMN order_info.tag_remark IS '标记备注';
-COMMENT ON COLUMN order_info.order_status IS '订单状态 0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款';
+COMMENT ON COLUMN order_info.order_status IS '订单状态（0：待支付，1：已取消，2：待发货，3：待收货，4：已收货，5：退货中，6：退款中，7：已退款）';
 COMMENT ON COLUMN order_info.order_channel IS '订单渠道';
-COMMENT ON COLUMN order_info.client_type IS '客户端类型 0 小程序 1 APP 2 PC';
+COMMENT ON COLUMN order_info.client_type IS '客户端类型';
 COMMENT ON COLUMN order_info.push_flag IS '订单推送状态 0：未推送，1：已推送';
 COMMENT ON COLUMN order_info.order_remark IS '订单备注';
 COMMENT ON COLUMN order_info.statistics_flag IS '统计状态 0未处理 1已处理';
@@ -80,10 +83,13 @@ COMMENT ON COLUMN order_info.merchant_remark IS '商家备注';
 COMMENT ON COLUMN order_info.order_date IS '订单日期';
 COMMENT ON COLUMN order_info.order_time IS '订单时间';
 COMMENT ON COLUMN order_info.agent_id IS '代理商ID';
-COMMENT ON COLUMN order_info.agent_name IS '供应商名称';
-COMMENT ON COLUMN order_info.cancel_reason_type IS '取消原因类型';
+COMMENT ON COLUMN order_info.agent_name IS '代理商名称';
 COMMENT ON COLUMN order_info.cancel_remark IS '取消原因备注';
 COMMENT ON COLUMN order_info.cancel_time IS '取消时间';
+COMMENT ON COLUMN order_info.pickup_location_id IS '提货点ID';
+COMMENT ON COLUMN order_info.pickup_location_name IS '提货点名称';
+COMMENT ON COLUMN order_info.container_id IS '货柜ID';
+COMMENT ON COLUMN order_info.container_name IS '货柜名称';
 COMMENT ON COLUMN order_info.insert_time IS '插入时间';
 COMMENT ON COLUMN order_info.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_info.deleted IS '删除标记，0否 1是';

@@ -245,16 +245,28 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
     private LocalDateTime cancelTime;
 
     /**
-     * 存货点ID,可以是货柜ID，提货点ID
+     * 提货点ID
      */
-    @Column(comment = "存货点ID,可以是货柜ID，提货点ID")
-    private String storeId;
+    @Column(comment = "提货点ID")
+    private String pickupLocationId;
 
     /**
-     * 存货点名称
+     * 提货点名称
      */
-    @Column(comment = "存货点名称")
-    private String storeName;
+    @Column(comment = "提货点名称")
+    private String pickupLocationName;
+
+    /**
+     * 货柜ID
+     */
+    @Column(comment = "货柜ID")
+    private String containerId;
+
+    /**
+     * 货柜名称
+     */
+    @Column(comment = "货柜名称")
+    private String containerName;
 
 
 }

@@ -240,16 +240,28 @@ public class OrderInfoDto extends BaseDto {
     private LocalDateTime cancelTime;
 
     /**
-     * 存货点ID,可以是货柜ID，提货点ID
+     * 提货点ID
      */
-    @Schema(description = "存货点ID,可以是货柜ID，提货点ID")
-    private String storeId;
+    @Schema(description = "提货点ID")
+    private String pickupLocationId;
 
     /**
-     * 存货点名称
+     * 提货点名称
      */
-    @Schema(description = "存货点名称")
-    private String storeName;
+    @Schema(description = "提货点名称")
+    private String pickupLocationName;
+
+    /**
+     * 货柜ID
+     */
+    @Schema(description = "货柜ID")
+    private String containerId;
+
+    /**
+     * 货柜名称
+     */
+    @Schema(description = "货柜名称")
+    private String containerName;
 
 
 }
