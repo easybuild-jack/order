@@ -106,8 +106,7 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
         }
 
         // 更新订单售后状态
-        orderInfo.setRefundFlag(1);
-        orderInfoRepository.updateBySelective(orderInfo);
+        // orderInfoRepository.updateBySelective(orderInfo);
 
         ApplyRefundResp resp = new ApplyRefundResp();
         resp.setOrderRefundId(orderRefundId);
@@ -162,7 +161,7 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
         }
 
         LocalDateTime now = LocalDateTime.now();
-        Integer newStatus;
+        int newStatus;
         boolean needReturn = false;
 
         if (req.getAuditResult() == 1) {
@@ -304,7 +303,7 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
         // 更新订单售后状态
         OrderInfoDto orderInfo = orderInfoRepository.queryOneByField("orderNo", refundDto.getOrderNo());
         if (orderInfo != null) {
-            orderInfo.setRefundFlag(0);
+            orderInfo.setOrderStatus(OrderStatusEnum.RECEIVED.getValue());
             orderInfoRepository.updateBySelective(orderInfo);
         }
 

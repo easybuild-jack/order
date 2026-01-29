@@ -61,6 +61,15 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     @Resource
     private IOrderDiscountRepository orderDiscountRepository;
 
+    @Resource
+    private IOrderDeliverRepository orderDeliverRepository;
+
+    @Resource
+    private IOrderPickupRepository orderPickupRepository;
+
+    @Resource
+    private IOrderContainerRepository orderContainerRepository;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResult<CreateOrderResp> createOrder(CreateOrderReq req) {
@@ -90,6 +99,24 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         OrderPayDto orderPayDto = buildOrderPay(req, orderInfoId);
         orderPayRepository.insert(orderPayDto);
 
+        // 保存收货地址信息（配送方式1快递、3送货上门时）
+        if (req.getDeliveryInfo() != null) {
+            OrderDeliverDto orderDeliverDto = buildOrderDeliver(req, orderInfoId);
+            orderDeliverRepository.insert(orderDeliverDto);
+        }
+
+        // 保存自提信息（配送方式0自提时）
+        if (req.getPickupInfo() != null) {
+            OrderPickupDto orderPickupDto = buildOrderPickup(req, orderInfoId);
+            orderPickupRepository.insert(orderPickupDto);
+        }
+
+        // 保存货柜信息（配送方式99货柜配送时）
+        if (req.getContainerInfo() != null) {
+            OrderContainerDto orderContainerDto = buildOrderContainer(req, orderInfoId);
+            orderContainerRepository.insert(orderContainerDto);
+        }
+
         CreateOrderResp resp = new CreateOrderResp();
         resp.setOrderInfoId(orderInfoId);
         resp.setOrderNo(req.getOrderNo());
@@ -116,7 +143,8 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
                 throw new BusinessException("数据错误，订单不属于当前用户");
             }
         }
-        int oldStatus = Optional.ofNullable(orderInfoDto.getOrderStatus()).orElse(OrderStatusEnum.PENDING_PAYMENT.getValue());
+        int oldStatus = Optional.ofNullable(orderInfoDto.getOrderStatus())
+                .orElse(OrderStatusEnum.PENDING_PAYMENT.getValue());
         if (OrderStatusEnum.CANCELED.getValue() == oldStatus) {
             log.warn("订单取消幂等操作，直接返回成功，订单编号：{}", req.getOrderNo());
             return BRBuilder.successResult();
@@ -191,42 +219,56 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
 
     @Override
     public OrderInfoResp queryOneByField(String field, Object value, String... selectColumns) {
-        return TransformUtil.transformObj(this.orderInfoRepository.queryOneByField(field, value, selectColumns), OrderInfoResp.class);
+        return TransformUtil.transformObj(this.orderInfoRepository.queryOneByField(field, value, selectColumns),
+                OrderInfoResp.class);
     }
 
     @Override
     public List<OrderInfoResp> queryList(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
-        return TransformUtil.transformList(this.orderInfoRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
+                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        return TransformUtil.transformList(
+                this.orderInfoRepository.queryByCondition(ConditionUtil.conditionByRequest(param)),
+                OrderInfoResp.class);
     }
 
     @Override
     public OrderInfoResp queryOne(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
-        return TransformUtil.transformObj(this.orderInfoRepository.queryOneByCondition(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
+                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        return TransformUtil.transformObj(
+                this.orderInfoRepository.queryOneByCondition(ConditionUtil.conditionByRequest(param)),
+                OrderInfoResp.class);
     }
 
     @Override
     public long count(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
+                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
         return this.orderInfoRepository.countByCondition(ConditionUtil.conditionByRequest(param));
     }
 
     @Override
     public boolean exists(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
+                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
         return this.orderInfoRepository.exists(ConditionUtil.conditionByRequest(param));
     }
 
     @Override
     public PageResult<OrderInfoResp> queryByPage(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
-        return TransformUtil.transformPageResult(this.orderInfoRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
+                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        return TransformUtil.transformPageResult(
+                this.orderInfoRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
     }
 
     @Override
     public BaseResult<?> save(ModifyRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.setSaasData(param, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getAgentName, UserData::getAgentName, OrderInfoReq::getMerchantId, UserData::getMerchantId, OrderInfoReq::getMerchantName, UserData::getMerchantName));
+        UserDataFiltrationUtil.setSaasData(param,
+                Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getAgentName,
+                        UserData::getAgentName, OrderInfoReq::getMerchantId, UserData::getMerchantId,
+                        OrderInfoReq::getMerchantName, UserData::getMerchantName));
         return ServiceUtil.save(param, orderInfoRepository, OrderInfoDto.class);
     }
 
@@ -242,7 +284,8 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
 
     @Override
     public BaseResult<?> rollbackOrder(String orderNo) {
-        SearchCondition condition = SCBuilder.<OrderInfoDto>builder().equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
+        SearchCondition condition = SCBuilder.<OrderInfoDto>builder()
+                .equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
         return this.orderInfoRepository.deleteByCondition(condition);
     }
 
@@ -254,7 +297,6 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setUserThirdAccount(req.getUserThirdAccount());
         dto.setUserPhone(req.getUserPhone());
         dto.setDispatchType(Optional.ofNullable(req.getDispatchType()).orElse(1));
-        dto.setOrderSource(Optional.ofNullable(req.getOrderSource()).orElse(0));
         dto.setClientType(req.getClientType());
         dto.setMerchantId(req.getMerchantId());
         dto.setMerchantName(req.getMerchantName());
@@ -273,6 +315,29 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setGoodsCount(req.getGoodsCount());
         dto.setOrderDate(LocalDate.now());
         dto.setOrderTime(LocalDateTime.now());
+
+        // 处理订单商品名称
+        String orderGoodsName = "";
+        int goodsCount = 0;
+        if (req.getGoodsList().size() > 1) {
+            orderGoodsName = req.getGoodsList().getFirst().getGoodsName() + "等" + req.getGoodsList().size() + " 件商品";
+            goodsCount = req.getGoodsList().stream().mapToInt(OrderGoodsItem::getGoodsCount).sum();
+        } else {
+            orderGoodsName = req.getGoodsList().getFirst().getGoodsName();
+            goodsCount = req.getGoodsList().getFirst().getGoodsCount();
+        }
+        dto.setGoodsName(orderGoodsName);
+        dto.setGoodsCount(goodsCount);
+        // 处理提货点信息（配送方式0自提时）
+        if (req.getPickupInfo() != null) {
+            dto.setPickupLocationId(req.getPickupInfo().getPickupLocationId());
+            dto.setPickupLocationName(req.getPickupInfo().getPickupLocationName());
+        }
+        // 处理货柜信息（配送方式99货柜配送时）
+        if (req.getContainerInfo() != null) {
+            dto.setContainerId(req.getContainerInfo().getContainerInfoId());
+            dto.setContainerName(req.getContainerInfo().getContainerName());
+        }
         return dto;
     }
 
@@ -304,7 +369,8 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setTotalAmount(req.getTotalAmount());
         dto.setGoodsAmount(req.getGoodsAmount());
         dto.setDiscountAmount(req.getDiscountAmount() != null ? req.getDiscountAmount() : java.math.BigDecimal.ZERO);
-        dto.setDiscountAfterAmount(req.getDiscountAfterAmount() != null ? req.getDiscountAfterAmount() : req.getTotalAmount());
+        dto.setDiscountAfterAmount(
+                req.getDiscountAfterAmount() != null ? req.getDiscountAfterAmount() : req.getTotalAmount());
         dto.setPostageAmount(req.getPostageAmount() != null ? req.getPostageAmount() : java.math.BigDecimal.ZERO);
         dto.setActualPayAmount(req.getActualPayAmount());
         return dto;
@@ -316,7 +382,8 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setOrderNo(req.getOrderNo());
         dto.setGoodsAmount(req.getGoodsAmount());
         dto.setDiscountAmount(req.getDiscountAmount() != null ? req.getDiscountAmount() : java.math.BigDecimal.ZERO);
-        dto.setDiscountAfterAmount(req.getDiscountAfterAmount() != null ? req.getDiscountAfterAmount() : req.getGoodsAmount());
+        dto.setDiscountAfterAmount(
+                req.getDiscountAfterAmount() != null ? req.getDiscountAfterAmount() : req.getGoodsAmount());
         dto.setUserCouponIds(String.join(",", req.getUserCouponIds()));
         dto.setDiscountRemark(req.getDiscountRemark());
         return dto;
@@ -332,6 +399,48 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setThirdTradeNo(req.getThirdTradeNo());
         dto.setPayDate(req.getPayDate());
         dto.setPayTime(req.getPayTime());
+        return dto;
+    }
+
+    private OrderDeliverDto buildOrderDeliver(CreateOrderReq req, String orderInfoId) {
+        OrderDeliverDto dto = new OrderDeliverDto();
+        dto.setOrderInfoId(orderInfoId);
+        dto.setOrderNo(req.getOrderNo());
+        DeliveryInfo deliveryInfo = req.getDeliveryInfo();
+        dto.setRecipientsName(deliveryInfo.getRecipientsName());
+        dto.setRecipientsPhone(deliveryInfo.getRecipientsPhone());
+        dto.setProvince(deliveryInfo.getProvince());
+        dto.setCity(deliveryInfo.getCity());
+        dto.setArea(deliveryInfo.getArea());
+        dto.setAddress(deliveryInfo.getAddress());
+        dto.setPostageAmount(req.getPostageAmount());
+        dto.setStatus(0);
+        return dto;
+    }
+
+    private OrderPickupDto buildOrderPickup(CreateOrderReq req, String orderInfoId) {
+        OrderPickupDto dto = new OrderPickupDto();
+        dto.setOrderInfoId(orderInfoId);
+        dto.setOrderNo(req.getOrderNo());
+        PickupInfo pickupInfo = req.getPickupInfo();
+        dto.setPickupLocationId(pickupInfo.getPickupLocationId());
+        dto.setPickupLocationName(pickupInfo.getPickupLocationName());
+        dto.setPickupUser(pickupInfo.getPickupUser());
+        dto.setPickupPhone(pickupInfo.getPickupPhone());
+        dto.setPickupStatus(0);
+        return dto;
+    }
+
+    private OrderContainerDto buildOrderContainer(CreateOrderReq req, String orderInfoId) {
+        OrderContainerDto dto = new OrderContainerDto();
+        dto.setOrderInfoId(orderInfoId);
+        dto.setOrderNo(req.getOrderNo());
+        ContainerInfo containerInfo = req.getContainerInfo();
+        dto.setContainerInfoId(containerInfo.getContainerInfoId());
+        dto.setContainerName(containerInfo.getContainerName());
+        dto.setContainerCode(containerInfo.getContainerCode());
+        dto.setGridNos(containerInfo.getGridNos());
+        dto.setStatus(0);
         return dto;
     }
 

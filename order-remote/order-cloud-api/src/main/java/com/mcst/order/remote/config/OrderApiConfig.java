@@ -2,6 +2,7 @@ package com.mcst.order.remote.config;
 
 
 import com.mcst.order.api.*;
+import com.mcst.order.remote.IOrderContainerRemote;
 import com.mcst.order.remote.impl.*;
 import com.mcst.order.remote.properties.OrderApiProperties;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +39,12 @@ public class OrderApiConfig {
     @ConditionalOnMissingBean
     public IOrderRefundApi orderRefundApi() {
          return new OrderRefundApiScImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public IOrderContainerApi orderContainerApi() {
+         return new OrderContainerApiScImpl();
     }
 
 

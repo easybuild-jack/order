@@ -125,5 +125,10 @@ public class OrderServerConfig {
         return new OrderGoodsRepositoryImpl();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public IOrderContainerRepository orderContainerRepository() {
+        return new OrderContainerRepositoryImpl();
+    }
 
 }
