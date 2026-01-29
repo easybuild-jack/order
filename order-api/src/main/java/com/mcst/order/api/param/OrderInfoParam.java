@@ -52,6 +52,13 @@ public class OrderInfoParam extends BasicParam {
     */
     @Schema(description= "用户电话")
     private String userPhone;
+
+    /**
+     * 用户名称
+     */
+    @Schema(description = "用户名称")
+    private String userName;
+
     /**
     * 商品名称
     */
@@ -197,4 +204,16 @@ public class OrderInfoParam extends BasicParam {
     */
     @Schema(description= "取消时间")
     private LocalDateTime cancelTime;
+
+    /**
+     * 存货点ID,可以是货柜ID，提货点ID
+     */
+    @Schema(description = "存货点ID,可以是货柜ID，提货点ID")
+    private String storeId;
+
+    /**
+     * 存货点名称
+     */
+    @Schema(description = "存货点名称")
+    private String storeName;
 }

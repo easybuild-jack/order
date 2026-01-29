@@ -8,6 +8,7 @@ import com.mcst.easyfk.service.mybatisplus.annotation.Column;
 import com.mcst.easyfk.service.mybatisplus.persistence.BaseMyBatisPlusEntity;
 import com.mcst.order.api.dto.OrderInfoDto;
 import io.github.linpeilie.annotations.AutoMapper;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -62,6 +63,12 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
      */
     @Column(comment = "用户电话")
     private String userPhone;
+
+    /**
+     * 用户名称
+     */
+    @Column(comment = "用户名称")
+    private String userName;
 
     /**
      * 商品名称
@@ -236,5 +243,18 @@ public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
      */
     @Column(comment = "取消时间")
     private LocalDateTime cancelTime;
+
+    /**
+     * 存货点ID,可以是货柜ID，提货点ID
+     */
+    @Column(comment = "存货点ID,可以是货柜ID，提货点ID")
+    private String storeId;
+
+    /**
+     * 存货点名称
+     */
+    @Column(comment = "存货点名称")
+    private String storeName;
+
 
 }

@@ -60,6 +60,12 @@ public class OrderInfoDto extends BaseDto {
     private String userPhone;
 
     /**
+     * 用户名称
+     */
+    @Schema(description = "用户名称")
+    private String userName;
+
+    /**
     * 商品名称
     */
     @Schema(description= "商品名称")
@@ -232,6 +238,18 @@ public class OrderInfoDto extends BaseDto {
     */
     @Schema(description= "取消时间")
     private LocalDateTime cancelTime;
+
+    /**
+     * 存货点ID,可以是货柜ID，提货点ID
+     */
+    @Schema(description = "存货点ID,可以是货柜ID，提货点ID")
+    private String storeId;
+
+    /**
+     * 存货点名称
+     */
+    @Schema(description = "存货点名称")
+    private String storeName;
 
 
 }

@@ -55,6 +55,12 @@ public class CreateOrderReq implements Serializable {
     private String userPhone;
 
     /**
+     * 用户名称
+     */
+    @Schema(description = "用户名称")
+    private String userName;
+
+    /**
      * 配送方式（0自提 1快递 2虚拟商品 3送货上门 99货柜配送）
      */
     @Schema(description = "配送方式（0自提 1快递 2虚拟商品 3送货上门 99货柜配送）")
