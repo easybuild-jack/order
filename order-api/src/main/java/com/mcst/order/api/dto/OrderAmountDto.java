@@ -76,9 +76,9 @@ public class OrderAmountDto extends BaseDto {
     private String userCouponId;
 
     /**
-    * 优惠券名称
+    * 优惠名称
     */
-    @Schema(description= "优惠券名称")
+    @Schema(description= "优惠名称")
     private String discountName;
 
 

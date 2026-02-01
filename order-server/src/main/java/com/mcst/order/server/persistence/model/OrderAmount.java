@@ -81,9 +81,9 @@ public class OrderAmount extends BaseMyBatisPlusEntity<OrderAmount> {
     private String userCouponId;
 
     /**
-     * 优惠券名称
+     * 优惠名称
      */
-    @Column(comment = "优惠券名称")
+    @Column(comment = "优惠名称")
     private String discountName;
 
 }

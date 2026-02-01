@@ -184,7 +184,7 @@ COMMENT ON COLUMN order_amount.discount_after_amount IS '优惠后金额（总�
 COMMENT ON COLUMN order_amount.postage_amount IS '邮费金额';
 COMMENT ON COLUMN order_amount.actual_pay_amount IS '实际支付金额（优惠后金额+邮费金额），需要支付的金额';
 COMMENT ON COLUMN order_amount.user_coupon_id IS '用户优惠券ID';
-COMMENT ON COLUMN order_amount.discount_name IS '优惠券名称';
+COMMENT ON COLUMN order_amount.discount_name IS '优惠名称';
 COMMENT ON COLUMN order_amount.insert_time IS '插入时间';
 COMMENT ON COLUMN order_amount.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_amount.deleted IS '删除标记，0否 1是';

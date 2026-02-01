@@ -92,7 +92,7 @@ CREATE TABLE `order_amount` (
     `postage_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '邮费金额',
     `actual_pay_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际支付金额（优惠后金额+邮费金额），需要支付的金额',
     `user_coupon_id` VARCHAR(50) DEFAULT NULL COMMENT '用户优惠券ID',
-    `discount_name` VARCHAR(200) DEFAULT NULL COMMENT '优惠券名称',
+    `discount_name` VARCHAR(200) DEFAULT NULL COMMENT '优惠名称',
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
