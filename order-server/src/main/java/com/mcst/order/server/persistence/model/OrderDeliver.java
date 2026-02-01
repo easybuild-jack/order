@@ -43,7 +43,7 @@ public class OrderDeliver extends BaseMyBatisPlusEntity<OrderDeliver> {
      * 订单ID
      */
     @Column(comment = "订单ID")
-    private String orderInfoId;
+    private String orderId;
 
     /**
      * 订单编号

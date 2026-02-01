@@ -72,9 +72,10 @@ public class OrderServerConfig {
     public IOrderRefundService orderRefundService() {
         return new OrderRefundServiceImpl();
     }
+
     @Bean
     @ConditionalOnMissingBean
-    public IOrderContainerService  orderContainerService() {
+    public IOrderContainerService orderContainerService() {
         return new OrderContainerServiceImpl();
     }
 
@@ -114,11 +115,6 @@ public class OrderServerConfig {
         return new OrderAmountRepositoryImpl();
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderDiscountRepository orderDiscountRepository() {
-        return new OrderDiscountRepositoryImpl();
-    }
 
     @Bean
     @ConditionalOnMissingBean

@@ -13,27 +13,27 @@ import java.time.LocalDateTime;
 
 /**
 * <p>
-* 订单信息
+* 订单
 * </p>
 *
 * @author liu yijun
-* @since 2026-01-26
+* @since 2026-02-01
 */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@Schema(description="订单信息数据对象")
+@Schema(description="订单数据对象")
 @SuperBuilder
 @NoArgsConstructor
 public class OrderInfoDto extends BaseDto {
 
 
     /**
-    * 订单信息ID
+    * 订单ID
     */
     @PrimaryKey
-    @Schema(description= "订单信息ID")
-    private String orderInfoId;
+    @Schema(description= "订单ID")
+    private String orderId;
 
     /**
     * 订单编号
@@ -60,9 +60,9 @@ public class OrderInfoDto extends BaseDto {
     private String userPhone;
 
     /**
-     * 用户名称
-     */
-    @Schema(description = "用户名称")
+    * 用户名称
+    */
+    @Schema(description= "用户名称")
     private String userName;
 
     /**
@@ -222,27 +222,27 @@ public class OrderInfoDto extends BaseDto {
     private LocalDateTime cancelTime;
 
     /**
-     * 提货点ID
-     */
-    @Schema(description = "提货点ID")
+    * 提货点ID
+    */
+    @Schema(description= "提货点ID")
     private String pickupLocationId;
 
     /**
-     * 提货点名称
-     */
-    @Schema(description = "提货点名称")
+    * 提货点名称
+    */
+    @Schema(description= "提货点名称")
     private String pickupLocationName;
 
     /**
-     * 货柜ID
-     */
-    @Schema(description = "货柜ID")
+    * 货柜ID
+    */
+    @Schema(description= "货柜ID")
     private String containerId;
 
     /**
-     * 货柜名称
-     */
-    @Schema(description = "货柜名称")
+    * 货柜名称
+    */
+    @Schema(description= "货柜名称")
     private String containerName;
 
 

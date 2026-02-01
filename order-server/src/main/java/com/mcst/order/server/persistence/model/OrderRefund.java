@@ -35,7 +35,7 @@ public class OrderRefund extends BaseMyBatisPlusEntity<OrderRefund> {
      */
     @PrimaryKey
     @TableId(type = IdType.ASSIGN_UUID)
-    @Column(comment = "订单退款ID")
+    @Column(comment = "退款ID")
     private String orderRefundId;
 
     /**
@@ -45,10 +45,10 @@ public class OrderRefund extends BaseMyBatisPlusEntity<OrderRefund> {
     private String orderRefundNo;
 
     /**
-     * 订单信息ID
+     * 订单ID
      */
-    @Column(comment = "订单信息ID")
-    private String orderInfoId;
+    @Column(comment = "订单ID")
+    private String orderId;
 
     /**
      * 订单编号

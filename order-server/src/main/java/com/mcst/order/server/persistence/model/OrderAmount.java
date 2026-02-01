@@ -30,24 +30,12 @@ import java.math.BigDecimal;
 public class OrderAmount extends BaseMyBatisPlusEntity<OrderAmount> {
 
     /**
-     * 订单金额ID
+     * 订单ID
      */
     @PrimaryKey
     @TableId(type = IdType.ASSIGN_UUID)
-    @Column(comment = "订单金额ID")
-    private String orderAmountId;
-
-    /**
-     * 订单信息ID
-     */
-    @Column(comment = "订单信息ID")
-    private String orderInfoId;
-
-    /**
-     * 订单编号
-     */
-    @Column(comment = "订单编号")
-    private String orderNo;
+    @Column(comment = "订单ID")
+    private String orderId;
 
     /**
      * 总金额(商品金额+邮费金额)
@@ -84,5 +72,18 @@ public class OrderAmount extends BaseMyBatisPlusEntity<OrderAmount> {
      */
     @Column(comment = "实际支付金额（优惠后金额+邮费金额），需要支付的金额")
     private BigDecimal actualPayAmount;
+
+
+    /**
+     * 用户优惠券ID
+     */
+    @Column(comment = "用户优惠券ID")
+    private String userCouponId;
+
+    /**
+     * 优惠券名称
+     */
+    @Column(comment = "优惠券名称")
+    private String discountName;
 
 }

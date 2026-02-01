@@ -9,7 +9,7 @@ SET CHARACTER SET utf8mb4;
 -- 1. 订单信息表
 DROP TABLE IF EXISTS `order_info`;
 CREATE TABLE `order_info` (
-    `order_info_id` VARCHAR(50) NOT NULL COMMENT 'OrderInfoId',
+    `order_id` VARCHAR(50) NOT NULL COMMENT 'orderId',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `user_id` VARCHAR(50) DEFAULT NULL COMMENT '用户ID',
     `user_third_account` VARCHAR(50) DEFAULT NULL COMMENT '用户第三方账号，如微信openid',
@@ -48,7 +48,7 @@ CREATE TABLE `order_info` (
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
-    PRIMARY KEY (`order_info_id`),
+    PRIMARY KEY (`order_id`),
     UNIQUE KEY `idx_order_no` (`order_no`),
     KEY `idx_user_id` (`user_id`),
     KEY `idx_order_status` (`order_status`),
@@ -59,7 +59,7 @@ CREATE TABLE `order_info` (
 DROP TABLE IF EXISTS `order_goods`;
 CREATE TABLE `order_goods` (
     `order_goods_id` VARCHAR(50) NOT NULL COMMENT 'OrderGoodsId',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `user_id` VARCHAR(50) DEFAULT NULL COMMENT '用户ID',
     `user_third_account` VARCHAR(50) DEFAULT NULL COMMENT '用户第三方账号',
@@ -80,7 +80,7 @@ CREATE TABLE `order_goods` (
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_goods_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_goods_id` (`goods_id`),
     KEY `idx_goods_sku_id` (`goods_sku_id`)
@@ -90,7 +90,7 @@ CREATE TABLE `order_goods` (
 DROP TABLE IF EXISTS `order_amount`;
 CREATE TABLE `order_amount` (
     `order_amount_id` VARCHAR(50) NOT NULL COMMENT 'OrderAmountId',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单信息ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `total_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '订单总金额，未打折的所有金额',
     `goods_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '商品总金额，未打折金额',
@@ -102,7 +102,7 @@ CREATE TABLE `order_amount` (
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_amount_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单金额';
 
@@ -110,7 +110,7 @@ CREATE TABLE `order_amount` (
 DROP TABLE IF EXISTS `order_discount`;
 CREATE TABLE `order_discount` (
     `order_discount_id` VARCHAR(50) NOT NULL COMMENT 'OrderDiscountId',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单信息ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `goods_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '商品总金额',
     `discount_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠金额',
@@ -121,7 +121,7 @@ CREATE TABLE `order_discount` (
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_discount_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单优惠';
 
@@ -129,7 +129,7 @@ CREATE TABLE `order_discount` (
 DROP TABLE IF EXISTS `order_pay`;
 CREATE TABLE `order_pay` (
     `order_pay_id` VARCHAR(50) NOT NULL COMMENT 'OrderPayId',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单信息ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `actual_pay_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际支付金额',
     `pay_status` INT(2) DEFAULT 0 COMMENT '支付状态 0：未支付，1：支付中，2：已支付',
@@ -141,7 +141,7 @@ CREATE TABLE `order_pay` (
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_pay_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_pay_status` (`pay_status`),
     KEY `idx_third_trade_no` (`third_trade_no`)
@@ -151,7 +151,7 @@ CREATE TABLE `order_pay` (
 DROP TABLE IF EXISTS `order_deliver`;
 CREATE TABLE `order_deliver` (
     `order_deliver_id` VARCHAR(50) NOT NULL COMMENT 'OrderDeliverId',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `express_no` VARCHAR(50) DEFAULT NULL COMMENT '快递单号',
     `express_company_code` VARCHAR(50) DEFAULT NULL COMMENT '快递公司编码',
@@ -181,7 +181,7 @@ CREATE TABLE `order_deliver` (
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_deliver_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_express_no` (`express_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单发货';
@@ -210,10 +210,10 @@ CREATE TABLE `order_deliver_goods` (
 -- 订单货柜信息表
 DROP TABLE IF EXISTS `order_container`;
 CREATE TABLE `order_container` (
-    `order_container_id` VARCHAR(50) NOT NULL COMMENT '订单货柜信息ID',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
+    `order_container_id` VARCHAR(50) NOT NULL COMMENT '订单货柜ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
-    `container_info_id` VARCHAR(50) DEFAULT NULL COMMENT '货柜信息ID',
+    `container_info_id` VARCHAR(50) DEFAULT NULL COMMENT '货柜ID',
     `container_name` VARCHAR(50) DEFAULT NULL COMMENT '货柜名称',
     `container_code` VARCHAR(50) DEFAULT NULL COMMENT '货柜编号',
     `grid_nos` VARCHAR(200) DEFAULT NULL COMMENT '具体货柜格子编号，多个格子用逗号分隔',
@@ -225,7 +225,7 @@ CREATE TABLE `order_container` (
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_container_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单货柜信息';
 
@@ -233,7 +233,7 @@ CREATE TABLE `order_container` (
 DROP TABLE IF EXISTS `order_pickup`;
 CREATE TABLE `order_pickup` (
     `order_pickup_id` VARCHAR(50) NOT NULL COMMENT 'OrderPickupId',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单Id',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单Id',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `pickup_location_id` VARCHAR(50) DEFAULT NULL COMMENT '提货点Id',
     `pickup_location_name` VARCHAR(100) DEFAULT NULL COMMENT '提货点名称',
@@ -259,7 +259,7 @@ CREATE TABLE `order_pickup` (
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_pickup_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_pickup_code` (`pickup_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单提货';
@@ -269,7 +269,7 @@ DROP TABLE IF EXISTS `order_refund`;
 CREATE TABLE `order_refund` (
     `order_refund_id` VARCHAR(50) NOT NULL COMMENT 'OrderRefundId',
     `order_refund_no` VARCHAR(50) DEFAULT NULL COMMENT '退款单号',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单信息ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `order_pay_id` VARCHAR(50) DEFAULT NULL COMMENT '支付记录ID',
     `user_id` VARCHAR(50) DEFAULT NULL COMMENT '用户ID',
@@ -306,7 +306,7 @@ CREATE TABLE `order_refund` (
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_refund_id`),
     KEY `idx_order_refund_no` (`order_refund_no`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_refund_status` (`refund_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单退款';
@@ -316,7 +316,7 @@ DROP TABLE IF EXISTS `order_refund_goods`;
 CREATE TABLE `order_refund_goods` (
     `order_refund_goods_id` VARCHAR(50) NOT NULL COMMENT 'OrderRefundGoodsId',
     `order_refund_id` VARCHAR(50) DEFAULT NULL COMMENT '退款记录ID',
-    `order_info_id` VARCHAR(50) DEFAULT NULL COMMENT '订单信息ID',
+    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `order_goods_id` VARCHAR(50) DEFAULT NULL COMMENT '订单商品记录ID',
     `goods_id` VARCHAR(50) DEFAULT NULL COMMENT '商品ID',
@@ -339,7 +339,7 @@ CREATE TABLE `order_refund_goods` (
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_refund_goods_id`),
     KEY `idx_order_refund_id` (`order_refund_id`),
-    KEY `idx_order_info_id` (`order_info_id`),
+    KEY `idx_order_id` (`order_id`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_goods_id` (`goods_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单退款商品';

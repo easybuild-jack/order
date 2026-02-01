@@ -94,7 +94,7 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
         for (OrderGoodsDto goods : goodsList) {
             OrderRefundGoodsDto refundGoods = new OrderRefundGoodsDto();
             refundGoods.setOrderRefundId(orderRefundId);
-            refundGoods.setOrderInfoId(orderInfo.getOrderInfoId());
+            refundGoods.setOrderId(orderInfo.getOrderId());
             refundGoods.setOrderNo(req.getOrderNo());
             refundGoods.setOrderGoodsId(goods.getOrderGoodsId());
             refundGoods.setGoodsId(goods.getGoodsId());
@@ -124,7 +124,7 @@ public class OrderRefundServiceImpl implements IOrderRefundService {
     private static OrderRefundDto getOrderRefund(ApplyRefundReq req, String orderRefundNo, OrderInfoDto orderInfo) {
         OrderRefundDto refundDto = new OrderRefundDto();
         refundDto.setOrderRefundNo(orderRefundNo);
-        refundDto.setOrderInfoId(orderInfo.getOrderInfoId());
+        refundDto.setOrderId(orderInfo.getOrderId());
         refundDto.setOrderNo(req.getOrderNo());
         refundDto.setUserId(orderInfo.getUserId());
         refundDto.setUserPhone(orderInfo.getUserPhone());

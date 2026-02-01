@@ -153,16 +153,16 @@ public class CreateOrderReq implements Serializable {
     private Integer invoiceFlag;
 
     /**
-     * 使用的优惠券ID列表
+     * 使用的优惠券ID
      */
-    @Schema(description = "使用的优惠券ID列表")
-    private List<String> userCouponIds;
+    @Schema(description = "使用的优惠券ID")
+    private String userCouponId;
 
     /**
-     * 优惠备注
+     * 优惠名称
      */
-    @Schema(description = "优惠备注")
-    private String discountRemark;
+    @Schema(description = "优惠名称")
+    private String discountName;
 
     /**
      * 商品金额

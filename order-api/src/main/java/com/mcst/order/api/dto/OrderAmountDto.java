@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 * </p>
 *
 * @author liu yijun
-* @since 2026-01-26
+* @since 2026-02-01
 */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,23 +27,11 @@ public class OrderAmountDto extends BaseDto {
 
 
     /**
-    * 订单金额ID
+    * 订单ID
     */
     @PrimaryKey
-    @Schema(description= "订单金额ID")
-    private String orderAmountId;
-
-    /**
-    * 订单信息ID
-    */
-    @Schema(description= "订单信息ID")
-    private String orderInfoId;
-
-    /**
-    * 订单编号
-    */
-    @Schema(description= "订单编号")
-    private String orderNo;
+    @Schema(description= "订单ID")
+    private String orderId;
 
     /**
     * 总金额(商品金额+邮费金额)
@@ -80,6 +68,18 @@ public class OrderAmountDto extends BaseDto {
     */
     @Schema(description= "实际支付金额（优惠后金额+邮费金额），需要支付的金额")
     private BigDecimal actualPayAmount;
+
+    /**
+    * 用户优惠券ID
+    */
+    @Schema(description= "用户优惠券ID")
+    private String userCouponId;
+
+    /**
+    * 优惠券名称
+    */
+    @Schema(description= "优惠券名称")
+    private String discountName;
 
 
 }

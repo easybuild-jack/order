@@ -33,12 +33,12 @@ import java.time.LocalDateTime;
 public class OrderInfo extends BaseMyBatisPlusEntity<OrderInfo> {
 
     /**
-     * 订单信息ID
+     * 订单ID
      */
     @PrimaryKey
     @TableId(type = IdType.ASSIGN_UUID)
-    @Column(comment = "订单信息ID")
-    private String orderInfoId;
+    @Column(comment = "订单ID")
+    private String orderId;
 
     /**
      * 订单编号

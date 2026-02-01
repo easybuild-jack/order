@@ -19,8 +19,8 @@ import java.math.BigDecimal;
 @Schema(description = "创建订单响应")
 public class CreateOrderResp {
 
-    @Schema(description = "订单信息ID")
-    private String orderInfoId;
+    @Schema(description = "订单ID")
+    private String orderId;
 
     @Schema(description = "订单编号")
     private String orderNo;

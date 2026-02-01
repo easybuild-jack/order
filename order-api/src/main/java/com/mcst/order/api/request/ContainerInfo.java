@@ -2,9 +2,10 @@ package com.mcst.order.api.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import lombok.Builder;
+
 import java.io.Serializable;
 
 /**
@@ -22,11 +23,11 @@ import java.io.Serializable;
 public class ContainerInfo implements Serializable {
 
     /**
-     * 货柜信息ID
+     * 货柜ID
      */
-    @Schema(description = "货柜信息ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "货柜信息ID不能为空")
-    private String containerInfoId;
+    @Schema(description = "货柜ID", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "货柜ID不能为空")
+    private String containerId;
 
     /**
      * 货柜名称

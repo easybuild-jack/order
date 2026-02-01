@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 订单货柜信息
+ * 订单货柜
  * 记录订单与货柜的存放关系
  * </p>
  *
@@ -35,14 +35,8 @@ public class OrderContainer extends BaseMyBatisPlusEntity<OrderContainer> {
      */
     @PrimaryKey
     @TableId(type = IdType.ASSIGN_UUID)
-    @Column(comment = "订单货柜信息ID")
-    private String orderContainerId;
-
-    /**
-     * 订单ID
-     */
     @Column(comment = "订单ID")
-    private String orderInfoId;
+    private String orderId;
 
     /**
      * 订单编号
@@ -51,10 +45,10 @@ public class OrderContainer extends BaseMyBatisPlusEntity<OrderContainer> {
     private String orderNo;
 
     /**
-     * 货柜信息ID
+     * 货柜ID
      */
-    @Column(comment = "货柜信息ID")
-    private String containerInfoId;
+    @Column(comment = "货柜ID")
+    private String containerId;
 
     /**
      * 货柜名称

@@ -35,14 +35,8 @@ public class OrderPickup extends BaseMyBatisPlusEntity<OrderPickup> {
      */
     @PrimaryKey
     @TableId(type = IdType.ASSIGN_UUID)
-    @Column(comment = "订单提货ID")
-    private String orderPickupId;
-
-    /**
-     * 订单ID
-     */
     @Column(comment = "订单ID")
-    private String orderInfoId;
+    private String orderId;
 
     /**
      * 订单编号

@@ -32,24 +32,12 @@ import java.time.LocalDateTime;
 public class OrderPay extends BaseMyBatisPlusEntity<OrderPay> {
 
     /**
-     * 订单支付ID
+     * 订单ID
      */
     @PrimaryKey
     @TableId(type = IdType.ASSIGN_UUID)
-    @Column(comment = "订单支付ID")
-    private String orderPayId;
-
-    /**
-     * 订单信息ID
-     */
-    @Column(comment = "订单信息ID")
-    private String orderInfoId;
-
-    /**
-     * 订单编号
-     */
-    @Column(comment = "订单编号")
-    private String orderNo;
+    @Column(comment = "订单ID")
+    private String orderId;
 
     /**
      * 实际支付金额
@@ -86,7 +74,6 @@ public class OrderPay extends BaseMyBatisPlusEntity<OrderPay> {
      */
     @Column(comment = "支付时间")
     private LocalDateTime payTime;
-
 
     /**
      * 备注
