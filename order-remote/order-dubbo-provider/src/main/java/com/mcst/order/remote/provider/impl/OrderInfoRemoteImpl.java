@@ -51,12 +51,12 @@ public class OrderInfoRemoteImpl extends DubboBaseRemoteImpl<IOrderInfoService, 
     }
 
     @Override
-    public List<OrderGoodsDto> getOrderGoodsByOrderNo(String orderNo) {
-        return this.orderInfoService.getOrderGoodsByOrderNo(orderNo);
+    public List<OrderGoodsDto> getOrderGoodsByOrderId(String orderId) {
+        return this.orderInfoService.getOrderGoodsByOrderId(orderId);
     }
 
     @Override
-    public OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo) {
-        return this.orderInfoService.getOrderFullDetailByOrderNo(orderNo);
+    public OrderFullDetailResp getOrderFullDetailByOrderId(String orderId) {
+        return this.orderInfoService.getOrderFullDetailByOrderId(orderId);
     }
 }

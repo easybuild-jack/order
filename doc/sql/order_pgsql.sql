@@ -113,10 +113,6 @@ DROP TABLE IF EXISTS order_goods CASCADE;
 CREATE TABLE order_goods (
     order_goods_id VARCHAR(50) NOT NULL,
     order_id VARCHAR(50) DEFAULT NULL,
-    order_no VARCHAR(50) DEFAULT NULL,
-    user_id VARCHAR(50) DEFAULT NULL,
-    user_third_account VARCHAR(50) DEFAULT NULL,
-    user_phone VARCHAR(11) DEFAULT NULL,
     goods_id VARCHAR(50) DEFAULT NULL,
     goods_name VARCHAR(50) DEFAULT NULL,
     goods_no VARCHAR(50) DEFAULT NULL,
@@ -135,30 +131,25 @@ CREATE TABLE order_goods (
     PRIMARY KEY (order_goods_id)
 );
 COMMENT ON TABLE order_goods IS '订单商品';
-COMMENT ON COLUMN order_goods.order_goods_id IS 'OrderGoodsId';
+COMMENT ON COLUMN order_goods.order_goods_id IS '订单商品ID';
 COMMENT ON COLUMN order_goods.order_id IS '订单ID';
-COMMENT ON COLUMN order_goods.order_no IS '订单编号';
-COMMENT ON COLUMN order_goods.user_id IS '用户ID';
-COMMENT ON COLUMN order_goods.user_third_account IS '用户第三方账号';
-COMMENT ON COLUMN order_goods.user_phone IS '用户手机号';
 COMMENT ON COLUMN order_goods.goods_id IS '商品ID';
 COMMENT ON COLUMN order_goods.goods_name IS '商品名称';
 COMMENT ON COLUMN order_goods.goods_no IS '商品编码';
 COMMENT ON COLUMN order_goods.goods_sku_id IS '商品SKUID';
 COMMENT ON COLUMN order_goods.goods_sku_no IS 'SKU编码';
-COMMENT ON COLUMN order_goods.goods_sku_name IS '商户sku名称';
+COMMENT ON COLUMN order_goods.goods_sku_name IS '商品SKU名称';
 COMMENT ON COLUMN order_goods.goods_pic_url IS '商品图片';
 COMMENT ON COLUMN order_goods.goods_count IS '销售数量';
 COMMENT ON COLUMN order_goods.goods_price IS '商品原售价';
 COMMENT ON COLUMN order_goods.serial_no IS '产品序列号';
-COMMENT ON COLUMN order_goods.goods_type IS '商品类型 0 普通商品 1 虚拟商品';
+COMMENT ON COLUMN order_goods.goods_type IS '商品类型 0-普通商品 1-虚拟商品';
 COMMENT ON COLUMN order_goods.gift_flag IS '是否是赠品 0-否 1-是';
 COMMENT ON COLUMN order_goods.insert_time IS '插入时间';
 COMMENT ON COLUMN order_goods.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_goods.deleted IS '删除标记，0否 1是';
 
 CREATE INDEX idx_order_goods_order_id ON order_goods(order_id);
-CREATE INDEX idx_order_goods_order_no ON order_goods(order_no);
 CREATE INDEX idx_order_goods_goods_id ON order_goods(goods_id);
 CREATE INDEX idx_order_goods_goods_sku_id ON order_goods(goods_sku_id);
 
@@ -170,112 +161,68 @@ CREATE TRIGGER trg_order_goods_update_time
 -- 3. 订单金额表
 DROP TABLE IF EXISTS order_amount CASCADE;
 CREATE TABLE order_amount (
-    order_amount_id VARCHAR(50) NOT NULL,
-    order_id VARCHAR(50) DEFAULT NULL,
-    order_no VARCHAR(50) DEFAULT NULL,
+    order_id VARCHAR(50) NOT NULL,
     total_amount NUMERIC(10,2) DEFAULT NULL,
     goods_amount NUMERIC(10,2) DEFAULT NULL,
     discount_amount NUMERIC(10,2) DEFAULT NULL,
     discount_after_amount NUMERIC(10,2) DEFAULT NULL,
     postage_amount NUMERIC(10,2) DEFAULT NULL,
     actual_pay_amount NUMERIC(10,2) DEFAULT NULL,
+    user_coupon_id VARCHAR(50) DEFAULT NULL,
+    discount_name VARCHAR(200) DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
-    PRIMARY KEY (order_amount_id)
+    PRIMARY KEY (order_id)
 );
 COMMENT ON TABLE order_amount IS '订单金额';
-COMMENT ON COLUMN order_amount.order_amount_id IS 'OrderAmountId';
 COMMENT ON COLUMN order_amount.order_id IS '订单ID';
-COMMENT ON COLUMN order_amount.order_no IS '订单编号';
-COMMENT ON COLUMN order_amount.total_amount IS '订单总金额，未打折的所有金额';
-COMMENT ON COLUMN order_amount.goods_amount IS '商品总金额，未打折金额';
-COMMENT ON COLUMN order_amount.discount_amount IS '优惠金额';
-COMMENT ON COLUMN order_amount.discount_after_amount IS '优惠后的金额';
+COMMENT ON COLUMN order_amount.total_amount IS '总金额(商品金额+邮费金额)';
+COMMENT ON COLUMN order_amount.goods_amount IS '商品金额';
+COMMENT ON COLUMN order_amount.discount_amount IS '优惠金额（优惠掉的金额）';
+COMMENT ON COLUMN order_amount.discount_after_amount IS '优惠后金额（总金额-优惠金额）';
 COMMENT ON COLUMN order_amount.postage_amount IS '邮费金额';
 COMMENT ON COLUMN order_amount.actual_pay_amount IS '实际支付金额（优惠后金额+邮费金额），需要支付的金额';
+COMMENT ON COLUMN order_amount.user_coupon_id IS '用户优惠券ID';
+COMMENT ON COLUMN order_amount.discount_name IS '优惠券名称';
 COMMENT ON COLUMN order_amount.insert_time IS '插入时间';
 COMMENT ON COLUMN order_amount.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_amount.deleted IS '删除标记，0否 1是';
-
-CREATE INDEX idx_order_amount_order_id ON order_amount(order_id);
-CREATE INDEX idx_order_amount_order_no ON order_amount(order_no);
 
 CREATE TRIGGER trg_order_amount_update_time
     BEFORE UPDATE ON order_amount
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 4. 订单优惠表
-DROP TABLE IF EXISTS order_discount CASCADE;
-CREATE TABLE order_discount (
-    order_discount_id VARCHAR(50) NOT NULL,
-    order_id VARCHAR(50) DEFAULT NULL,
-    order_no VARCHAR(50) DEFAULT NULL,
-    goods_amount NUMERIC(10,2) DEFAULT NULL,
-    discount_amount NUMERIC(10,2) DEFAULT NULL,
-    discount_after_amount NUMERIC(10,2) DEFAULT NULL,
-    user_coupon_ids VARCHAR(500) DEFAULT NULL,
-    discount_remark VARCHAR(200) DEFAULT NULL,
-    insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted SMALLINT NOT NULL DEFAULT 0,
-    PRIMARY KEY (order_discount_id)
-);
-COMMENT ON TABLE order_discount IS '订单优惠';
-COMMENT ON COLUMN order_discount.order_discount_id IS 'OrderDiscountId';
-COMMENT ON COLUMN order_discount.order_id IS '订单ID';
-COMMENT ON COLUMN order_discount.order_no IS '订单编号';
-COMMENT ON COLUMN order_discount.goods_amount IS '商品总金额';
-COMMENT ON COLUMN order_discount.discount_amount IS '优惠金额';
-COMMENT ON COLUMN order_discount.discount_after_amount IS '优惠后的金额';
-COMMENT ON COLUMN order_discount.user_coupon_ids IS '用户优惠券ID';
-COMMENT ON COLUMN order_discount.discount_remark IS '优惠备注 例如：满300减50 *1 现金抵扣券50 *1 限时折扣85折 *1';
-COMMENT ON COLUMN order_discount.insert_time IS '插入时间';
-COMMENT ON COLUMN order_discount.last_update_time IS '最后更新时间';
-COMMENT ON COLUMN order_discount.deleted IS '删除标记，0否 1是';
-
-CREATE INDEX idx_order_discount_order_id ON order_discount(order_id);
-CREATE INDEX idx_order_discount_order_no ON order_discount(order_no);
-
-CREATE TRIGGER trg_order_discount_update_time
-    BEFORE UPDATE ON order_discount
-    FOR EACH ROW
-    EXECUTE FUNCTION update_last_update_time();
-
--- 5. 订单支付表
+-- 4. 订单支付表
 DROP TABLE IF EXISTS order_pay CASCADE;
 CREATE TABLE order_pay (
-    order_pay_id VARCHAR(50) NOT NULL,
-    order_id VARCHAR(50) DEFAULT NULL,
-    order_no VARCHAR(50) DEFAULT NULL,
+    order_id VARCHAR(50) NOT NULL,
     actual_pay_amount NUMERIC(10,2) DEFAULT NULL,
     pay_status SMALLINT DEFAULT 0,
     third_trade_no VARCHAR(50) DEFAULT NULL,
     pay_type VARCHAR(50) DEFAULT NULL,
     pay_date DATE DEFAULT NULL,
     pay_time TIMESTAMP DEFAULT NULL,
+    remark VARCHAR(200) DEFAULT NULL,
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
-    PRIMARY KEY (order_pay_id)
+    PRIMARY KEY (order_id)
 );
 COMMENT ON TABLE order_pay IS '订单支付';
-COMMENT ON COLUMN order_pay.order_pay_id IS 'OrderPayId';
 COMMENT ON COLUMN order_pay.order_id IS '订单ID';
-COMMENT ON COLUMN order_pay.order_no IS '订单编号';
 COMMENT ON COLUMN order_pay.actual_pay_amount IS '实际支付金额';
-COMMENT ON COLUMN order_pay.pay_status IS '支付状态 0：未支付，1：支付中，2：已支付';
+COMMENT ON COLUMN order_pay.pay_status IS '支付状态 0：未支付，1：支付中，2：已支付，3：已取消，4：支付失败';
 COMMENT ON COLUMN order_pay.third_trade_no IS '第三方交易编号';
-COMMENT ON COLUMN order_pay.pay_type IS '支付类型，支付宝、微信、积分等';
+COMMENT ON COLUMN order_pay.pay_type IS '支付类型，wechat,alipay,douyin,union,credit,balance';
 COMMENT ON COLUMN order_pay.pay_date IS '支付日期';
 COMMENT ON COLUMN order_pay.pay_time IS '支付时间';
+COMMENT ON COLUMN order_pay.remark IS '备注';
 COMMENT ON COLUMN order_pay.insert_time IS '插入时间';
 COMMENT ON COLUMN order_pay.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_pay.deleted IS '删除标记，0否 1是';
 
-CREATE INDEX idx_order_pay_order_id ON order_pay(order_id);
-CREATE INDEX idx_order_pay_order_no ON order_pay(order_no);
 CREATE INDEX idx_order_pay_pay_status ON order_pay(pay_status);
 CREATE INDEX idx_order_pay_third_trade_no ON order_pay(third_trade_no);
 
@@ -284,7 +231,7 @@ CREATE TRIGGER trg_order_pay_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 6. 订单发货表
+-- 5. 订单发货表
 DROP TABLE IF EXISTS order_deliver CASCADE;
 CREATE TABLE order_deliver (
     order_deliver_id VARCHAR(50) NOT NULL,
@@ -360,7 +307,7 @@ CREATE TRIGGER trg_order_deliver_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 7. 订单发货商品表
+-- 6. 订单发货商品表
 DROP TABLE IF EXISTS order_deliver_goods CASCADE;
 CREATE TABLE order_deliver_goods (
     order_deliver_goods_id VARCHAR(50) NOT NULL,
@@ -404,10 +351,9 @@ CREATE TRIGGER trg_order_deliver_goods_update_time
 -- 订单货柜信息表
 DROP TABLE IF EXISTS order_container CASCADE;
 CREATE TABLE order_container (
-    order_container_id VARCHAR(50) NOT NULL,
-    order_id VARCHAR(50) DEFAULT NULL,
+    order_id VARCHAR(50) NOT NULL,
     order_no VARCHAR(50) DEFAULT NULL,
-    container_info_id VARCHAR(50) DEFAULT NULL,
+    container_id VARCHAR(50) DEFAULT NULL,
     container_name VARCHAR(50) DEFAULT NULL,
     container_code VARCHAR(50) DEFAULT NULL,
     grid_nos VARCHAR(200) DEFAULT NULL,
@@ -418,13 +364,12 @@ CREATE TABLE order_container (
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
-    PRIMARY KEY (order_container_id)
+    PRIMARY KEY (order_id)
 );
 COMMENT ON TABLE order_container IS '订单货柜信息';
-COMMENT ON COLUMN order_container.order_container_id IS '订单货柜ID';
 COMMENT ON COLUMN order_container.order_id IS '订单ID';
 COMMENT ON COLUMN order_container.order_no IS '订单编号';
-COMMENT ON COLUMN order_container.container_info_id IS '货柜ID';
+COMMENT ON COLUMN order_container.container_id IS '货柜ID';
 COMMENT ON COLUMN order_container.container_name IS '货柜名称';
 COMMENT ON COLUMN order_container.container_code IS '货柜编号';
 COMMENT ON COLUMN order_container.grid_nos IS '具体货柜格子编号，多个格子用逗号分隔';
@@ -436,7 +381,6 @@ COMMENT ON COLUMN order_container.insert_time IS '插入时间';
 COMMENT ON COLUMN order_container.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_container.deleted IS '删除标记，0否 1是';
 
-CREATE INDEX idx_order_container_order_id ON order_container(order_id);
 CREATE INDEX idx_order_container_order_no ON order_container(order_no);
 
 CREATE TRIGGER trg_order_container_update_time
@@ -444,11 +388,10 @@ CREATE TRIGGER trg_order_container_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 8. 订单提货表
+-- 7. 订单提货表
 DROP TABLE IF EXISTS order_pickup CASCADE;
 CREATE TABLE order_pickup (
-    order_pickup_id VARCHAR(50) NOT NULL,
-    order_id VARCHAR(50) DEFAULT NULL,
+    order_id VARCHAR(50) NOT NULL,
     order_no VARCHAR(50) DEFAULT NULL,
     pickup_location_id VARCHAR(50) DEFAULT NULL,
     pickup_location_name VARCHAR(100) DEFAULT NULL,
@@ -473,11 +416,10 @@ CREATE TABLE order_pickup (
     insert_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted SMALLINT NOT NULL DEFAULT 0,
-    PRIMARY KEY (order_pickup_id)
+    PRIMARY KEY (order_id)
 );
 COMMENT ON TABLE order_pickup IS '订单提货';
-COMMENT ON COLUMN order_pickup.order_pickup_id IS 'OrderPickupId';
-COMMENT ON COLUMN order_pickup.order_id IS '订单Id';
+COMMENT ON COLUMN order_pickup.order_id IS '订单ID';
 COMMENT ON COLUMN order_pickup.order_no IS '订单编号';
 COMMENT ON COLUMN order_pickup.pickup_location_id IS '提货点Id';
 COMMENT ON COLUMN order_pickup.pickup_location_name IS '提货点名称';
@@ -503,7 +445,6 @@ COMMENT ON COLUMN order_pickup.insert_time IS '插入时间';
 COMMENT ON COLUMN order_pickup.last_update_time IS '最后更新时间';
 COMMENT ON COLUMN order_pickup.deleted IS '删除标记，0否 1是';
 
-CREATE INDEX idx_order_pickup_order_id ON order_pickup(order_id);
 CREATE INDEX idx_order_pickup_order_no ON order_pickup(order_no);
 CREATE INDEX idx_order_pickup_pickup_code ON order_pickup(pickup_code);
 
@@ -512,7 +453,7 @@ CREATE TRIGGER trg_order_pickup_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 9. 订单退款表
+-- 8. 订单退款表
 DROP TABLE IF EXISTS order_refund CASCADE;
 CREATE TABLE order_refund (
     order_refund_id VARCHAR(50) NOT NULL,
@@ -522,6 +463,7 @@ CREATE TABLE order_refund (
     order_pay_id VARCHAR(50) DEFAULT NULL,
     user_id VARCHAR(50) DEFAULT NULL,
     user_phone VARCHAR(50) DEFAULT NULL,
+    user_name VARCHAR(50) DEFAULT NULL,
     refund_type SMALLINT DEFAULT 0,
     refund_source SMALLINT DEFAULT 0,
     refund_status SMALLINT DEFAULT 0,
@@ -562,6 +504,7 @@ COMMENT ON COLUMN order_refund.order_no IS '订单编号';
 COMMENT ON COLUMN order_refund.order_pay_id IS '支付记录ID';
 COMMENT ON COLUMN order_refund.user_id IS '用户ID';
 COMMENT ON COLUMN order_refund.user_phone IS '用户电话';
+COMMENT ON COLUMN order_refund.user_name IS '用户名称';
 COMMENT ON COLUMN order_refund.refund_type IS '退款类型 0 仅退款 1 退货退款';
 COMMENT ON COLUMN order_refund.refund_source IS '退款来源 0 用户申请 1 商家发起 2 系统发起';
 COMMENT ON COLUMN order_refund.refund_status IS '退款状态 0 待审核 1 审核拒绝 2 待退货 3 待收货 4 退款中 5 已退款 6 已关闭';
@@ -603,13 +546,12 @@ CREATE TRIGGER trg_order_refund_update_time
     FOR EACH ROW
     EXECUTE FUNCTION update_last_update_time();
 
--- 10. 订单退款商品表
+-- 9. 订单退款商品表
 DROP TABLE IF EXISTS order_refund_goods CASCADE;
 CREATE TABLE order_refund_goods (
     order_refund_goods_id VARCHAR(50) NOT NULL,
     order_refund_id VARCHAR(50) DEFAULT NULL,
     order_id VARCHAR(50) DEFAULT NULL,
-    order_no VARCHAR(50) DEFAULT NULL,
     order_goods_id VARCHAR(50) DEFAULT NULL,
     goods_id VARCHAR(50) DEFAULT NULL,
     goods_sku_id VARCHAR(50) DEFAULT NULL,
@@ -632,10 +574,9 @@ CREATE TABLE order_refund_goods (
     PRIMARY KEY (order_refund_goods_id)
 );
 COMMENT ON TABLE order_refund_goods IS '订单退款商品';
-COMMENT ON COLUMN order_refund_goods.order_refund_goods_id IS 'OrderRefundGoodsId';
-COMMENT ON COLUMN order_refund_goods.order_refund_id IS '退款记录ID';
+COMMENT ON COLUMN order_refund_goods.order_refund_goods_id IS '订单退款商品ID';
+COMMENT ON COLUMN order_refund_goods.order_refund_id IS '退款ID';
 COMMENT ON COLUMN order_refund_goods.order_id IS '订单ID';
-COMMENT ON COLUMN order_refund_goods.order_no IS '订单编号';
 COMMENT ON COLUMN order_refund_goods.order_goods_id IS '订单商品记录ID';
 COMMENT ON COLUMN order_refund_goods.goods_id IS '商品ID';
 COMMENT ON COLUMN order_refund_goods.goods_sku_id IS '商品SKU ID';
@@ -658,7 +599,6 @@ COMMENT ON COLUMN order_refund_goods.deleted IS '删除标记，0否 1是';
 
 CREATE INDEX idx_order_refund_goods_order_refund_id ON order_refund_goods(order_refund_id);
 CREATE INDEX idx_order_refund_goods_order_id ON order_refund_goods(order_id);
-CREATE INDEX idx_order_refund_goods_order_no ON order_refund_goods(order_no);
 CREATE INDEX idx_order_refund_goods_goods_id ON order_refund_goods(goods_id);
 
 CREATE TRIGGER trg_order_refund_goods_update_time

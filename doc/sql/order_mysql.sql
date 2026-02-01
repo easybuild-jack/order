@@ -58,30 +58,25 @@ CREATE TABLE `order_info` (
 -- 2. 订单商品表
 DROP TABLE IF EXISTS `order_goods`;
 CREATE TABLE `order_goods` (
-    `order_goods_id` VARCHAR(50) NOT NULL COMMENT 'OrderGoodsId',
+    `order_goods_id` VARCHAR(50) NOT NULL COMMENT '订单商品ID',
     `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
-    `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
-    `user_id` VARCHAR(50) DEFAULT NULL COMMENT '用户ID',
-    `user_third_account` VARCHAR(50) DEFAULT NULL COMMENT '用户第三方账号',
-    `user_phone` VARCHAR(11) DEFAULT NULL COMMENT '用户手机号',
     `goods_id` VARCHAR(50) DEFAULT NULL COMMENT '商品ID',
     `goods_name` VARCHAR(50) DEFAULT NULL COMMENT '商品名称',
     `goods_no` VARCHAR(50) DEFAULT NULL COMMENT '商品编码',
     `goods_sku_id` VARCHAR(50) DEFAULT NULL COMMENT '商品SKUID',
     `goods_sku_no` VARCHAR(50) DEFAULT NULL COMMENT 'SKU编码',
-    `goods_sku_name` VARCHAR(150) DEFAULT NULL COMMENT '商户sku名称',
+    `goods_sku_name` VARCHAR(150) DEFAULT NULL COMMENT '商品SKU名称',
     `goods_pic_url` VARCHAR(200) DEFAULT NULL COMMENT '商品图片',
     `goods_count` INT(10) DEFAULT NULL COMMENT '销售数量',
     `goods_price` DECIMAL(10,2) DEFAULT NULL COMMENT '商品原售价',
     `serial_no` VARCHAR(50) DEFAULT NULL COMMENT '产品序列号',
-    `goods_type` INT(2) DEFAULT 0 COMMENT '商品类型 0 普通商品 1 虚拟商品',
+    `goods_type` INT(2) DEFAULT 0 COMMENT '商品类型 0-普通商品 1-虚拟商品',
     `gift_flag` INT(2) DEFAULT 0 COMMENT '是否是赠品 0-否 1-是',
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
     PRIMARY KEY (`order_goods_id`),
     KEY `idx_order_id` (`order_id`),
-    KEY `idx_order_no` (`order_no`),
     KEY `idx_goods_id` (`goods_id`),
     KEY `idx_goods_sku_id` (`goods_sku_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单商品';
@@ -89,65 +84,41 @@ CREATE TABLE `order_goods` (
 -- 3. 订单金额表
 DROP TABLE IF EXISTS `order_amount`;
 CREATE TABLE `order_amount` (
-    `order_amount_id` VARCHAR(50) NOT NULL COMMENT 'OrderAmountId',
-    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
-    `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
-    `total_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '订单总金额，未打折的所有金额',
-    `goods_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '商品总金额，未打折金额',
-    `discount_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠金额',
-    `discount_after_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠后的金额',
+    `order_id` VARCHAR(50) NOT NULL COMMENT '订单ID',
+    `total_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '总金额(商品金额+邮费金额)',
+    `goods_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '商品金额',
+    `discount_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠金额（优惠掉的金额）',
+    `discount_after_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠后金额（总金额-优惠金额）',
     `postage_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '邮费金额',
     `actual_pay_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际支付金额（优惠后金额+邮费金额），需要支付的金额',
+    `user_coupon_id` VARCHAR(50) DEFAULT NULL COMMENT '用户优惠券ID',
+    `discount_name` VARCHAR(200) DEFAULT NULL COMMENT '优惠券名称',
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
-    PRIMARY KEY (`order_amount_id`),
-    KEY `idx_order_id` (`order_id`),
-    KEY `idx_order_no` (`order_no`)
+    PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单金额';
 
--- 4. 订单优惠表
-DROP TABLE IF EXISTS `order_discount`;
-CREATE TABLE `order_discount` (
-    `order_discount_id` VARCHAR(50) NOT NULL COMMENT 'OrderDiscountId',
-    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
-    `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
-    `goods_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '商品总金额',
-    `discount_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠金额',
-    `discount_after_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '优惠后的金额',
-    `user_coupon_ids` VARCHAR(500) DEFAULT NULL COMMENT '用户优惠券ID',
-    `discount_remark` VARCHAR(200) DEFAULT NULL COMMENT '优惠备注 例如：满300减50 *1 现金抵扣券50 *1 限时折扣85折 *1',
-    `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
-    `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
-    `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
-    PRIMARY KEY (`order_discount_id`),
-    KEY `idx_order_id` (`order_id`),
-    KEY `idx_order_no` (`order_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单优惠';
-
--- 5. 订单支付表
+-- 4. 订单支付表
 DROP TABLE IF EXISTS `order_pay`;
 CREATE TABLE `order_pay` (
-    `order_pay_id` VARCHAR(50) NOT NULL COMMENT 'OrderPayId',
-    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
-    `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
+    `order_id` VARCHAR(50) NOT NULL COMMENT '订单ID',
     `actual_pay_amount` DECIMAL(10,2) DEFAULT NULL COMMENT '实际支付金额',
-    `pay_status` INT(2) DEFAULT 0 COMMENT '支付状态 0：未支付，1：支付中，2：已支付',
+    `pay_status` INT(2) DEFAULT 0 COMMENT '支付状态 0：未支付，1：支付中，2：已支付，3：已取消，4：支付失败',
     `third_trade_no` VARCHAR(50) DEFAULT NULL COMMENT '第三方交易编号',
-    `pay_type` VARCHAR(50) DEFAULT NULL COMMENT '支付类型，支付宝、微信、积分等',
+    `pay_type` VARCHAR(50) DEFAULT NULL COMMENT '支付类型，wechat,alipay,douyin,union,credit,balance',
     `pay_date` DATE DEFAULT NULL COMMENT '支付日期',
     `pay_time` TIMESTAMP NULL DEFAULT NULL COMMENT '支付时间',
+    `remark` VARCHAR(200) DEFAULT NULL COMMENT '备注',
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
-    PRIMARY KEY (`order_pay_id`),
-    KEY `idx_order_id` (`order_id`),
-    KEY `idx_order_no` (`order_no`),
+    PRIMARY KEY (`order_id`),
     KEY `idx_pay_status` (`pay_status`),
     KEY `idx_third_trade_no` (`third_trade_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单支付';
 
--- 6. 订单发货表
+-- 5. 订单发货表
 DROP TABLE IF EXISTS `order_deliver`;
 CREATE TABLE `order_deliver` (
     `order_deliver_id` VARCHAR(50) NOT NULL COMMENT 'OrderDeliverId',
@@ -186,7 +157,7 @@ CREATE TABLE `order_deliver` (
     KEY `idx_express_no` (`express_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单发货';
 
--- 7. 订单发货商品表
+-- 6. 订单发货商品表
 DROP TABLE IF EXISTS `order_deliver_goods`;
 CREATE TABLE `order_deliver_goods` (
     `order_deliver_goods_id` VARCHAR(50) NOT NULL COMMENT 'OrderDeliverGoodsId',
@@ -210,10 +181,9 @@ CREATE TABLE `order_deliver_goods` (
 -- 订单货柜信息表
 DROP TABLE IF EXISTS `order_container`;
 CREATE TABLE `order_container` (
-    `order_container_id` VARCHAR(50) NOT NULL COMMENT '订单货柜ID',
-    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
+    `order_id` VARCHAR(50) NOT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
-    `container_info_id` VARCHAR(50) DEFAULT NULL COMMENT '货柜ID',
+    `container_id` VARCHAR(50) DEFAULT NULL COMMENT '货柜ID',
     `container_name` VARCHAR(50) DEFAULT NULL COMMENT '货柜名称',
     `container_code` VARCHAR(50) DEFAULT NULL COMMENT '货柜编号',
     `grid_nos` VARCHAR(200) DEFAULT NULL COMMENT '具体货柜格子编号，多个格子用逗号分隔',
@@ -224,16 +194,14 @@ CREATE TABLE `order_container` (
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
-    PRIMARY KEY (`order_container_id`),
-    KEY `idx_order_id` (`order_id`),
+    PRIMARY KEY (`order_id`),
     KEY `idx_order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单货柜信息';
 
--- 8. 订单提货表
+-- 7. 订单提货表
 DROP TABLE IF EXISTS `order_pickup`;
 CREATE TABLE `order_pickup` (
-    `order_pickup_id` VARCHAR(50) NOT NULL COMMENT 'OrderPickupId',
-    `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单Id',
+    `order_id` VARCHAR(50) NOT NULL COMMENT '订单ID',
     `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `pickup_location_id` VARCHAR(50) DEFAULT NULL COMMENT '提货点Id',
     `pickup_location_name` VARCHAR(100) DEFAULT NULL COMMENT '提货点名称',
@@ -258,13 +226,12 @@ CREATE TABLE `order_pickup` (
     `insert_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     `last_update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     `deleted` INT(2) NOT NULL DEFAULT 0 COMMENT '删除标记，0否 1是',
-    PRIMARY KEY (`order_pickup_id`),
-    KEY `idx_order_id` (`order_id`),
+    PRIMARY KEY (`order_id`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_pickup_code` (`pickup_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单提货';
 
--- 9. 订单退款表
+-- 8. 订单退款表
 DROP TABLE IF EXISTS `order_refund`;
 CREATE TABLE `order_refund` (
     `order_refund_id` VARCHAR(50) NOT NULL COMMENT 'OrderRefundId',
@@ -274,6 +241,7 @@ CREATE TABLE `order_refund` (
     `order_pay_id` VARCHAR(50) DEFAULT NULL COMMENT '支付记录ID',
     `user_id` VARCHAR(50) DEFAULT NULL COMMENT '用户ID',
     `user_phone` VARCHAR(50) DEFAULT NULL COMMENT '用户电话',
+    `user_name` VARCHAR(50) DEFAULT NULL COMMENT '用户名称',
     `refund_type` INT(2) DEFAULT 0 COMMENT '退款类型 0 仅退款 1 退货退款',
     `refund_source` INT(2) DEFAULT 0 COMMENT '退款来源 0 用户申请 1 商家发起 2 系统发起',
     `refund_status` INT(2) DEFAULT 0 COMMENT '退款状态 0 待审核 1 审核拒绝 2 待退货 3 待收货 4 退款中 5 已退款 6 已关闭',
@@ -311,13 +279,12 @@ CREATE TABLE `order_refund` (
     KEY `idx_refund_status` (`refund_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单退款';
 
--- 10. 订单退款商品表
+-- 9. 订单退款商品表
 DROP TABLE IF EXISTS `order_refund_goods`;
 CREATE TABLE `order_refund_goods` (
-    `order_refund_goods_id` VARCHAR(50) NOT NULL COMMENT 'OrderRefundGoodsId',
-    `order_refund_id` VARCHAR(50) DEFAULT NULL COMMENT '退款记录ID',
+    `order_refund_goods_id` VARCHAR(50) NOT NULL COMMENT '订单退款商品ID',
+    `order_refund_id` VARCHAR(50) DEFAULT NULL COMMENT '退款ID',
     `order_id` VARCHAR(50) DEFAULT NULL COMMENT '订单ID',
-    `order_no` VARCHAR(50) DEFAULT NULL COMMENT '订单编号',
     `order_goods_id` VARCHAR(50) DEFAULT NULL COMMENT '订单商品记录ID',
     `goods_id` VARCHAR(50) DEFAULT NULL COMMENT '商品ID',
     `goods_sku_id` VARCHAR(50) DEFAULT NULL COMMENT '商品SKU ID',
@@ -340,7 +307,6 @@ CREATE TABLE `order_refund_goods` (
     PRIMARY KEY (`order_refund_goods_id`),
     KEY `idx_order_refund_id` (`order_refund_id`),
     KEY `idx_order_id` (`order_id`),
-    KEY `idx_order_no` (`order_no`),
     KEY `idx_goods_id` (`goods_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单退款商品';
 

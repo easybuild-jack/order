@@ -26,7 +26,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderRefundGoodsDto extends BaseDto {
 
-
     /**
     * 订单退款商品ID
     */
@@ -46,11 +45,6 @@ public class OrderRefundGoodsDto extends BaseDto {
     @Schema(description= "订单ID")
     private String orderId;
 
-    /**
-    * 订单编号
-    */
-    @Schema(description= "订单编号")
-    private String orderNo;
 
     /**
     * 订单商品记录ID

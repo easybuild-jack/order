@@ -44,30 +44,6 @@ public class OrderGoods extends BaseMyBatisPlusEntity<OrderGoods> {
     private String orderId;
 
     /**
-     * 订单编号
-     */
-    @Column(comment = "订单编号")
-    private String orderNo;
-
-    /**
-     * 用户ID
-     */
-    @Column(comment = "用户ID")
-    private String userId;
-
-    /**
-     * 用户第三方账号 如：微信openid
-     */
-    @Column(comment = "用户第三方账号 如：微信openid")
-    private String userThirdAccount;
-
-    /**
-     * 用户手机号
-     */
-    @Column(comment = "用户手机号")
-    private String userPhone;
-
-    /**
      * 商品ID
      */
     @Column(comment = "商品ID")

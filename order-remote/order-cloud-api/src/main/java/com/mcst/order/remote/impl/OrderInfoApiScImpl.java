@@ -50,12 +50,12 @@ public class OrderInfoApiScImpl extends BaseApiRemoteImpl<IOrderInfoRemote, Orde
     }
 
     @Override
-    public List<OrderGoodsDto> getOrderGoodsByOrderNo(String orderNo) {
-        return this.orderInfoRemote.getOrderGoodsByOrderNo(orderNo);
+    public List<OrderGoodsDto> getOrderGoodsByOrderId(String orderId) {
+        return this.orderInfoRemote.getOrderGoodsByOrderId(orderId);
     }
 
     @Override
-    public OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo) {
-        return this.orderInfoRemote.getOrderFullDetailByOrderNo(orderNo);
+    public OrderFullDetailResp getOrderFullDetailByOrderId(String orderId) {
+        return this.orderInfoRemote.getOrderFullDetailByOrderId(orderId);
     }
 }

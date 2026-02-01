@@ -74,25 +74,25 @@ public interface IOrderInfoRemote extends IBaseRemote<OrderInfoResp, String, Ord
 
     /**
      * <p>
-     * 根据订单编号查询订单商品信息
+     * 根据订单ID查询订单商品信息
      * </p>
      *
-     * @param orderNo 订单编号
+     * @param orderId 订单ID
      * @return 订单商品列表
      */
-    @GetMapping("/getOrderGoodsByOrderNo")
-    List<OrderGoodsDto> getOrderGoodsByOrderNo(@RequestParam("orderNo") String orderNo);
+    @GetMapping("/getOrderGoodsByOrderId")
+    List<OrderGoodsDto> getOrderGoodsByOrderId(@RequestParam("orderId") String orderId);
 
 
     /**
      * <p>
-     * 根据订单编号查询订单全量信息
+     * 根据订单ID查询订单全量信息
      * </p>
      *
-     * @param orderNo 订单编号
+     * @param orderId 订单ID
      * @return 订单全量信息
      */
-    @GetMapping("/getOrderFullDetailByOrderNo")
-    OrderFullDetailResp getOrderFullDetailByOrderNo(@RequestParam("orderNo") String orderNo);
+    @GetMapping("/getOrderFullDetailByOrderId")
+    OrderFullDetailResp getOrderFullDetailByOrderId(@RequestParam("orderId") String orderId);
 
 }

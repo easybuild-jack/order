@@ -61,24 +61,24 @@ public interface IOrderInfoService extends IBaseService<OrderInfoResp, String, O
 
     /**
      * <p>
-     * 根据订单编号查询订单商品信息
+     * 根据订单ID查询订单商品信息
      * </p>
      *
-     * @param orderNo 订单编号
+     * @param orderId 订单ID
      * @return 订单商品列表
      */
-    List<OrderGoodsDto> getOrderGoodsByOrderNo(String orderNo);
+    List<OrderGoodsDto> getOrderGoodsByOrderId(String orderId);
 
 
     /**
      * <p>
-     * 根据订单编号查询订单全量信息
+     * 根据订单ID查询订单全量信息
      * </p>
      *
-     * @param orderNo 订单编号
+     * @param orderId 订单ID
      * @return 订单全量信息
      */
-    OrderFullDetailResp getOrderFullDetailByOrderNo(String orderNo);
+    OrderFullDetailResp getOrderFullDetailByOrderId(String orderId);
 
 
     /**

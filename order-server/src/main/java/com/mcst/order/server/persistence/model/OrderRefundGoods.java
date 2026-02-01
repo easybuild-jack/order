@@ -51,12 +51,6 @@ public class OrderRefundGoods extends BaseMyBatisPlusEntity<OrderRefundGoods> {
     private String orderId;
 
     /**
-     * 订单编号
-     */
-    @Column(comment = "订单编号")
-    private String orderNo;
-
-    /**
      * 订单商品记录ID
      */
     @Column(comment = "订单商品记录ID")

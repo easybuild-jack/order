@@ -40,6 +40,6 @@ public class OrderFullDetailResp implements Serializable {
      * 订单发货信息
      */
     @Schema(description = "订单发货信息")
-    private OrderDeliverDto orderDeliverDto;
+    private List<OrderDeliverDto> orderDeliverList;
 
 }
