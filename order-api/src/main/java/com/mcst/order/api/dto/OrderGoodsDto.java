@@ -88,9 +88,9 @@ public class OrderGoodsDto extends BaseDto {
     private Integer goodsCount;
 
     /**
-     * 商品原售价
+     * 商品售价
      */
-    @Schema(description = "商品原售价")
+    @Schema(description = "商品售价")
     private BigDecimal goodsPrice;
 
     /**
