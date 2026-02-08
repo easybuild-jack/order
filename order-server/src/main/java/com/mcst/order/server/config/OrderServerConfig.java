@@ -6,16 +6,16 @@ import com.mcst.order.server.repository.*;
 import com.mcst.order.server.repository.impl.*;
 import com.mcst.order.server.service.*;
 import com.mcst.order.server.service.impl.*;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  *
  * @author liu yijun
  */
-@Configuration
+@AutoConfiguration
 @EnableConfigurationProperties
 public class OrderServerConfig {
 

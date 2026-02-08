@@ -1,12 +1,12 @@
 package com.mcst.order.api.dto;
 
 import com.mcst.easyfk.core.annotation.PrimaryKey;
+import com.mcst.easyfk.core.dto.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import com.mcst.easyfk.core.dto.BaseDto;
 import lombok.experimental.SuperBuilder;
 
 /**

@@ -1,29 +1,31 @@
 package com.mcst.order.server.service.impl;
 
-import com.mcst.order.api.response.OrderDeliverResp;
-import com.mcst.order.api.request.OrderDeliverReq;
-import com.mcst.order.api.dto.OrderDeliverDto;
-import com.mcst.order.server.service.IOrderDeliverService;
-import com.mcst.order.server.repository.IOrderDeliverRepository;
 import com.mcst.easyfk.core.dto.page.PageResult;
-import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.request.ModifyRequest;
+import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.response.BaseResult;
-import com.mcst.easyfk.repository.util.ConditionUtil;
-import java.util.List;
-import jakarta.annotation.Resource;
-import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.easyfk.core.utils.common.TransformUtil;
-/**
-* <p>
-* 订单发货 服务实现类
-* </p>
-*
-* @author liu yijun
-* @since 2025-10-17
-*/
+import com.mcst.easyfk.repository.util.ConditionUtil;
+import com.mcst.easyfk.service.util.ServiceUtil;
+import com.mcst.order.api.dto.OrderDeliverDto;
+import com.mcst.order.api.request.OrderDeliverReq;
+import com.mcst.order.api.response.OrderDeliverResp;
+import com.mcst.order.server.repository.IOrderDeliverRepository;
+import com.mcst.order.server.service.IOrderDeliverService;
+import jakarta.annotation.Resource;
 
-public class OrderDeliverServiceImpl  implements IOrderDeliverService {
+import java.util.List;
+
+/**
+ * <p>
+ * 订单发货 服务实现类
+ * </p>
+ *
+ * @author liu yijun
+ * @since 2025-10-17
+ */
+
+public class OrderDeliverServiceImpl implements IOrderDeliverService {
     @Resource
     private IOrderDeliverRepository orderDeliverRepository;
 
@@ -59,7 +61,7 @@ public class OrderDeliverServiceImpl  implements IOrderDeliverService {
 
     @Override
     public PageResult<OrderDeliverResp> queryByPage(SearchRequest<OrderDeliverReq> param) {
-        return TransformUtil.transformPageResult(this.orderDeliverRepository.queryByPage(ConditionUtil.conditionByRequest(param)),OrderDeliverResp.class);
+        return TransformUtil.transformPageResult(this.orderDeliverRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderDeliverResp.class);
     }
 
     @Override

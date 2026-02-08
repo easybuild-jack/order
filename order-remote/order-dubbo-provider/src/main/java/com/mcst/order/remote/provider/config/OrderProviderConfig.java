@@ -2,15 +2,15 @@ package com.mcst.order.remote.provider.config;
 
 import com.mcst.order.remote.*;
 import com.mcst.order.remote.provider.impl.*;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  *
  * @author liu yijun
  */
-@Configuration
+@AutoConfiguration
 public class OrderProviderConfig {
 
     @Bean

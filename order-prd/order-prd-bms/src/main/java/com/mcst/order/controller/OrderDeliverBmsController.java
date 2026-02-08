@@ -1,7 +1,6 @@
 package com.mcst.order.controller;
 
 import com.mcst.easyfk.authority.annotation.AuthResource;
-import com.mcst.easyfk.authority.annotation.ResourceController;
 import com.mcst.easyfk.authority.enums.ResourceCategory;
 import com.mcst.easyfk.core.builders.MRPBuilder;
 import com.mcst.easyfk.core.builders.RRBuilder;

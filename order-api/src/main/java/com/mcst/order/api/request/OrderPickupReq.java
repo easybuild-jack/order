@@ -1,12 +1,12 @@
 package com.mcst.order.api.request;
 
 import com.mcst.order.api.dto.OrderPickupDto;
+import com.mcst.order.api.param.OrderPickupParam;
 import io.github.linpeilie.annotations.AutoMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import com.mcst.order.api.param.OrderPickupParam;
 
 /**
  * <p>

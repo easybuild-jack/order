@@ -1,10 +1,10 @@
 package com.mcst.order.api.param;
 
+import com.mcst.easyfk.core.dto.request.BasicParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import com.mcst.easyfk.core.dto.request.BasicParam;
 
 /**
  * <p>

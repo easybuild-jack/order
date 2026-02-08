@@ -8,17 +8,17 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
-* <p>
-* 订单发货数据编辑对象
-* </p>
-*
-* @author liu yijun
-* @since 2025-10-17
-*/
+ * <p>
+ * 订单发货数据编辑对象
+ * </p>
+ *
+ * @author liu yijun
+ * @since 2025-10-17
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@Schema(description="订单发货数据编辑对象")
+@Schema(description = "订单发货数据编辑对象")
 @AutoMapper(target = OrderDeliverReq.class)
 public class OrderDeliverEditReq extends OrderDeliverDto {
 

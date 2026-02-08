@@ -1,29 +1,31 @@
 package com.mcst.order.server.service.impl;
 
-import com.mcst.order.api.response.OrderPickupResp;
-import com.mcst.order.api.request.OrderPickupReq;
-import com.mcst.order.api.dto.OrderPickupDto;
-import com.mcst.order.server.service.IOrderPickupService;
-import com.mcst.order.server.repository.IOrderPickupRepository;
 import com.mcst.easyfk.core.dto.page.PageResult;
-import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.request.ModifyRequest;
+import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.response.BaseResult;
-import com.mcst.easyfk.repository.util.ConditionUtil;
-import java.util.List;
-import jakarta.annotation.Resource;
-import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.easyfk.core.utils.common.TransformUtil;
-/**
-* <p>
-* 订单提货 服务实现类
-* </p>
-*
-* @author liu yijun
-* @since 2025-10-17
-*/
+import com.mcst.easyfk.repository.util.ConditionUtil;
+import com.mcst.easyfk.service.util.ServiceUtil;
+import com.mcst.order.api.dto.OrderPickupDto;
+import com.mcst.order.api.request.OrderPickupReq;
+import com.mcst.order.api.response.OrderPickupResp;
+import com.mcst.order.server.repository.IOrderPickupRepository;
+import com.mcst.order.server.service.IOrderPickupService;
+import jakarta.annotation.Resource;
 
-public class OrderPickupServiceImpl  implements IOrderPickupService {
+import java.util.List;
+
+/**
+ * <p>
+ * 订单提货 服务实现类
+ * </p>
+ *
+ * @author liu yijun
+ * @since 2025-10-17
+ */
+
+public class OrderPickupServiceImpl implements IOrderPickupService {
     @Resource
     private IOrderPickupRepository orderPickupRepository;
 
@@ -59,7 +61,7 @@ public class OrderPickupServiceImpl  implements IOrderPickupService {
 
     @Override
     public PageResult<OrderPickupResp> queryByPage(SearchRequest<OrderPickupReq> param) {
-        return TransformUtil.transformPageResult(this.orderPickupRepository.queryByPage(ConditionUtil.conditionByRequest(param)),OrderPickupResp.class);
+        return TransformUtil.transformPageResult(this.orderPickupRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderPickupResp.class);
     }
 
     @Override

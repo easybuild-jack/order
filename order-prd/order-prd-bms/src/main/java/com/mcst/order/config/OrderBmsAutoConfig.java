@@ -1,10 +1,6 @@
 package com.mcst.order.config;
 
-import com.mcst.order.controller.OrderContainerBmsController;
-import com.mcst.order.controller.OrderDeliverBmsController;
-import com.mcst.order.controller.OrderInfoBmsController;
-import com.mcst.order.controller.OrderPickupBmsController;
-import com.mcst.order.controller.OrderRefundBmsController;
+import com.mcst.order.controller.*;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

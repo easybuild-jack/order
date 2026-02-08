@@ -1,5 +1,5 @@
 dependencies {
-    api ('com.mcst:web-micro')
+    api('com.mcst:web-micro')
     api project(':order-remote:order-dubbo-api')
     api project(':order-server')
     compileOnly('com.mcst:rpc-dubbo')
