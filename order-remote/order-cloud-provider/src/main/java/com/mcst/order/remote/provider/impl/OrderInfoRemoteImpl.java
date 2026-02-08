@@ -15,7 +15,7 @@ import com.mcst.order.server.service.IOrderInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author liu yijun
  */
-@RestController
+@ResponseBody
 @RequestMapping("${easyfk.config.remote.order.base-path:/remote}/order/orderInfo")
 public class OrderInfoRemoteImpl extends BaseRemoteImpl<IOrderInfoService, OrderInfoResp, String, OrderInfoReq> implements IOrderInfoRemote {
 

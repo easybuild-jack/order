@@ -6,7 +6,7 @@ import com.mcst.order.server.service.IOrderContainerService;
 import com.mcst.order.remote.IOrderContainerRemote;
 import com.mcst.easyfk.remote.sc.BaseRemoteImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
 * <p>
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 *
 * @author liu yijun
 */
-@RestController
+@ResponseBody
 @RequestMapping("${easyfk.config.remote.order.base-path:/remote}/order/container")
 public class OrderContainerRemoteImpl extends BaseRemoteImpl<IOrderContainerService, OrderContainerResp,String,OrderContainerReq> implements IOrderContainerRemote {
 

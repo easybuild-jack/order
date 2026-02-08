@@ -26,7 +26,7 @@ import java.util.List;
  * @since 2026-01-29
  */
 @Tag(name = "订单信息相关接口", description = "订单信息相关接口")
-@RestController
+@ResponseBody
 @RequestMapping("/api/bms/order/orderContainer")
 //@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class OrderContainerBmsController {

@@ -29,7 +29,7 @@ import com.mcst.easyfk.authority.enums.ResourceCategory;
 * @since 2025-10-17
 */
 @Tag(name = "订单退款相关接口", description = "订单退款相关接口")
-@RestController
+@ResponseBody
 @RequestMapping("/api/bms/order/refund")
 @ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class OrderRefundBmsController {
