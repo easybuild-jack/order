@@ -6,7 +6,6 @@ import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.*;
 import com.mcst.order.remote.IOrderRefundRemote;
 import com.mcst.order.server.service.IOrderRefundService;
-import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author liu yijun
  */
-@DubboService
 public class OrderRefundRemoteImpl extends DubboBaseRemoteImpl<IOrderRefundService, OrderRefundResp, String, OrderRefundReq> implements IOrderRefundRemote {
 
     @Autowired

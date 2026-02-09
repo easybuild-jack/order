@@ -5,7 +5,6 @@ import com.mcst.order.api.request.OrderContainerReq;
 import com.mcst.order.api.response.OrderContainerResp;
 import com.mcst.order.remote.IOrderContainerRemote;
 import com.mcst.order.server.service.IOrderContainerService;
-import org.apache.dubbo.config.annotation.DubboService;
 
 /**
  * <p>
@@ -14,7 +13,6 @@ import org.apache.dubbo.config.annotation.DubboService;
  *
  * @author liu yijun
  */
-@DubboService
 public class OrderContainerRemoteImpl extends DubboBaseRemoteImpl<IOrderContainerService, OrderContainerResp, String, OrderContainerReq> implements IOrderContainerRemote {
 
 

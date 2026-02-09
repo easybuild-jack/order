@@ -12,7 +12,6 @@ import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
 import com.mcst.order.remote.IOrderInfoRemote;
 import com.mcst.order.server.service.IOrderInfoService;
-import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -24,7 +23,6 @@ import java.util.List;
  *
  * @author liu yijun
  */
-@DubboService
 public class OrderInfoRemoteImpl extends DubboBaseRemoteImpl<IOrderInfoService, OrderInfoResp, String, OrderInfoReq> implements IOrderInfoRemote {
 
     @Autowired
