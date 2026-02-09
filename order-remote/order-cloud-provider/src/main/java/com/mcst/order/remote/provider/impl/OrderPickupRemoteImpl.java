@@ -6,7 +6,7 @@ import com.mcst.order.api.response.OrderPickupResp;
 import com.mcst.order.remote.IOrderPickupRemote;
 import com.mcst.order.server.service.IOrderPickupService;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  * @author liu yijun
  */
-@ResponseBody
+@RestController
 @RequestMapping("${easyfk.config.remote.order.base-path:/remote}/order/orderPickup")
 public class OrderPickupRemoteImpl extends BaseRemoteImpl<IOrderPickupService, OrderPickupResp, String, OrderPickupReq> implements IOrderPickupRemote {
 

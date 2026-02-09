@@ -9,7 +9,7 @@ import com.mcst.order.server.service.IOrderRefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  * @author liu yijun
  */
-@ResponseBody
+@RestController
 @RequestMapping("${easyfk.config.remote.order.base-path:/remote}/order/orderRefund")
 public class OrderRefundRemoteImpl extends BaseRemoteImpl<IOrderRefundService, OrderRefundResp, String, OrderRefundReq> implements IOrderRefundRemote {
 

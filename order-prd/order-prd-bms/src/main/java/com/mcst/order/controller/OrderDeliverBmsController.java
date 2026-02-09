@@ -29,7 +29,7 @@ import java.util.List;
  * @since 2025-10-17
  */
 @Tag(name = "订单发货相关接口", description = "订单发货相关接口")
-@ResponseBody
+@RestController
 @RequestMapping("/api/bms/order/deliver")
 //@ResourceController(group = "orderManage", id = "orderManage", name = "订单管理", sort = 71000, path = "/order")
 public class OrderDeliverBmsController {
