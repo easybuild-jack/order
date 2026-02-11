@@ -89,4 +89,26 @@ public interface IOrderInfoService extends IBaseService<OrderInfoResp, String, O
      * @return
      */
     BaseResult<?> selfDelivery(SelfDeliveryReq selfDeliveryReq);
+
+    /**
+     * <p>
+     * 我的订单列表
+     * </p>
+     *
+     * @param req 我的订单列表请求
+     * @return 订单列表
+     */
+    List<OrderInfoResp> myOrder(MyOrderListReq req);
+
+
+    /**
+     * <p>
+     * 订单详情
+     * </p>
+     *
+     * @param orderId 订单ID
+     * @return 订单详情
+     */
+    OrderInfoResp orderDetail(String orderId);
+
 }

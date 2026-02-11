@@ -38,13 +38,19 @@ public class OrderInfoBmsController {
     @Resource
     private IOrderInfoApi orderInfoApi;
 
-    @Operation(summary = "详情")
-    @GetMapping("/detail")
-    public ResponseResult<OrderFullDetailResp> detail(@RequestParam("orderId") String orderId) {
+    @Operation(summary = "全量详情")
+    @GetMapping("/fullDetail")
+    public ResponseResult<OrderFullDetailResp> fullDetail(@RequestParam("orderId") String orderId) {
         return RRBuilder.buildSuccessBody(this.orderInfoApi.getOrderFullDetailByOrderId(orderId));
     }
 
     @Operation(summary = "详情")
+    @GetMapping("/detail")
+    public ResponseResult<OrderInfoResp> detail(@RequestParam("orderId") String orderId) {
+        return RRBuilder.buildSuccessBody(this.orderInfoApi.orderDetail(orderId));
+    }
+
+    @Operation(summary = "订单商品")
     @GetMapping("/orderGoods")
     public ResponseResult<List<OrderGoodsDto>> orderGoods(@RequestParam("orderId") String orderId) {
         return RRBuilder.buildSuccessBody(this.orderInfoApi.getOrderGoodsByOrderId(orderId));

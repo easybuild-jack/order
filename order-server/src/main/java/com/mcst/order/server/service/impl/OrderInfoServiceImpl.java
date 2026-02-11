@@ -7,6 +7,7 @@ import com.mcst.easyfk.core.builders.BEBuilder;
 import com.mcst.easyfk.core.builders.BRBuilder;
 import com.mcst.easyfk.core.dto.login.UserData;
 import com.mcst.easyfk.core.dto.page.PageResult;
+import com.mcst.easyfk.core.dto.page.PageSearch;
 import com.mcst.easyfk.core.dto.request.ModifyRequest;
 import com.mcst.easyfk.core.dto.request.SearchRequest;
 import com.mcst.easyfk.core.dto.response.BaseResult;
@@ -18,6 +19,8 @@ import com.mcst.easyfk.repository.search.SearchCondition;
 import com.mcst.easyfk.repository.util.ConditionUtil;
 import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.easyfk.service.util.UserDataFiltrationUtil;
+import com.mcst.merchant.api.dto.MerchantInfoDto;
+import com.mcst.merchant.server.repository.IMerchantInfoRepository;
 import com.mcst.order.api.dto.*;
 import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CreateOrderResp;
@@ -33,6 +36,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,6 +72,12 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
 
     @Resource
     private IOrderContainerRepository orderContainerRepository;
+
+    @Resource
+    private IMerchantInfoRepository merchantInfoRepository;
+
+    @Resource
+    private OrderHelper orderHelper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -299,12 +309,16 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         if (EmptyUtil.isEmpty(orderInfo)) {
             throw BEBuilder.exception("订单不存在");
         }
+        MerchantInfoDto merchantInfoDto = null;
+        if (EmptyUtil.isNotEmpty(orderInfo.getMerchantId())) {
+            merchantInfoDto = this.orderHelper.getMerchantInfo(orderInfo.getMerchantId());
+        }
         List<OrderGoodsDto> orderGoods = this.orderGoodsRepository.queryByField("orderId", orderId);
         OrderAmountDto orderAmount = this.orderAmountRepository.queryById(orderId);
         OrderPayDto orderPay = this.orderPayRepository.queryById(orderId);
         List<OrderDeliverDto> orderDeliver = this.orderDeliverRepository.queryByField("orderId",
                 orderInfo.getOrderId());
-        return OrderFullDetailResp.builder().orderInfo(orderInfo).orderAmountDto(orderAmount).orderPayDto(orderPay)
+        return OrderFullDetailResp.builder().merchantInfoDto(merchantInfoDto).orderInfo(orderInfo).orderAmountDto(orderAmount).orderPayDto(orderPay)
                 .orderDeliverList(orderDeliver).orderGoodsList(orderGoods).build();
     }
 
@@ -312,6 +326,51 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     public BaseResult<?> selfDelivery(SelfDeliveryReq selfDeliveryReq) {
         return null;
     }
+
+
+    @Override
+    public List<OrderInfoResp> myOrder(MyOrderListReq req) {
+        PageSearch pageSearch = new PageSearch(req.getPage(), req.getLimit());
+        pageSearch.setTotalCount(false);
+        SCBuilder<OrderInfoDto> builder = SCBuilder.<OrderInfoDto>builder()
+                .equalsConditions(OrderInfoDto::getUserId, req.getUserId())
+                .page(pageSearch);
+        if (EmptyUtil.isNotEmpty(req.getOrderStatus())) {
+            builder.equalsConditions(OrderInfoDto::getOrderStatus, req.getOrderStatus());
+        }
+        PageResult<OrderInfoDto> orderInfoDtoPageResult = this.orderInfoRepository.queryByPage(builder.build());
+        if (EmptyUtil.isEmpty(orderInfoDtoPageResult.getRows())) {
+            return List.of();
+        }
+        List<OrderInfoResp> orderInfoRespList = new ArrayList<>();
+        orderInfoDtoPageResult.getRows().forEach(orderInfoDto -> orderInfoRespList.add(getOrderInfoResp(orderInfoDto)));
+        return orderInfoRespList;
+    }
+
+
+    @Override
+    public OrderInfoResp orderDetail(String orderId) {
+        OrderInfoDto orderInfoDto = this.orderInfoRepository.queryById(orderId);
+        if (EmptyUtil.isEmpty(orderInfoDto)) {
+            return null;
+        }
+        return getOrderInfoResp(orderInfoDto);
+    }
+
+
+    private OrderInfoResp getOrderInfoResp(OrderInfoDto orderInfoDto) {
+        OrderInfoResp orderInfoResp = TransformUtil.transformObj(orderInfoDto, OrderInfoResp.class);
+        if (EmptyUtil.isNotEmpty(orderInfoResp.getMerchantId())) {
+            MerchantInfoDto merchantInfo = this.orderHelper.getMerchantInfo(orderInfoResp.getMerchantId());
+            orderInfoResp.setMerchantInfoDto(merchantInfo);
+        }
+        SearchCondition orderGoodsCondition = SCBuilder.<OrderGoodsDto>builder()
+                .equalsConditions(OrderGoodsDto::getOrderId, orderInfoDto.getOrderId()).build();
+        List<OrderGoodsDto> orderGoodsList = this.orderGoodsRepository.queryByCondition(orderGoodsCondition);
+        orderInfoResp.setOrderGoodsList(orderGoodsList);
+        return orderInfoResp;
+    }
+
 
     private OrderInfoDto buildOrderInfo(CreateOrderReq req, String orderId) {
         OrderInfoDto dto = new OrderInfoDto();

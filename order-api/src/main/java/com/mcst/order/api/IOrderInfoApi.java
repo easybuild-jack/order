@@ -3,10 +3,7 @@ package com.mcst.order.api;
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.service.api.IBaseApi;
 import com.mcst.order.api.dto.OrderGoodsDto;
-import com.mcst.order.api.request.CancelOrderReq;
-import com.mcst.order.api.request.CreateOrderReq;
-import com.mcst.order.api.request.OrderInfoReq;
-import com.mcst.order.api.request.PayCallbackReq;
+import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
@@ -83,4 +80,24 @@ public interface IOrderInfoApi extends IBaseApi<OrderInfoResp, String, OrderInfo
      */
     OrderFullDetailResp getOrderFullDetailByOrderId(String orderId);
 
+
+    /**
+     * <p>
+     * 我的订单列表
+     * </p>
+     *
+     * @param req 我的订单列表请求
+     * @return 订单列表
+     */
+    List<OrderInfoResp> myOrder(MyOrderListReq req);
+
+    /**
+     * <p>
+     * 订单详情
+     * </p>
+     *
+     * @param orderId 订单ID
+     * @return 订单详情
+     */
+    OrderInfoResp orderDetail(String orderId);
 }

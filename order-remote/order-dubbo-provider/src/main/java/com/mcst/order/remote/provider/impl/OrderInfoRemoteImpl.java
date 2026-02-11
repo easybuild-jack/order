@@ -3,10 +3,7 @@ package com.mcst.order.remote.provider.impl;
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.remote.dubbo.DubboBaseRemoteImpl;
 import com.mcst.order.api.dto.OrderGoodsDto;
-import com.mcst.order.api.request.CancelOrderReq;
-import com.mcst.order.api.request.CreateOrderReq;
-import com.mcst.order.api.request.OrderInfoReq;
-import com.mcst.order.api.request.PayCallbackReq;
+import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
@@ -56,5 +53,15 @@ public class OrderInfoRemoteImpl extends DubboBaseRemoteImpl<IOrderInfoService, 
     @Override
     public OrderFullDetailResp getOrderFullDetailByOrderId(String orderId) {
         return this.orderInfoService.getOrderFullDetailByOrderId(orderId);
+    }
+
+    @Override
+    public List<OrderInfoResp> myOrder(MyOrderListReq req) {
+        return this.orderInfoService.myOrder(req);
+    }
+
+    @Override
+    public OrderInfoResp orderDetail(String orderId) {
+        return this.orderInfoService.orderDetail(orderId);
     }
 }

@@ -1,22 +1,21 @@
 package com.mcst.order.controller;
 
-import com.mcst.easyfk.core.builders.MRPBuilder;
+import com.mcst.easyfk.authority.annotation.LoginResource;
 import com.mcst.easyfk.core.builders.RRBuilder;
-import com.mcst.easyfk.core.builders.SRPBuilder;
-import com.mcst.easyfk.core.dto.request.BatchBasicReq;
-import com.mcst.easyfk.core.dto.request.ModifyRequest;
-import com.mcst.easyfk.core.dto.request.SearchRequest;
+import com.mcst.easyfk.core.context.UserDataContext;
 import com.mcst.easyfk.core.dto.response.ResponseResult;
-import com.mcst.easyfk.core.utils.common.SplitUtil;
 import com.mcst.order.api.IOrderInfoApi;
-import com.mcst.order.api.request.OrderInfoEditReq;
-import com.mcst.order.api.request.OrderInfoReq;
+import com.mcst.order.api.request.MyOrderListReq;
+import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -34,32 +33,25 @@ public class OrderInfoController {
     private IOrderInfoApi orderInfoApi;
 
 
+    @Operation(summary = "全量详情")
+    @GetMapping("/fullDetail")
+    public ResponseResult<OrderFullDetailResp> fullDetail(@RequestParam("orderId") String orderId) {
+        return RRBuilder.buildSuccessBody(this.orderInfoApi.getOrderFullDetailByOrderId(orderId));
+    }
+
     @Operation(summary = "详情")
     @GetMapping("/detail")
-    public ResponseResult<OrderInfoResp> detail(String id) {
-        return RRBuilder.buildSuccessBody(this.orderInfoApi.queryById(id));
+    public ResponseResult<OrderInfoResp> detail(@RequestParam("orderId") String orderId) {
+        return RRBuilder.buildSuccessBody(this.orderInfoApi.orderDetail(orderId));
     }
 
-    @Operation(summary = "分页查询", description = "分页查询")
-    @GetMapping("/queryPage")
-    public ResponseResult<List<OrderInfoResp>> queryPage(@Validated OrderInfoReq orderInfoReq) {
-        SearchRequest<OrderInfoReq> requestParam = SRPBuilder.buildRequest(orderInfoReq);
-        return RRBuilder.buildBodyByPageResult(this.orderInfoApi.queryByPage(requestParam));
+    @LoginResource
+    @Operation(summary = "我的订单", description = "我的订单")
+    @GetMapping("/myOrderList")
+    public ResponseResult<List<OrderInfoResp>> myOrderList(@Validated MyOrderListReq myOrderListReq) {
+        myOrderListReq.setUserId(UserDataContext.getUserData().getUserId());
+        return RRBuilder.buildSuccessBody(this.orderInfoApi.myOrder(myOrderListReq));
     }
 
-    @Operation(summary = "新增/编辑", description = "新增/编辑")
-    @PostMapping("/addOrEdit")
-    public ResponseResult<?> addOrEdit(@RequestBody OrderInfoEditReq orderInfoEditReq) {
-        ModifyRequest<OrderInfoReq> requestParam = MRPBuilder.buildRequest(orderInfoEditReq, OrderInfoReq.class);
-        return RRBuilder.buildBodyByBaseResult(this.orderInfoApi.save(requestParam));
-    }
-
-    @Operation(summary = "批量删除", description = "批量删除")
-    @PostMapping("/delete")
-    public ResponseResult<?> delete(@Validated @RequestBody BatchBasicReq<String> batchBase) {
-        List<String> idArray = SplitUtil.split(batchBase.getIds());
-        ModifyRequest<OrderInfoReq> requestParam = MRPBuilder.<OrderInfoReq>builder().ids(idArray).build();
-        return RRBuilder.buildBodyByBaseResult(this.orderInfoApi.delete(requestParam));
-    }
 
 }

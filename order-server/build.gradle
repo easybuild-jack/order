@@ -1,6 +1,8 @@
 dependencies {
     api project(':order-api')
     api('com.mcst:common-pojo')
+    api('com.mcst:merchant-server')
+    api('com.mcst:cache-caffeine')
     implementation('com.mcst:orm-mybatis')
 }
 

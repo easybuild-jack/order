@@ -140,4 +140,10 @@ public class OrderServerConfig {
         return new OrderContainerRepositoryImpl();
     }
 
+
+    @Bean
+    @ConditionalOnMissingBean
+    public OrderHelper orderHelper() {
+        return new OrderHelper();
+    }
 }

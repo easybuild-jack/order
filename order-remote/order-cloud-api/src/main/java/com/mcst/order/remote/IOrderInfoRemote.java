@@ -3,10 +3,7 @@ package com.mcst.order.remote;
 import com.mcst.easyfk.core.dto.response.BaseResult;
 import com.mcst.easyfk.remote.sc.IBaseRemote;
 import com.mcst.order.api.dto.OrderGoodsDto;
-import com.mcst.order.api.request.CancelOrderReq;
-import com.mcst.order.api.request.CreateOrderReq;
-import com.mcst.order.api.request.OrderInfoReq;
-import com.mcst.order.api.request.PayCallbackReq;
+import com.mcst.order.api.request.*;
 import com.mcst.order.api.response.CreateOrderResp;
 import com.mcst.order.api.response.OrderFullDetailResp;
 import com.mcst.order.api.response.OrderInfoResp;
@@ -95,4 +92,26 @@ public interface IOrderInfoRemote extends IBaseRemote<OrderInfoResp, String, Ord
     @GetMapping("/getOrderFullDetailByOrderId")
     OrderFullDetailResp getOrderFullDetailByOrderId(@RequestParam("orderId") String orderId);
 
+
+    /**
+     * <p>
+     * 我的订单列表
+     * </p>
+     *
+     * @param req 我的订单列表请求
+     * @return 订单列表
+     */
+    @PostMapping("/myOrder")
+    List<OrderInfoResp> myOrder(@RequestBody MyOrderListReq req);
+
+    /**
+     * <p>
+     * 订单详情
+     * </p>
+     *
+     * @param orderId 订单ID
+     * @return 订单详情
+     */
+    @GetMapping("/orderDetail")
+    OrderInfoResp orderDetail(@RequestParam("orderId") String orderId);
 }

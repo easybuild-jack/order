@@ -1,5 +1,6 @@
 package com.mcst.order.api.response;
 
+import com.mcst.merchant.api.dto.MerchantInfoDto;
 import com.mcst.order.api.dto.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -14,6 +15,13 @@ import java.util.List;
 @Builder
 @Schema(description = "订单全量信息响应")
 public class OrderFullDetailResp implements Serializable {
+
+    /**
+     * 商家信息
+     */
+    @Schema(description = "商家信息")
+    private MerchantInfoDto merchantInfoDto;
+
 
     /**
      * 订单信息

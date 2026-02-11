@@ -1,4 +1,5 @@
 dependencies {
     api('com.mcst:service-api')
     compileOnly('com.mcst:easyfk-core')
+    compileOnly('com.mcst:merchant-api')
 }
