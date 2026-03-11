@@ -10,7 +10,7 @@ import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.order.api.dto.OrderContainerDto;
 import com.mcst.order.api.request.OrderContainerReq;
 import com.mcst.order.api.response.OrderContainerResp;
-import com.mcst.order.server.repository.IOrderContainerRepository;
+import com.mcst.order.orm.repository.IOrderContainerRepository;
 import com.mcst.order.server.service.IOrderContainerService;
 import jakarta.annotation.Resource;
 

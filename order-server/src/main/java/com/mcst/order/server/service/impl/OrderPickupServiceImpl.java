@@ -10,7 +10,7 @@ import com.mcst.easyfk.service.util.ServiceUtil;
 import com.mcst.order.api.dto.OrderPickupDto;
 import com.mcst.order.api.request.OrderPickupReq;
 import com.mcst.order.api.response.OrderPickupResp;
-import com.mcst.order.server.repository.IOrderPickupRepository;
+import com.mcst.order.orm.repository.IOrderPickupRepository;
 import com.mcst.order.server.service.IOrderPickupService;
 import jakarta.annotation.Resource;
 

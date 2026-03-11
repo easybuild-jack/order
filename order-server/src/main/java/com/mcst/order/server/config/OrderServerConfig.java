@@ -2,8 +2,6 @@ package com.mcst.order.server.config;
 
 import com.mcst.order.api.*;
 import com.mcst.order.server.impl.*;
-import com.mcst.order.server.repository.*;
-import com.mcst.order.server.repository.impl.*;
 import com.mcst.order.server.service.*;
 import com.mcst.order.server.service.impl.*;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -77,67 +75,6 @@ public class OrderServerConfig {
     @ConditionalOnMissingBean
     public IOrderContainerService orderContainerService() {
         return new OrderContainerServiceImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderRefundGoodsRepository orderRefundGoodsRepository() {
-        return new OrderRefundGoodsRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderDeliverGoodsRepository orderDeliverGoodsRepository() {
-        return new OrderDeliverGoodsRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderDeliverRepository orderDeliverRepository() {
-        return new OrderDeliverRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderPickupRepository orderPickupRepository() {
-        return new OrderPickupRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderPayRepository orderPayRepository() {
-        return new OrderPayRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderAmountRepository orderAmountRepository() {
-        return new OrderAmountRepositoryImpl();
-    }
-
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderInfoRepository orderInfoRepository() {
-        return new OrderInfoRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderRefundRepository orderRefundRepository() {
-        return new OrderRefundRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderGoodsRepository orderGoodsRepository() {
-        return new OrderGoodsRepositoryImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IOrderContainerRepository orderContainerRepository() {
-        return new OrderContainerRepositoryImpl();
     }
 
 

@@ -1,8 +1,11 @@
 dependencies {
     api project(':order-api')
     api('com.mcst:common-pojo')
-    api('com.mcst:merchant-server')
+    api('com.mcst:merchant-orm-api')
+    api('com.mcst:merchant-api')
     api('com.mcst:cache-caffeine')
-    implementation('com.mcst:orm-mybatis')
+    compileOnly project(':order-orm:order-orm-plus')
+    compileOnly('org.springframework:spring-jdbc')
+    implementation('com.mcst:service-base')
 }
 

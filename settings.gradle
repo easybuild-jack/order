@@ -15,6 +15,16 @@ dependencyResolutionManagement.versionCatalogs {
 include 'order-server'
 include 'order-api'
 
+include 'order-orm'
+include 'order-orm:order-orm-api'
+findProject(':order-orm:order-orm-api')?.name = 'order-orm-api'
+include 'order-orm:order-orm-plus'
+findProject(':order-orm:order-orm-plus')?.name = 'order-orm-plus'
+include 'order-orm:order-orm-flex'
+findProject(':order-orm:order-orm-flex')?.name = 'order-orm-flex'
+include 'order-orm:order-orm-hibernate'
+findProject(':order-orm:order-orm-hibernate')?.name = 'order-orm-hibernate'
+
 include 'order-remote'
 include 'order-remote:order-cloud-api'
 findProject(':order-remote:order-cloud-api')?.name = 'order-cloud-api'
