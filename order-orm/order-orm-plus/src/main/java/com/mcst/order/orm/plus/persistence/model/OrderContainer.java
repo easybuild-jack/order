@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mcst.easyfk.core.annotation.PrimaryKey;
-import com.mcst.easyfk.service.mybatisplus.annotation.Column;
+import com.mcst.easyfk.repository.persistence.annotation.EntityColumn;
 import com.mcst.easyfk.service.mybatisplus.persistence.BaseMyBatisPlusEntity;
 import com.mcst.order.api.dto.OrderContainerDto;
 import io.github.linpeilie.annotations.AutoMapper;
@@ -35,61 +35,61 @@ public class OrderContainer extends BaseMyBatisPlusEntity<OrderContainer> {
      */
     @PrimaryKey
     @TableId(type = IdType.ASSIGN_UUID)
-    @Column(comment = "订单ID")
+    @EntityColumn(comment = "订单ID")
     private String orderId;
 
     /**
      * 订单编号
      */
-    @Column(comment = "订单编号")
+    @EntityColumn(comment = "订单编号")
     private String orderNo;
 
     /**
      * 货柜ID
      */
-    @Column(comment = "货柜ID")
+    @EntityColumn(comment = "货柜ID")
     private String containerId;
 
     /**
      * 货柜名称
      */
-    @Column(comment = "货柜名称")
+    @EntityColumn(comment = "货柜名称")
     private String containerName;
 
     /**
      * 货柜编号
      */
-    @Column(comment = "货柜编号")
+    @EntityColumn(comment = "货柜编号")
     private String containerCode;
 
     /**
      * 具体货柜格子编号
      */
-    @Column(comment = "具体货柜格子编号，多个格子用逗号分隔")
+    @EntityColumn(comment = "具体货柜格子编号，多个格子用逗号分隔")
     private String gridNos;
 
     /**
      * 状态 0待送货 1待取货 2已取货
      */
-    @Column(comment = "状态 0待送货 1待取货 2已取货")
+    @EntityColumn(comment = "状态 0待送货 1待取货 2已取货")
     private Integer status;
 
     /**
      * 送货时间
      */
-    @Column(comment = "送货时间")
+    @EntityColumn(comment = "送货时间")
     private LocalDateTime deliveryTime;
 
     /**
      * 取货时间
      */
-    @Column(comment = "取货时间")
+    @EntityColumn(comment = "取货时间")
     private LocalDateTime pickupTime;
 
     /**
      * 备注
      */
-    @Column(comment = "备注")
+    @EntityColumn(comment = "备注")
     private String remark;
 
 }
