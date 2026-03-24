@@ -3,7 +3,7 @@ package com.mcst.order.orm.hibernate.repository.impl;
 import com.mcst.easyfk.service.hibernate.impl.BaseHibernateRepositoryImpl;
 import com.mcst.order.api.dto.OrderContainerDto;
 import com.mcst.order.orm.hibernate.persistence.model.OrderContainer;
-import com.mcst.order.orm.hibernate.persistence.repository.OrderContainerJpaRepository;
+import com.mcst.order.orm.hibernate.persistence.mapper.OrderContainerMapper;
 import com.mcst.order.orm.repository.IOrderContainerRepository;
 
 /**
@@ -14,7 +14,7 @@ import com.mcst.order.orm.repository.IOrderContainerRepository;
  * @author liu yijun
  * @since 2026-01-29
  */
-public class OrderContainerRepositoryImpl extends BaseHibernateRepositoryImpl<OrderContainerJpaRepository, OrderContainerDto, OrderContainer, String>
+public class OrderContainerRepositoryImpl extends BaseHibernateRepositoryImpl<OrderContainerMapper, OrderContainerDto, OrderContainer, String>
         implements IOrderContainerRepository {
 
 

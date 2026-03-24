@@ -3,7 +3,7 @@ package com.mcst.order.orm.hibernate.repository.impl;
 import com.mcst.easyfk.service.hibernate.impl.BaseHibernateRepositoryImpl;
 import com.mcst.order.api.dto.OrderInfoDto;
 import com.mcst.order.orm.hibernate.persistence.model.OrderInfo;
-import com.mcst.order.orm.hibernate.persistence.repository.OrderInfoJpaRepository;
+import com.mcst.order.orm.hibernate.persistence.mapper.OrderInfoMapper;
 import com.mcst.order.orm.repository.IOrderInfoRepository;
 
 /**
@@ -14,7 +14,7 @@ import com.mcst.order.orm.repository.IOrderInfoRepository;
  * @author liu yijun
  * @since 2025-10-17
  */
-public class OrderInfoRepositoryImpl extends BaseHibernateRepositoryImpl<OrderInfoJpaRepository, OrderInfoDto, OrderInfo, String>
+public class OrderInfoRepositoryImpl extends BaseHibernateRepositoryImpl<OrderInfoMapper, OrderInfoDto, OrderInfo, String>
         implements IOrderInfoRepository {
 
 

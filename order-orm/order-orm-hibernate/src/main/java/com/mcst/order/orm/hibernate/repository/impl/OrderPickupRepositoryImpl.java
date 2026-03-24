@@ -3,7 +3,7 @@ package com.mcst.order.orm.hibernate.repository.impl;
 import com.mcst.easyfk.service.hibernate.impl.BaseHibernateRepositoryImpl;
 import com.mcst.order.api.dto.OrderPickupDto;
 import com.mcst.order.orm.hibernate.persistence.model.OrderPickup;
-import com.mcst.order.orm.hibernate.persistence.repository.OrderPickupJpaRepository;
+import com.mcst.order.orm.hibernate.persistence.mapper.OrderPickupMapper;
 import com.mcst.order.orm.repository.IOrderPickupRepository;
 
 /**
@@ -14,7 +14,7 @@ import com.mcst.order.orm.repository.IOrderPickupRepository;
  * @author liu yijun
  * @since 2025-10-17
  */
-public class OrderPickupRepositoryImpl extends BaseHibernateRepositoryImpl<OrderPickupJpaRepository, OrderPickupDto, OrderPickup, String>
+public class OrderPickupRepositoryImpl extends BaseHibernateRepositoryImpl<OrderPickupMapper, OrderPickupDto, OrderPickup, String>
         implements IOrderPickupRepository {
 
 
