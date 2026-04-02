@@ -358,6 +358,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setUserId(req.getUserId());
         dto.setUserThirdAccount(req.getUserThirdAccount());
         dto.setUserPhone(req.getUserPhone());
+        dto.setUserName(req.getUserName());
         dto.setDispatchType(Optional.ofNullable(req.getDispatchType()).orElse(1));
         dto.setClientType(req.getClientType());
         dto.setMerchantId(req.getMerchantId());
