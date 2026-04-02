@@ -152,8 +152,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
                 throw new BusinessException("数据错误，订单不属于当前用户");
             }
         }
-        int oldStatus = Optional.ofNullable(orderInfoDto.getOrderStatus())
-                .orElse(OrderStatusEnum.PENDING_PAYMENT.getValue());
+        int oldStatus = Optional.ofNullable(orderInfoDto.getOrderStatus()).orElse(OrderStatusEnum.PENDING_PAYMENT.getValue());
         if (OrderStatusEnum.CANCELED.getValue() == oldStatus) {
             log.warn("订单取消幂等操作，直接返回成功，订单编号：{}", req.getOrderNo());
             return BRBuilder.successResult();
@@ -228,56 +227,42 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
 
     @Override
     public OrderInfoResp queryOneByField(String field, Object value, String... selectColumns) {
-        return TransformUtil.transformObj(this.orderInfoRepository.queryOneByField(field, value, selectColumns),
-                OrderInfoResp.class);
+        return TransformUtil.transformObj(this.orderInfoRepository.queryOneByField(field, value, selectColumns), OrderInfoResp.class);
     }
 
     @Override
     public List<OrderInfoResp> queryList(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
-                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
-        return TransformUtil.transformList(
-                this.orderInfoRepository.queryByCondition(ConditionUtil.conditionByRequest(param)),
-                OrderInfoResp.class);
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        return TransformUtil.transformList(this.orderInfoRepository.queryByCondition(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
     }
 
     @Override
     public OrderInfoResp queryOne(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
-                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
-        return TransformUtil.transformObj(
-                this.orderInfoRepository.queryOneByCondition(ConditionUtil.conditionByRequest(param)),
-                OrderInfoResp.class);
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        return TransformUtil.transformObj(this.orderInfoRepository.queryOneByCondition(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
     }
 
     @Override
     public long count(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
-                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
         return this.orderInfoRepository.countByCondition(ConditionUtil.conditionByRequest(param));
     }
 
     @Override
     public boolean exists(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
-                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
         return this.orderInfoRepository.exists(ConditionUtil.conditionByRequest(param));
     }
 
     @Override
     public PageResult<OrderInfoResp> queryByPage(SearchRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId,
-                UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
-        return TransformUtil.transformPageResult(
-                this.orderInfoRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
+        UserDataFiltrationUtil.saasDataFiltration(param, OrderInfoReq.class, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getMerchantId, UserData::getMerchantId));
+        return TransformUtil.transformPageResult(this.orderInfoRepository.queryByPage(ConditionUtil.conditionByRequest(param)), OrderInfoResp.class);
     }
 
     @Override
     public BaseResult<?> save(ModifyRequest<OrderInfoReq> param) {
-        UserDataFiltrationUtil.setSaasData(param,
-                Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getAgentName,
-                        UserData::getAgentName, OrderInfoReq::getMerchantId, UserData::getMerchantId,
-                        OrderInfoReq::getMerchantName, UserData::getMerchantName));
+        UserDataFiltrationUtil.setSaasData(param, Map.of(OrderInfoReq::getAgentId, UserData::getAgentId, OrderInfoReq::getAgentName, UserData::getAgentName, OrderInfoReq::getMerchantId, UserData::getMerchantId, OrderInfoReq::getMerchantName, UserData::getMerchantName));
         return ServiceUtil.save(param, orderInfoRepository, OrderInfoDto.class);
     }
 
@@ -293,8 +278,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
 
     @Override
     public BaseResult<?> rollbackOrder(String orderNo) {
-        SearchCondition condition = SCBuilder.<OrderInfoDto>builder()
-                .equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
+        SearchCondition condition = SCBuilder.<OrderInfoDto>builder().equalsConditions(OrderInfoDto::getOrderNo, orderNo).build();
         return this.orderInfoRepository.deleteByCondition(condition);
     }
 
@@ -316,10 +300,8 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         List<OrderGoodsDto> orderGoods = this.orderGoodsRepository.queryByField("orderId", orderId);
         OrderAmountDto orderAmount = this.orderAmountRepository.queryById(orderId);
         OrderPayDto orderPay = this.orderPayRepository.queryById(orderId);
-        List<OrderDeliverDto> orderDeliver = this.orderDeliverRepository.queryByField("orderId",
-                orderInfo.getOrderId());
-        return OrderFullDetailResp.builder().merchantInfoDto(merchantInfoDto).orderInfo(orderInfo).orderAmountDto(orderAmount).orderPayDto(orderPay)
-                .orderDeliverList(orderDeliver).orderGoodsList(orderGoods).build();
+        List<OrderDeliverDto> orderDeliver = this.orderDeliverRepository.queryByField("orderId", orderInfo.getOrderId());
+        return OrderFullDetailResp.builder().merchantInfoDto(merchantInfoDto).orderInfo(orderInfo).orderAmountDto(orderAmount).orderPayDto(orderPay).orderDeliverList(orderDeliver).orderGoodsList(orderGoods).build();
     }
 
     @Override
@@ -332,9 +314,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     public List<OrderInfoResp> myOrder(MyOrderListReq req) {
         PageSearch pageSearch = new PageSearch(req.getPage(), req.getLimit());
         pageSearch.setTotalCount(false);
-        SCBuilder<OrderInfoDto> builder = SCBuilder.<OrderInfoDto>builder()
-                .equalsConditions(OrderInfoDto::getUserId, req.getUserId())
-                .page(pageSearch);
+        SCBuilder<OrderInfoDto> builder = SCBuilder.<OrderInfoDto>builder().equalsConditions(OrderInfoDto::getUserId, req.getUserId()).page(pageSearch);
         if (EmptyUtil.isNotEmpty(req.getOrderStatus())) {
             builder.equalsConditions(OrderInfoDto::getOrderStatus, req.getOrderStatus());
         }
@@ -364,8 +344,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
             MerchantInfoDto merchantInfo = this.orderHelper.getMerchantInfo(orderInfoResp.getMerchantId());
             orderInfoResp.setMerchantInfoDto(merchantInfo);
         }
-        SearchCondition orderGoodsCondition = SCBuilder.<OrderGoodsDto>builder()
-                .equalsConditions(OrderGoodsDto::getOrderId, orderInfoDto.getOrderId()).build();
+        SearchCondition orderGoodsCondition = SCBuilder.<OrderGoodsDto>builder().equalsConditions(OrderGoodsDto::getOrderId, orderInfoDto.getOrderId()).build();
         List<OrderGoodsDto> orderGoodsList = this.orderGoodsRepository.queryByCondition(orderGoodsCondition);
         orderInfoResp.setOrderGoodsList(orderGoodsList);
         return orderInfoResp;
@@ -447,8 +426,7 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         dto.setTotalAmount(req.getTotalAmount());
         dto.setGoodsAmount(req.getGoodsAmount());
         dto.setDiscountAmount(req.getDiscountAmount() != null ? req.getDiscountAmount() : java.math.BigDecimal.ZERO);
-        dto.setDiscountAfterAmount(
-                req.getDiscountAfterAmount() != null ? req.getDiscountAfterAmount() : req.getTotalAmount());
+        dto.setDiscountAfterAmount(req.getDiscountAfterAmount() != null ? req.getDiscountAfterAmount() : req.getTotalAmount());
         dto.setPostageAmount(req.getPostageAmount() != null ? req.getPostageAmount() : java.math.BigDecimal.ZERO);
         dto.setActualPayAmount(req.getActualPayAmount());
         return dto;
